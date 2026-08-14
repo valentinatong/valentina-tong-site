@@ -46,9 +46,10 @@
   .pill:hover{ color:var(--paper); border-color:var(--stone-dim); }
   .pill.on{ color:var(--tag-fg, var(--bg)); background:var(--tag-bg); border-color:var(--tag-bg); }
   .pill.facet{ color:var(--oxide); border-color:var(--oxide); background:transparent; }
-  .filters .mapbtn{ margin-left:auto; font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
+  .filters .mapbtn{ font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; }
   .filters .mapbtn:hover{ color:var(--oxide); border-color:var(--oxide); }
+  .filters #mapLink{ margin-left:auto; }
 
   /* body split: grid + ficha */
   .wrap{ display:grid; grid-template-columns: 1fr 360px; }
@@ -106,8 +107,8 @@
   <div class="filters" id="filters">
     <span class="lab">SÉRIE</span>
     <!-- pills injected -->
+    <a class="mapbtn" href="mapa.html" id="mapLink">◍ MAPA</a>
     <a class="mapbtn" href="#" id="aboutBtn">SOBRE</a>
-    <a class="mapbtn" href="mapa.html">◍ MAPA</a>
   </div>
 
   <main class="wrap">

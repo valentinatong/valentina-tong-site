@@ -44,7 +44,7 @@
   .pill{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; cursor:pointer; background:transparent; }
   .pill:hover{ color:var(--paper); border-color:var(--stone-dim); }
-  .pill.on{ color:var(--bg); background:var(--tag-bg); border-color:var(--tag-bg); }
+  .pill.on{ color:var(--tag-fg, var(--bg)); background:var(--tag-bg); border-color:var(--tag-bg); }
   .pill.facet{ color:var(--oxide); border-color:var(--oxide); background:transparent; }
   .filters .mapbtn{ margin-left:auto; font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; }
@@ -212,11 +212,23 @@
   // cores vêm do Airtable (tabela Configurações da base Arquivo). "Cor de fundo" cobre
   // tanto o fundo da página quanto o painel da ficha à direita (--panel), pra não
   // ficarem descasados; "Cor da tag" é só o fundo das tags/pills selecionadas.
+  // preto ou branco pro texto da tag, escolhido pelo brilho da cor de fundo dela —
+  // assim o texto sempre fica legível não importa qual cor for escolhida no Airtable
+  function readableTextColor(hex){
+    const n = parseInt(hex.replace(/^#/,""), 16);
+    const r=(n>>16)&255, g=(n>>8)&255, b=n&255;
+    const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
+    return luminance > 0.6 ? "#1a1815" : "#EDEAE2";
+  }
   fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
     if(d.corFundo){ const c="#"+d.corFundo.trim().replace(/^#/,""); root.setProperty("--bg", c); root.setProperty("--panel", c); }
-    if(d.corTag) root.setProperty("--tag-bg", "#"+d.corTag.trim().replace(/^#/,""));
+    if(d.corTag){
+      const tagBg = "#"+d.corTag.trim().replace(/^#/,"");
+      root.setProperty("--tag-bg", tagBg);
+      root.setProperty("--tag-fg", readableTextColor(tagBg));
+    }
   }).catch(()=>{});
   </script>
 </body>

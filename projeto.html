@@ -54,12 +54,11 @@
   .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
 
   .stage{ margin:0; }
-  .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:14px; padding:5vh 0; }
-  /* margem esquerda = largura da rail do título (que tem o texto de abertura, mais largo);
-     margem direita = largura da rail da data (bem mais estreita) — antes as duas usavam a
-     mesma margem (a da esquerda, maior), desperdiçando espaço à direita à toa. */
-  .spread-media{ margin:0 calc(var(--band-right) + 16px) 0 var(--band-left); display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
-  .spread img{ max-height:88vh; max-width:100%; width:auto; height:auto; display:block; }
+  .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
+  .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
+  /* margem simétrica (centraliza de fato na página) um pouco menor que a rail do título,
+     com folga testada contra o texto de abertura pra nunca sobrepor */
+  .spread img{ max-height:88vh; max-width:calc(100vw - 480px); width:auto; height:auto; display:block; }
   /* envolve img + legenda(s) num bloco que herda a largura exata da imagem renderizada,
      pra legenda dupla de díptico alinhar certinho com cada metade da foto.
      largura de .cap-row é travada via JS (ver syncCaptionWidths) porque as duas legendas

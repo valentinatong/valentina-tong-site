@@ -207,5 +207,11 @@
     });
   })();
   </script>
+  <script>
+  // cor de fundo vem do Airtable (tabela Configurações da base Arquivo, campo "Cor de fundo")
+  fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
+    if(d && d.corFundo) document.documentElement.style.setProperty("--bg", "#"+d.corFundo.trim().replace(/^#/,""));
+  }).catch(()=>{});
+  </script>
 </body>
 </html>

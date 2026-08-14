@@ -54,13 +54,16 @@
   .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
 
   .stage{ margin:0; }
-  .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
-  .spread img{ max-height:82vh; max-width:calc(100vw - 2*var(--band-left)); width:auto; height:auto; display:block; }
+  .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:14px; padding:5vh 0; }
+  /* margem esquerda = largura da rail do título (que tem o texto de abertura, mais largo);
+     margem direita = largura da rail da data (bem mais estreita) — antes as duas usavam a
+     mesma margem (a da esquerda, maior), desperdiçando espaço à direita à toa. */
+  .spread-media{ margin:0 calc(var(--band-right) + 16px) 0 var(--band-left); display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
+  .spread img{ max-height:88vh; max-width:100%; width:auto; height:auto; display:block; }
   /* envolve img + legenda(s) num bloco que herda a largura exata da imagem renderizada,
      pra legenda dupla de díptico alinhar certinho com cada metade da foto.
      largura de .cap-row é travada via JS (ver syncCaptionWidths) porque as duas legendas
      longas de um díptico juntas pedem mais espaço que a imagem e vazavam pra fora dela. */
-  .spread-media{ display:inline-flex; flex-direction:column; align-items:stretch; gap:14px; }
   .spread .cap{ font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }
   .spread .cap-row{ display:flex; padding:0 4%; }
   .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }

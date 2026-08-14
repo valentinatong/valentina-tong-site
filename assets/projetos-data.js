@@ -46,7 +46,7 @@ window.PROJETOS = {
 
   "pedras-marcadas": {
     title:"Pedras Marcadas", date:"2023–",
-    bg:"#fefefe",                       // fundo próprio (páginas sobre branco)
+    bg:"#3772ff",                       // fundo próprio (azul)
     accent:"#9A4A2C",
     opening:["Ongoing research on Brazil’s natural stone industry. Centered on Espírito Santo, responsible for over 90% of the country’s production and exports, the project explores the environmental impacts of stone extraction and the ethical and aesthetic implications of its use in contemporary architecture."],
     award:"",

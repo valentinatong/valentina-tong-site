@@ -60,8 +60,9 @@
      pra legenda dupla de díptico alinhar certinho com cada metade da foto */
   .spread-media{ display:inline-flex; flex-direction:column; align-items:stretch; gap:14px; }
   .spread .cap{ font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; max-width:62ch; margin:0 auto; line-height:1.55; }
-  .spread .cap-row{ display:flex; gap:24px; }
-  .spread .cap-row .cap-half{ flex:1; min-width:0; font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; line-height:1.55; }
+  .spread .cap-row{ display:flex; }
+  .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }
+  .spread .cap-row .cap-half .cap-block{ max-width:36ch; font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }
 
   .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
@@ -139,7 +140,7 @@
       const s=document.createElement("section"); s.className="spread";
       const img = `<img src="${pg.src}" ${i>1?'loading="lazy"':''} alt="${P.title} — página ${i+1}">`;
       let cap = "";
-      if (pg.cap2) cap = `<div class="cap-row"><div class="cap-half">${pg.cap}</div><div class="cap-half">${pg.cap2}</div></div>`;
+      if (pg.cap2) cap = `<div class="cap-row"><div class="cap-half"><div class="cap-block">${pg.cap}</div></div><div class="cap-half"><div class="cap-block">${pg.cap2}</div></div></div>`;
       else if (pg.cap) cap = `<div class="cap">${pg.cap}</div>`;
       s.innerHTML = `<div class="spread-media">${img}${cap}</div>`;
       stage.appendChild(s);

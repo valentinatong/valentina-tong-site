@@ -59,10 +59,11 @@
   /* envolve img + legenda(s) num bloco que herda a largura exata da imagem renderizada,
      pra legenda dupla de díptico alinhar certinho com cada metade da foto */
   .spread-media{ display:inline-flex; flex-direction:column; align-items:stretch; gap:14px; }
-  .spread .cap{ font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; max-width:62ch; margin:0 auto; line-height:1.55; }
-  .spread .cap-row{ display:flex; }
+  .spread .cap{ font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:center; max-width:44ch; margin:0 auto; line-height:1.55; }
+  .spread .cap-row{ display:flex; padding:0 4%; }
   .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }
-  .spread .cap-row .cap-half .cap-block{ max-width:36ch; font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }
+  .spread .cap-row .cap-half:first-child{ padding-left:6%; }
+  .spread .cap-row .cap-half .cap-block{ max-width:30ch; font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }
 
   .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }

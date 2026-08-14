@@ -6,7 +6,7 @@
 <title>Projeto — Valentina Tong</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --bg:#ebebeb;                 /* set per project from data */
@@ -70,6 +70,8 @@
 
   .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
+  .credits strong{ font-weight:600; color:var(--ink); }
+  .credits em{ font-style:italic; }
 </style>
 </head>
 <body>
@@ -109,7 +111,7 @@
           date: d.ano,
           opening: (d.aberturaPT || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
           pages: d.imagens.map(i => ({ src: i.url, cap: i.legendaPT, cap2: i.legendaPT2 || "" })),
-          credits: d.creditosPT ? [[null, d.creditosPT]] : []
+          credits: d.creditosPT || ""
         };
       }
     }
@@ -166,9 +168,23 @@
       if(im.complete) syncCaptionWidths(); else im.addEventListener("load", syncCaptionWidths);
     });
     addEventListener("resize", syncCaptionWidths);
-    if(P.credits && P.credits.length){
+
+    // o Airtable exporta campo de texto rico como markdown: **negrito**, _itálico_,
+    // parágrafo = quebra de linha. Aqui isso vira HTML pra manter a formatação exata.
+    function creditsMarkdownToHtml(s){
+      const esc = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      return esc.split(/\n+/).map(line=>line.trim()).filter(Boolean).map(line=>{
+        line = line.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        line = line.replace(/_(.+?)_/g, "<em>$1</em>");
+        return `<p>${line}</p>`;
+      }).join("");
+    }
+    const creditsBody = typeof P.credits === "string"
+      ? creditsMarkdownToHtml(P.credits)
+      : (P.credits||[]).map(([k,v])=> k?`<p><strong style="color:var(--ink)">${k}:</strong> ${v}</p>`:`<p>${v}</p>`).join("");
+    if(creditsBody){
       const cr=document.createElement("section"); cr.className="credits";
-      cr.innerHTML="<h3>Créditos</h3>"+P.credits.map(([k,v])=> k?`<p><strong style="color:var(--ink)">${k}:</strong> ${v}</p>`:`<p>${v}</p>`).join("");
+      cr.innerHTML="<h3>Créditos</h3>"+creditsBody;
       stage.appendChild(cr);
     }
 

@@ -106,6 +106,7 @@
   <div class="filters" id="filters">
     <span class="lab">SÉRIE</span>
     <!-- pills injected -->
+    <a class="mapbtn" href="#" id="aboutBtn">SOBRE</a>
     <a class="mapbtn" href="mapa.html">◍ MAPA</a>
   </div>
 
@@ -195,6 +196,7 @@
       `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`;
   }
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
+  document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
   syncPills(); renderGrid(); renderFicha();
   </script>
   <script>

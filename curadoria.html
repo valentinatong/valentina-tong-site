@@ -63,6 +63,8 @@
       <a href="projeto.html?p=pedras-marcadas">PROJETOS</a>
       <a href="arquivo.html">ARQUIVO FOTOGRÁFICO</a>
       <a href="curadoria.html" class="on">CURADORIA</a>
+      <a href="bio.html">BIO</a>
+      <a href="#" id="langToggle">EN</a>
     </nav>
   </header>
 
@@ -101,6 +103,23 @@
     if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
     list.appendChild(el);
   });
+  </script>
+  <script>
+  // botão EN/PT — troca o parâmetro ?lang= na URL. Ainda não traduz o conteúdo desta
+  // página (só projeto.html lê o Airtable bilíngue por enquanto), mas já fica no lugar.
+  (function(){
+    var url = new URL(location.href);
+    var isEN = url.searchParams.get("lang") === "en";
+    var el = document.getElementById("langToggle");
+    if(!el) return;
+    el.textContent = isEN ? "PT" : "EN";
+    el.addEventListener("click", function(e){
+      e.preventDefault();
+      var u = new URL(location.href);
+      u.searchParams.set("lang", isEN ? "pt" : "en");
+      location.href = u.toString();
+    });
+  })();
   </script>
 </body>
 </html>

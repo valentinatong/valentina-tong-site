@@ -82,6 +82,8 @@
     <a href="projeto.html?p=pedras-marcadas" class="on">PROJETOS</a>
     <a href="arquivo.html">ARQUIVO FOTOGRÁFICO</a>
     <a href="curadoria.html">CURADORIA</a>
+    <a href="bio.html">BIO</a>
+    <a href="#" id="langToggle">EN</a>
   </nav>
   <div class="rail-left"><div class="title" id="brandTitle"></div><div class="opening" id="opening"></div></div>
   <div class="rail-right"><div class="date" id="brandDate"></div></div>
@@ -97,6 +99,7 @@
   <script>
   (async function(){
   const slug = new URLSearchParams(location.search).get("p") || "serido";
+  const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
   let P = null;
 
   // fonte dinâmica: Airtable (via função serverless /api/projeto). Se falhar, cai no estático.
@@ -106,14 +109,21 @@
       const d = await r.json();
       if (d && d.imagens && d.imagens.length) {
         const base = (window.PROJETOS && window.PROJETOS[slug]) || {};
+        // EN cai pro PT quando ainda não tem tradução preenchida no Airtable
+        const abertura = lang==="en" ? (d.aberturaEN || d.aberturaPT) : d.aberturaPT;
+        const creditos = lang==="en" ? (d.creditosEN || d.creditosPT) : d.creditosPT;
         P = {
           bg: base.bg || "#ebebeb",
           accent: base.accent || "#9A4A2C",
           title: d.nome,
           date: d.ano,
-          opening: (d.aberturaPT || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
-          pages: d.imagens.map(i => ({ src: i.url, cap: i.legendaPT, cap2: i.legendaPT2 || "" })),
-          credits: d.creditosPT || ""
+          opening: (abertura || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
+          pages: d.imagens.map(i => ({
+            src: i.url,
+            cap: (lang==="en" ? (i.legendaEN || i.legendaPT) : i.legendaPT),
+            cap2: (lang==="en" ? (i.legendaEN2 || i.legendaPT2) : i.legendaPT2) || ""
+          })),
+          credits: creditos || ""
         };
       }
     }
@@ -132,7 +142,7 @@
     (window.PROJETOS_TIMELINE||[]).forEach(p=>{
       const cur = p.slug===slug;
       const a=document.createElement("a"); if(cur)a.className="current";
-      a.href = p.slug ? `projeto.html?p=${p.slug}` : "#";
+      a.href = p.slug ? `projeto.html?p=${p.slug}${lang==="en"?"&lang=en":""}` : "#";
       a.innerHTML=`<span class="yr">${p.y}</span><span class="nm">${p.n}</span>`; tl.appendChild(a);
     });
     const cur=tl.querySelector("a.current"); if(cur) tl.scrollLeft=cur.offsetLeft-(tl.clientWidth/2)+(cur.clientWidth/2);
@@ -186,9 +196,14 @@
       : (P.credits||[]).map(([k,v])=> k?`<p><strong style="color:var(--ink)">${k}:</strong> ${v}</p>`:`<p>${v}</p>`).join("");
     if(creditsBody){
       const cr=document.createElement("section"); cr.className="credits";
-      cr.innerHTML="<h3>Créditos</h3>"+creditsBody;
+      cr.innerHTML=`<h3>${lang==="en"?"Credits":"Créditos"}</h3>`+creditsBody;
       stage.appendChild(cr);
     }
+
+    // botão EN/PT — troca o parâmetro ?lang= mantendo o projeto atual
+    const langBtn=document.getElementById("langToggle");
+    langBtn.textContent = lang==="en" ? "PT" : "EN";
+    langBtn.href = `?p=${encodeURIComponent(slug)}&lang=${lang==="en"?"pt":"en"}`;
 
     // fade: opening + timeline + índice somem no scroll; título/data ficam
     const op=document.getElementById("opening"), footer=document.getElementById("footer"), pillars=document.getElementById("pillars");

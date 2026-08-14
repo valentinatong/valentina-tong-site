@@ -80,6 +80,10 @@
   .req:hover{ filter:brightness(1.08); }
   .req-note{ font-family:var(--body-font); font-style:italic; font-size:12px; color:var(--stone-dim); text-align:center; margin-top:10px; line-height:1.5; }
 
+  /* statement — aparece na ficha antes de clicar em qualquer foto */
+  .statement h3{ font-family:var(--mono-font); font-weight:400; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--stone-dim); margin:0 0 18px; }
+  .statement p{ font-family:var(--body-font); font-size:14.5px; line-height:1.65; color:var(--paper); margin:0 0 1.3em; }
+
   @media (max-width:900px){ .wrap{ grid-template-columns:1fr; } .ficha{ position:static; height:auto; border-left:none; border-top:1px solid var(--line); } }
 </style>
 </head>
@@ -123,7 +127,8 @@
   };
   const ITEMS = CODES.map(c=>({ code:c, projeto:projOf(c), thumb:`assets/arquivo/thumb/${c}.jpg`, web:`assets/arquivo/web/${c}.jpg` }));
 
-  let current = ITEMS[0];
+  let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
+  let statementHTML = ""; // preenchido pelo fetch de /api/config (com fallback abaixo)
   let active = null; // filtro ativo: {field, value} ou null (todas)
   const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
   const FIELD_LABEL = {projeto:"Projeto",estado:"Estado",municipio:"Município",formacao:"Formação geol.",contexto:"Contexto",tema:"Tema",ano:"Ano",publicacao:"Publicação",exposicao:"Exposição"};
@@ -158,7 +163,7 @@
   function renderGrid(){
     grid.innerHTML="";
     ITEMS.filter(matches).forEach(it=>{
-      const fig=document.createElement("figure"); fig.className="cell"+(it.code===current.code?" sel":"");
+      const fig=document.createElement("figure"); fig.className="cell"+(current && it.code===current.code?" sel":"");
       fig.innerHTML=`<div class="imgbox"><img src="${it.thumb}" loading="lazy" alt="${it.code}"></div><figcaption>${it.code}</figcaption>`;
       fig.onclick=()=>{ current=it; renderGrid(); renderFicha(); };
       grid.appendChild(fig);
@@ -166,6 +171,7 @@
     if(!grid.children.length) grid.innerHTML=`<p style="color:var(--stone-dim);font-family:var(--mono-font);font-size:12px;padding:10px">Nenhuma imagem com esse critério ainda.</p>`;
   }
   function renderFicha(){
+    if(!current){ fichaEl.innerHTML = `<div class="statement">${statementHTML}</div>`; return; }
     const m = META[current.code] || {};
     const rows = FIELDS.map(([label,key])=>{
       let val = (m[key]!=null && m[key]!=="") ? m[key] : (key==="projeto" ? current.projeto : "");
@@ -220,6 +226,16 @@
     const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
     return luminance > 0.6 ? "#1a1815" : "#EDEAE2";
   }
+  // statement de abertura — some assim que a pessoa clica em qualquer foto (renderFicha
+  // troca sozinho quando `current` deixa de ser null). Texto de reserva caso o Airtable falhe.
+  const STATEMENT_FALLBACK = "Este arquivo reúne uma seleção de fotografias produzidas desde 2014 em câmera de médio formato e filme 120, a partir de um acervo de mais de 2 mil fotogramas. São imagens de formações geológicas, sítios arqueológicos, áreas de extração mineral e paisagens transformadas pela natureza, pela arquitetura e pela construção do território.\n\nAs fotografias foram produzidas no curso de diferentes pesquisas e projetos, e são aqui reunidas como um campo aberto para novas relações, contextos e pesquisas. A organização deste arquivo é um esforço contínuo e autônomo de preservação e compartilhamento da minha prática. Para solicitar imagens em alta resolução, obter autorização para uso ou mais informações, entre em contato. Valentina Tong, 2026";
+  function statementToHTML(s){
+    const esc = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    return "<h3>Sobre o arquivo</h3>" + esc.split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+  }
+  statementHTML = statementToHTML(STATEMENT_FALLBACK);
+  if(!current) renderFicha();
+
   fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
@@ -228,6 +244,10 @@
       const tagBg = "#"+d.corTag.trim().replace(/^#/,"");
       root.setProperty("--tag-bg", tagBg);
       root.setProperty("--tag-fg", readableTextColor(tagBg));
+    }
+    if(d.textoAbertura){
+      statementHTML = statementToHTML(d.textoAbertura);
+      if(!current) renderFicha();
     }
   }).catch(()=>{});
   </script>

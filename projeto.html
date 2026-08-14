@@ -58,10 +58,10 @@
   .spread img{ max-height:82vh; max-width:calc(100vw - 2*var(--band-left)); width:auto; height:auto; display:block; }
   /* envolve img + legenda(s) num bloco que herda a largura exata da imagem renderizada,
      pra legenda dupla de díptico alinhar certinho com cada metade da foto.
-     largura de .cap/.cap-row é travada via JS (ver syncCaptionWidths) porque legendas
-     longas dos dois lados sozinhas pediam mais espaço que a imagem e vazavam pra fora dela. */
+     largura de .cap-row é travada via JS (ver syncCaptionWidths) porque as duas legendas
+     longas de um díptico juntas pedem mais espaço que a imagem e vazavam pra fora dela. */
   .spread-media{ display:inline-flex; flex-direction:column; align-items:stretch; gap:14px; }
-  .spread .cap{ font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; max-width:44ch; margin:0 auto; line-height:1.55; }
+  .spread .cap{ font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }
   .spread .cap-row{ display:flex; padding:0 4%; }
   .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }
   .spread .cap-row .cap-half .cap-block{ max-width:34ch; font-family:var(--body-font); font-style:normal; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }
@@ -150,12 +150,13 @@
       stage.appendChild(s);
     });
 
-    // trava a largura de .cap/.cap-row na largura real renderizada da imagem
-    // (legendas longas dos dois lados de um díptico, sozinhas, pedem mais espaço
-    // que a foto e vazam pra fora dela sem isso)
+    // trava a largura do .cap-row na largura real renderizada da imagem
+    // (as duas legendas de um díptico, se longas dos dois lados, pedem mais espaço
+    // que a foto e vazam pra fora dela sem isso). .cap (legenda única) fica de fora
+    // dessa sincronização de propósito — a caixa dele já encolhe pro tamanho do texto.
     function syncCaptionWidths(){
       stage.querySelectorAll(".spread-media").forEach(m=>{
-        const im=m.querySelector("img"), cap=m.querySelector(".cap-row, .cap");
+        const im=m.querySelector("img"), cap=m.querySelector(".cap-row");
         if(!im || !cap) return;
         const w=im.getBoundingClientRect().width;
         if(w>0) cap.style.width=w+"px";

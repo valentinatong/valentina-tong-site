@@ -56,7 +56,12 @@
   .stage{ margin:0; }
   .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
   .spread img{ max-height:82vh; max-width:calc(100vw - 2*var(--band-left)); width:auto; height:auto; display:block; }
-  .spread .cap{ font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; max-width:62ch; line-height:1.55; }
+  /* envolve img + legenda(s) num bloco que herda a largura exata da imagem renderizada,
+     pra legenda dupla de díptico alinhar certinho com cada metade da foto */
+  .spread-media{ display:inline-flex; flex-direction:column; align-items:stretch; gap:14px; }
+  .spread .cap{ font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; max-width:62ch; margin:0 auto; line-height:1.55; }
+  .spread .cap-row{ display:flex; gap:24px; }
+  .spread .cap-row .cap-half{ flex:1; min-width:0; font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; line-height:1.55; }
 
   .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
@@ -98,7 +103,7 @@
           title: d.nome,
           date: d.ano,
           opening: (d.aberturaPT || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
-          pages: d.imagens.map(i => ({ src: i.url, cap: i.legendaPT })),
+          pages: d.imagens.map(i => ({ src: i.url, cap: i.legendaPT, cap2: i.legendaPT2 || "" })),
           credits: d.creditosPT ? [[null, d.creditosPT]] : []
         };
       }
@@ -132,8 +137,11 @@
     const stage=document.getElementById("stage");
     P.pages.forEach((pg,i)=>{
       const s=document.createElement("section"); s.className="spread";
-      const cap = pg.cap ? `<div class="cap">${pg.cap}</div>` : "";
-      s.innerHTML=`<img src="${pg.src}" ${i>1?'loading="lazy"':''} alt="${P.title} — página ${i+1}">${cap}`;
+      const img = `<img src="${pg.src}" ${i>1?'loading="lazy"':''} alt="${P.title} — página ${i+1}">`;
+      let cap = "";
+      if (pg.cap2) cap = `<div class="cap-row"><div class="cap-half">${pg.cap}</div><div class="cap-half">${pg.cap2}</div></div>`;
+      else if (pg.cap) cap = `<div class="cap">${pg.cap}</div>`;
+      s.innerHTML = `<div class="spread-media">${img}${cap}</div>`;
       stage.appendChild(s);
     });
     if(P.credits && P.credits.length){

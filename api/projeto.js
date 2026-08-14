@@ -46,6 +46,8 @@ module.exports = async (req, res) => {
         nome: f["Nome do arquivo"] || "",
         legendaPT: f["Legenda_PT"] || "",
         legendaEN: f["Legenda_EN"] || "",
+        legendaPT2: f["Legenda_PT_2"] || "",
+        legendaEN2: f["Legenda_EN_2"] || "",
         url: foto ? foto.url : null,
       };
     }).filter(x => x.url);

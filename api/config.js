@@ -23,10 +23,11 @@ module.exports = async (req, res) => {
     const data = await r.json();
     const rec = (data.records || [])[0];
     const corFundo = rec ? (rec.fields["Cor de fundo"] || "") : "";
+    const corTag = rec ? (rec.fields["Cor da tag"] || "") : "";
 
     // cache curto de CDN: edições aparecem em ~2 min, sem redeploy
     res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
-    res.status(200).json({ corFundo });
+    res.status(200).json({ corFundo, corTag });
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }

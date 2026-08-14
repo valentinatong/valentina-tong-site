@@ -13,6 +13,7 @@
     --panel:#211e1a;
     --line:#332f29;
     --paper:#EDEAE2;
+    --tag-bg:#EDEAE2;      /* cor de fundo das tags/pills selecionadas — vem do Airtable */
     --stone:#8f887a;
     --stone-dim:#6a6459;
     --oxide:#B4552F;        /* accent */
@@ -43,7 +44,7 @@
   .pill{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; cursor:pointer; background:transparent; }
   .pill:hover{ color:var(--paper); border-color:var(--stone-dim); }
-  .pill.on{ color:var(--bg); background:var(--paper); border-color:var(--paper); }
+  .pill.on{ color:var(--bg); background:var(--tag-bg); border-color:var(--tag-bg); }
   .pill.facet{ color:var(--oxide); border-color:var(--oxide); background:transparent; }
   .filters .mapbtn{ margin-left:auto; font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; }
@@ -208,9 +209,14 @@
   })();
   </script>
   <script>
-  // cor de fundo vem do Airtable (tabela Configurações da base Arquivo, campo "Cor de fundo")
+  // cores vêm do Airtable (tabela Configurações da base Arquivo). "Cor de fundo" cobre
+  // tanto o fundo da página quanto o painel da ficha à direita (--panel), pra não
+  // ficarem descasados; "Cor da tag" é só o fundo das tags/pills selecionadas.
   fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
-    if(d && d.corFundo) document.documentElement.style.setProperty("--bg", "#"+d.corFundo.trim().replace(/^#/,""));
+    if(!d) return;
+    const root = document.documentElement.style;
+    if(d.corFundo){ const c="#"+d.corFundo.trim().replace(/^#/,""); root.setProperty("--bg", c); root.setProperty("--panel", c); }
+    if(d.corTag) root.setProperty("--tag-bg", "#"+d.corTag.trim().replace(/^#/,""));
   }).catch(()=>{});
   </script>
 </body>

@@ -112,8 +112,10 @@
         // EN cai pro PT quando ainda não tem tradução preenchida no Airtable
         const abertura = lang==="en" ? (d.aberturaEN || d.aberturaPT) : d.aberturaPT;
         const creditos = lang==="en" ? (d.creditosEN || d.creditosPT) : d.creditosPT;
+        // cor vem do Airtable (campo "Cor de fundo", com ou sem #); se vazio, cai no arquivo local
+        const corAirtable = d.corFundo ? (d.corFundo.trim().replace(/^#/, "")) : "";
         P = {
-          bg: base.bg || "#ebebeb",
+          bg: corAirtable ? `#${corAirtable}` : (base.bg || "#ebebeb"),
           accent: base.accent || "#9A4A2C",
           title: d.nome,
           date: d.ano,

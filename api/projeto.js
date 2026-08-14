@@ -58,6 +58,7 @@ module.exports = async (req, res) => {
       slug, nome,
       ano: proj.fields["Ano"] || "",
       ordem: proj.fields["Ordem"] || 0,
+      corFundo: proj.fields["Cor de fundo"] || "",
       aberturaPT: proj.fields["Texto de abertura_PT"] || "",
       aberturaEN: proj.fields["Texto de abertura_EN"] || "",
       creditosPT: proj.fields["Créditos_PT"] || "",

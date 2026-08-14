@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arquivo Fotográfico — Valentina Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#1a1815;          /* warm near-black (archive is dark mode) */
+    --panel:#211e1a;
+    --line:#332f29;
+    --paper:#EDEAE2;
+    --stone:#8f887a;
+    --stone-dim:#6a6459;
+    --oxide:#B4552F;        /* accent */
+    --title-font:"Fraunces", Georgia, serif;
+    --body-font:"Newsreader", Georgia, serif;
+    --mono-font:"Space Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--bg); color:var(--paper); font-family:var(--body-font); -webkit-font-smoothing:antialiased; }
+  a{color:inherit;text-decoration:none;}
+
+  /* top bar */
+  .topbar{ display:flex; align-items:center; justify-content:space-between; gap:24px;
+    padding:16px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
+  .brand{ display:flex; align-items:center; gap:16px; }
+  .seal{ width:54px; height:54px; border-radius:50%; border:1px solid var(--stone-dim); flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-family:var(--mono-font); font-size:5.5px; letter-spacing:.1em; line-height:1.6; color:var(--stone); }
+  .brand .kick{ font-family:var(--mono-font); font-size:10px; letter-spacing:.2em; color:var(--stone-dim); text-transform:uppercase; }
+  .brand .h{ font-family:var(--title-font); font-weight:600; font-size:19px; }
+  nav.main{ display:flex; gap:26px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
+  nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--paper); } nav.main a.on{ color:var(--paper); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+
+  /* filter row */
+  .filters{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:16px 26px; border-bottom:1px solid var(--line); }
+  .filters .lab{ font-family:var(--mono-font); font-size:10px; letter-spacing:.2em; color:var(--stone-dim); margin-right:6px; }
+  .pill{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone);
+    border:1px solid var(--line); border-radius:999px; padding:6px 15px; cursor:pointer; background:transparent; }
+  .pill:hover{ color:var(--paper); border-color:var(--stone-dim); }
+  .pill.on{ color:var(--bg); background:var(--paper); border-color:var(--paper); }
+  .pill.facet{ color:var(--oxide); border-color:var(--oxide); background:transparent; }
+  .filters .mapbtn{ margin-left:auto; font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
+    border:1px solid var(--line); border-radius:999px; padding:6px 15px; }
+  .filters .mapbtn:hover{ color:var(--oxide); border-color:var(--oxide); }
+
+  /* body split: grid + ficha */
+  .wrap{ display:grid; grid-template-columns: 1fr 360px; }
+  .grid{ padding:26px; display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:26px 22px; align-content:start; }
+  figure.cell{ margin:0; cursor:pointer; }
+  figure.cell .imgbox{ aspect-ratio:1/1; overflow:hidden; background:#000; border:1px solid transparent; }
+  figure.cell img{ width:100%; height:100%; object-fit:cover; display:block; }
+  figure.cell figcaption{ font-family:var(--mono-font); font-size:10px; letter-spacing:.04em; color:var(--stone-dim); margin-top:8px; }
+  figure.cell.sel .imgbox{ border-color:var(--oxide); }
+  figure.cell.sel figcaption{ color:var(--oxide); }
+  figure.cell:hover figcaption{ color:var(--stone); }
+
+  /* ficha catalográfica */
+  .ficha{ position:sticky; top:88px; align-self:start; height:calc(100vh - 88px); overflow-y:auto;
+    border-left:1px solid var(--line); background:var(--panel); padding:26px 24px; }
+  .ficha .preview{ width:100%; aspect-ratio:1/1; object-fit:cover; background:#000; display:block; }
+  .ficha .code{ font-family:var(--mono-font); font-size:14px; letter-spacing:.06em; color:var(--oxide); margin:18px 0 16px; }
+  .ficha dl{ margin:0; display:grid; grid-template-columns: 118px 1fr; row-gap:11px; column-gap:10px; }
+  .ficha dt{ font-family:var(--mono-font); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--stone-dim); align-self:center; }
+  .ficha dd{ margin:0; font-family:var(--body-font); font-size:14px; color:var(--paper); }
+  .ficha dd.dim{ color:var(--stone-dim); font-style:italic; }
+  .ficha .tag{ color:var(--paper); cursor:pointer; border-bottom:1px solid transparent; text-decoration:none; }
+  .ficha .tag:hover, .ficha .tag.on{ color:var(--oxide); border-bottom-color:var(--oxide); }
+  .ficha .maplink{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone); }
+  .ficha .maplink:hover{ color:var(--oxide); }
+  .ficha .divider{ height:1px; background:var(--line); margin:22px 0; }
+  .req{ display:block; text-align:center; width:100%; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em;
+    background:var(--oxide); color:#fff; padding:13px; border:none; cursor:pointer; }
+  .req:hover{ filter:brightness(1.08); }
+  .req-note{ font-family:var(--body-font); font-style:italic; font-size:12px; color:var(--stone-dim); text-align:center; margin-top:10px; line-height:1.5; }
+
+  @media (max-width:900px){ .wrap{ grid-template-columns:1fr; } .ficha{ position:static; height:auto; border-left:none; border-top:1px solid var(--line); } }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" style="text-decoration:none;color:inherit" aria-label="Início">
+      <div class="seal">VIAGEM<br>GEOLÓGICA<br>VALENTINA<br>TONG</div>
+      <div><div class="kick">Viagem Geológica</div><div class="h">Arquivo Fotográfico</div></div>
+    </a>
+    <nav class="main">
+      <a href="index.html">HOME</a>
+      <a href="projeto.html?p=pedras-marcadas">PROJETOS</a>
+      <a href="arquivo.html" class="on">ARQUIVO FOTOGRÁFICO</a>
+      <a href="curadoria.html">CURADORIA</a>
+    </nav>
+  </header>
+
+  <div class="filters" id="filters">
+    <span class="lab">SÉRIE</span>
+    <!-- pills injected -->
+    <a class="mapbtn" href="mapa.html">◍ MAPA</a>
+  </div>
+
+  <main class="wrap">
+    <section class="grid" id="grid"></section>
+    <aside class="ficha" id="ficha"><!-- injected --></aside>
+  </main>
+
+  <script>
+  // ---- data layer ----
+  const CODES = ["Seridó_112b","VT_BR_02_03","VT_BR_16_02","VT_BR_17_02","VT_ES_01_02","VT_ES_03_04","VT_ES_04_06","VT_ES_06_06","VT_ES_17_06","VT_ES_21_02","VT_ES_21_07","VT_ES_24_11","VT_ES_25_02","VT_ES_26_06","VT_ES_28_06","VT_ES_28_09","VT_ES_29_07","VT_ES_30_07","VT_ES_30_09","VT_PP_15_05b","VT_PP_15_06","VT_PP_15_07"];
+  const PROJ = { ES:"Pedras Marcadas", PP:"Pedra Paulista", SD:"Seridó Potiguar", CR:"Cariri", AM:"Monte Roraima", PI:"Serra da Capivara" };
+  function projOf(code){ if(/^Serid/i.test(code)) return "Seridó Potiguar"; const p=code.replace(/^VT_/,"").split("_")[0]; return PROJ[p] || "Outros registros"; }
+  // ficha fields (label -> chave em META). Projeto cai no valor derivado do código se não houver META.
+  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Formação geol.","formacao"],["Contexto","contexto"],["Tema","tema"],["Ano da fotografia","ano"],["Publicação","publicacao"],["Exposição","exposicao"]];
+  // metadados por imagem (depois virá da tabela; por ora, exemplos preenchidos à mão)
+  const META = {
+    "VT_ES_24_11": { projeto:"Pedras Marcadas", estado:"Espírito Santo", municipio:"Barra de São Francisco", formacao:"Granito", contexto:"Pedreira", tema:"Extração, Rocha Ornamental", ano:"2024", publicacao:"Revista ZUM #30, IMS", exposicao:"—" },
+  };
+  const ITEMS = CODES.map(c=>({ code:c, projeto:projOf(c), thumb:`assets/arquivo/thumb/${c}.jpg`, web:`assets/arquivo/web/${c}.jpg` }));
+
+  let current = ITEMS[0];
+  let active = null; // filtro ativo: {field, value} ou null (todas)
+  const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
+  const FIELD_LABEL = {projeto:"Projeto",estado:"Estado",municipio:"Município",formacao:"Formação geol.",contexto:"Contexto",tema:"Tema",ano:"Ano",publicacao:"Publicação",exposicao:"Exposição"};
+
+  function effProjeto(it){ const m=META[it.code]; return (m&&m.projeto)||it.projeto; }
+  function fieldVal(it,f){ if(f==="projeto") return effProjeto(it); const m=META[it.code]; return m&&m[f]!=null?m[f]:""; }
+  function matches(it){ if(!active) return true; const v=fieldVal(it,active.field); if(!v) return false;
+    if(active.field==="tema") return v.split(",").map(s=>s.trim()).includes(active.value); return v===active.value; }
+
+  // pills de série (facet Projeto)
+  const projects = ["TODAS", ...[...new Set(ITEMS.map(i=>effProjeto(i)))].sort()];
+  const mapBtn = filtersEl.querySelector(".mapbtn");
+  projects.forEach(p=>{ const b=document.createElement("button"); b.className="pill"; b.textContent=p.toUpperCase(); b.dataset.p=p;
+    b.onclick=()=> setFilter("projeto", p==="TODAS"?null:p);
+    filtersEl.insertBefore(b, mapBtn); });
+
+  function setFilter(field, value){
+    if(field==="projeto" && value===null) active=null;
+    else if(active && active.field===field && active.value===value) active=null;   // clicar de novo desliga
+    else active={field, value};
+    syncPills(); renderChip(); renderGrid(); renderFicha();
+  }
+  function syncPills(){ filtersEl.querySelectorAll(".pill:not(.facet)").forEach(x=>{
+    const on = !active ? x.dataset.p==="TODAS" : (active.field==="projeto" ? x.dataset.p===active.value : false);
+    x.classList.toggle("on", on); }); }
+  function renderChip(){ let el=document.getElementById("facetchip");
+    if(active && active.field!=="projeto"){
+      if(!el){ el=document.createElement("button"); el.id="facetchip"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
+      el.innerHTML=`${FIELD_LABEL[active.field].toUpperCase()}: ${active.value} &nbsp;✕`; el.onclick=()=> setFilter("projeto", null);
+    } else if(el){ el.remove(); } }
+
+  function renderGrid(){
+    grid.innerHTML="";
+    ITEMS.filter(matches).forEach(it=>{
+      const fig=document.createElement("figure"); fig.className="cell"+(it.code===current.code?" sel":"");
+      fig.innerHTML=`<div class="imgbox"><img src="${it.thumb}" loading="lazy" alt="${it.code}"></div><figcaption>${it.code}</figcaption>`;
+      fig.onclick=()=>{ current=it; renderGrid(); renderFicha(); };
+      grid.appendChild(fig);
+    });
+    if(!grid.children.length) grid.innerHTML=`<p style="color:var(--stone-dim);font-family:var(--mono-font);font-size:12px;padding:10px">Nenhuma imagem com esse critério ainda.</p>`;
+  }
+  function renderFicha(){
+    const m = META[current.code] || {};
+    const rows = FIELDS.map(([label,key])=>{
+      let val = (m[key]!=null && m[key]!=="") ? m[key] : (key==="projeto" ? current.projeto : "");
+      if(val==="—") return `<dt>${label}</dt><dd class="dim">—</dd>`;
+      if(val==="") return `<dt>${label}</dt><dd class="dim">a definir</dd>`;
+      const vals = key==="tema" ? val.split(",").map(s=>s.trim()) : [val];
+      const tags = vals.map(v=>{ const on=active&&active.field===key&&active.value===v;
+        return `<a class="tag${on?" on":""}" data-field="${key}" data-value="${v.replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
+      return `<dt>${label}</dt><dd>${tags}</dd>`;
+    }).join("");
+    const subject = encodeURIComponent(`Pedido de acesso à imagem ${current.code}`);
+    const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${effProjeto(current)}) do Arquivo Viagem Geológica.\n\n`);
+    fichaEl.innerHTML =
+      `<img class="preview" src="${current.web}" alt="${current.code}">`+
+      `<div class="code">${current.code}</div>`+
+      `<dl>${rows}</dl>`+
+      `<div class="divider"></div>`+
+      `<dl><dt>Localização</dt><dd><a class="maplink" href="mapa.html">Ver no mapa →</a></dd></dl>`+
+      `<div class="divider"></div>`+
+      `<a class="req" href="mailto:tongvalentina@gmail.com?subject=${subject}&body=${bodym}">SOLICITAR ACESSO À IMAGEM</a>`+
+      `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`;
+  }
+  fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
+  syncPills(); renderGrid(); renderFicha();
+  </script>
+</body>
+</html>

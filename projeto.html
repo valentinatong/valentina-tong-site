@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Projeto — Valentina Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ebebeb;                 /* set per project from data */
+    --ink:#201D19; --stone:#86806F; --accent:#9A4A2C;
+    --band-left:260px; --band-right:140px; --nav-h:58px;
+    --title-font:"Fraunces", Georgia, serif;
+    --body-font:"Newsreader", Georgia, serif;
+    --mono-font:"Space Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:var(--body-font); -webkit-font-smoothing:antialiased; }
+
+  /* navegação = RODAPÉ: visível ao entrar (topo) e ao terminar (fim); some no meio */
+  .footer{ position:fixed; left:0; right:0; bottom:0; z-index:40;
+    background:linear-gradient(to top, var(--bg) 58%, transparent); padding-top:14px; transition:opacity .18s linear; }
+  .footer-row{ display:flex; align-items:center; height:var(--nav-h);
+    border-top:1px solid rgba(32,29,25,.20); }   /* eixo da linha do tempo */
+  .timeline{ position:relative; flex:1 1 auto; min-width:0; display:flex; align-items:center; justify-content:space-between;
+    overflow-x:auto; overflow-y:hidden; scrollbar-width:none; padding-right:22px; }
+  .timeline::-webkit-scrollbar{display:none;}
+  .timeline a{ flex:0 0 auto; text-decoration:none; color:var(--stone); padding:4px 15px; text-align:center; line-height:1.05; }
+  .timeline a .yr{ font-family:var(--mono-font); font-size:10px; letter-spacing:.06em; display:block; }
+  .timeline a .nm{ font-family:var(--title-font); font-weight:500; font-size:12px; display:block; white-space:nowrap; }
+  .timeline a.current{ color:var(--ink); } .timeline a.current .nm{ font-weight:600; }
+
+  .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
+  .rail-left .title{ position:absolute; top:50%; transform:translateY(-50%); left:0; width:100%; padding:0 26px;
+    font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
+  .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
+  .rail-left .opening p{ font-family:var(--body-font); font-style:italic; font-size:13.5px; line-height:1.5; color:var(--ink); margin:0 0 .7em; }
+  .rail-left .opening .award{ font-style:normal; font-family:var(--mono-font); font-size:10px; letter-spacing:.04em; color:var(--stone); }
+
+  .rail-right{ position:fixed; right:0; top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
+  .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right;
+    font-family:var(--title-font); font-weight:600; font-size:14px; color:var(--ink); }
+
+  /* full width; the image is centered in the VIEWPORT and capped so that, centered,
+     it always clears the left text column (and the right year) — symmetric clearance. */
+  /* cabeçalho dos 3 pilares (some/reaparece junto com o rodapé) */
+  .pillars{ position:fixed; top:16px; right:26px; z-index:41; display:flex; gap:22px;
+    font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; transition:opacity .18s linear; }
+  .pillars a{ color:var(--stone); text-decoration:none; }
+  .pillars a:hover{ color:var(--ink); }
+  .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+
+  .stage{ margin:0; }
+  .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
+  .spread img{ max-height:82vh; max-width:calc(100vw - 2*var(--band-left)); width:auto; height:auto; display:block; }
+  .spread .cap{ font-family:var(--body-font); font-style:italic; font-size:14px; color:var(--stone); text-align:center; max-width:62ch; line-height:1.55; }
+
+  .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
+  .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
+</style>
+</head>
+<body>
+  <nav class="pillars" id="pillars" aria-label="Pilares">
+    <a href="index.html">HOME</a>
+    <a href="projeto.html?p=pedras-marcadas" class="on">PROJETOS</a>
+    <a href="arquivo.html">ARQUIVO FOTOGRÁFICO</a>
+    <a href="curadoria.html">CURADORIA</a>
+  </nav>
+  <div class="rail-left"><div class="title" id="brandTitle"></div><div class="opening" id="opening"></div></div>
+  <div class="rail-right"><div class="date" id="brandDate"></div></div>
+  <main class="stage" id="stage"></main>
+  <footer class="footer" id="footer">
+    <div class="footer-row">
+      <nav class="timeline" id="timeline" aria-label="Linha do tempo de projetos"></nav>
+    </div>
+  </footer>
+
+  <script src="assets/serido-captions.js"></script>
+  <script src="assets/projetos-data.js"></script>
+  <script>
+  (async function(){
+  const slug = new URLSearchParams(location.search).get("p") || "serido";
+  let P = null;
+
+  // fonte dinâmica: Airtable (via função serverless /api/projeto). Se falhar, cai no estático.
+  try {
+    const r = await fetch(`/api/projeto?slug=${encodeURIComponent(slug)}`);
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.imagens && d.imagens.length) {
+        const base = (window.PROJETOS && window.PROJETOS[slug]) || {};
+        P = {
+          bg: base.bg || "#ebebeb",
+          accent: base.accent || "#9A4A2C",
+          title: d.nome,
+          date: d.ano,
+          opening: (d.aberturaPT || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
+          pages: d.imagens.map(i => ({ src: i.url, cap: i.legendaPT })),
+          credits: d.creditosPT ? [[null, d.creditosPT]] : []
+        };
+      }
+    }
+  } catch (e) { /* cai no fallback estático */ }
+
+  if (!P) P = (window.PROJETOS && window.PROJETOS[slug]) || null;
+
+  if(!P){ document.body.innerHTML = "<p style='font-family:monospace;padding:40px'>Projeto não encontrado: "+slug+"</p>"; return; }
+  {
+    document.documentElement.style.setProperty("--bg", P.bg);
+    document.documentElement.style.setProperty("--accent", P.accent||"#9A4A2C");
+    document.title = P.title + " — Valentina Tong";
+
+    // timeline
+    const tl=document.getElementById("timeline");
+    (window.PROJETOS_TIMELINE||[]).forEach(p=>{
+      const cur = p.slug===slug;
+      const a=document.createElement("a"); if(cur)a.className="current";
+      a.href = p.slug ? `projeto.html?p=${p.slug}` : "#";
+      a.innerHTML=`<span class="yr">${p.y}</span><span class="nm">${p.n}</span>`; tl.appendChild(a);
+    });
+    const cur=tl.querySelector("a.current"); if(cur) tl.scrollLeft=cur.offsetLeft-(tl.clientWidth/2)+(cur.clientWidth/2);
+
+    // título fixo empilhado — uma palavra por linha ("Pedras" / "Marcadas")
+    document.getElementById("brandTitle").innerHTML = P.title.split(" ").join("<br>");
+    document.getElementById("brandDate").textContent  = P.date;
+    document.getElementById("opening").innerHTML =
+      P.opening.map(t=>`<p>${t}</p>`).join("") + (P.award? `<p class="award">${P.award}</p>`:"");
+
+    const stage=document.getElementById("stage");
+    P.pages.forEach((pg,i)=>{
+      const s=document.createElement("section"); s.className="spread";
+      const cap = pg.cap ? `<div class="cap">${pg.cap}</div>` : "";
+      s.innerHTML=`<img src="${pg.src}" ${i>1?'loading="lazy"':''} alt="${P.title} — página ${i+1}">${cap}`;
+      stage.appendChild(s);
+    });
+    if(P.credits && P.credits.length){
+      const cr=document.createElement("section"); cr.className="credits";
+      cr.innerHTML="<h3>Créditos</h3>"+P.credits.map(([k,v])=> k?`<p><strong style="color:var(--ink)">${k}:</strong> ${v}</p>`:`<p>${v}</p>`).join("");
+      stage.appendChild(cr);
+    }
+
+    // fade: opening + timeline + índice somem no scroll; título/data ficam
+    const op=document.getElementById("opening"), footer=document.getElementById("footer"), pillars=document.getElementById("pillars");
+    function onScroll(){ const y=scrollY, vh=innerHeight, doc=document.documentElement.scrollHeight;
+      const topF=Math.max(0,1-y/(vh*0.42));                    // visível no topo (entrada)
+      const botF=Math.max(0,1-(doc-(y+vh))/(vh*0.42));         // visível no fim (terminou)
+      op.style.opacity=topF.toFixed(3);                        // texto de abertura só some pra baixo
+      const navOp=Math.max(topF,botF);
+      footer.style.opacity=navOp.toFixed(3); footer.style.pointerEvents=navOp<0.05?"none":"auto";
+      pillars.style.opacity=navOp.toFixed(3); pillars.style.pointerEvents=navOp<0.05?"none":"auto"; }
+    addEventListener("scroll",onScroll,{passive:true}); onScroll();
+  }
+  })();
+  </script>
+</body>
+</html>

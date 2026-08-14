@@ -1,0 +1,14 @@
+.DS_Store
+**/.DS_Store
+
+# pastas-fonte pesadas (não fazem parte do site publicado)
+/Arquivo/
+/Curadoria/
+/Projetos/
+/Layouts de referencia/
+/Manuais de aplicação/
+
+# arquivos de trabalho / backup
+/index_pilares_backup.html
+/home_grid_zoom_v7.jsx
+/layout.pdf

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Curadoria, Pesquisa e Edição — Valentina Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff; --ink:#201D19; --stone:#86806F; --stone-dim:#a49d8f; --oxide:#9A4A2C;
+    --line:rgba(32,29,25,.14);
+    --title-font:"Fraunces", Georgia, serif;
+    --body-font:"Newsreader", Georgia, serif;
+    --mono-font:"Space Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:var(--body-font); -webkit-font-smoothing:antialiased; }
+  a{color:inherit;text-decoration:none;}
+
+  .top{ display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding:26px 40px 22px; }
+  .top .h{ font-family:var(--mono-font); font-size:12px; letter-spacing:.2em; color:var(--ink); }
+  nav.main{ display:flex; gap:26px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
+  nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--ink); } nav.main a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+
+  .list{ padding:0 40px 12vh; }
+  .item{ border-top:1px solid var(--line); }
+  .item:last-child{ border-bottom:1px solid var(--line); }
+  .row{ display:grid; grid-template-columns: 1.5fr 1.25fr 150px; gap:28px; align-items:center; padding:22px 0; }
+  .item.expandable .row{ cursor:pointer; }
+  .title{ font-family:var(--title-font); font-weight:500; font-size:19px; line-height:1.2; display:flex; gap:10px; align-items:baseline; }
+  .item.expandable:hover .title{ color:var(--oxide); }
+  .title .plus{ font-family:var(--mono-font); font-size:14px; color:var(--stone-dim); flex:0 0 auto; transition:transform .2s; }
+  .item.open .title .plus{ transform:rotate(45deg); color:var(--oxide); }
+  .meta .tr{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone); text-transform:uppercase; }
+  .meta .vy{ font-family:var(--body-font); font-style:italic; font-size:14.5px; color:var(--stone); margin-top:5px; }
+  .thumb{ justify-self:end; }
+  .thumb img{ height:82px; width:auto; max-width:150px; object-fit:contain; display:block; }
+  .thumb.empty{ width:150px; height:82px; }
+
+  .panel{ overflow:hidden; max-height:0; transition:max-height .32s ease; }
+  .item.open .panel{ max-height:560px; }
+  .panel-inner{ padding:2px 0 30px; }
+  .desc{ font-family:var(--body-font); font-size:15.5px; line-height:1.6; color:var(--ink); max-width:64ch; margin:0 0 18px; }
+  .gallery{ display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin; }
+  .gallery img{ height:240px; width:auto; object-fit:contain; display:block; background:#f3f2ef; }
+  .gallery::-webkit-scrollbar{ height:6px; } .gallery::-webkit-scrollbar-thumb{ background:var(--line); }
+
+  @media (max-width:800px){
+    .top{ flex-direction:column; gap:14px; padding:20px 22px; }
+    .row{ grid-template-columns:1fr; gap:10px; }
+    .thumb{ justify-self:start; } .thumb img{ height:120px; }
+  }
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="h">CURADORIA, PESQUISA E EDIÇÃO</div>
+    <nav class="main">
+      <a href="index.html">HOME</a>
+      <a href="projeto.html?p=pedras-marcadas">PROJETOS</a>
+      <a href="arquivo.html">ARQUIVO FOTOGRÁFICO</a>
+      <a href="curadoria.html" class="on">CURADORIA</a>
+    </nav>
+  </header>
+
+  <main class="list" id="list"></main>
+
+  <script>
+  // ---- camada de dados (uma linha por item de curadoria) ----
+  const ITEMS = [
+    { title:"Claudia Andujar", tipo:"Publicação", papel:"Contribuição de texto", local:"Coleção Photo Poche, Actes Sud, Arles, França", year:"2025", y:2025, imgs:["08"] },
+    { title:"Claudia Andujar: The Yanomami Struggle", tipo:"Exposição", papel:"Curadora assistente", local:"Kyotographie, Quioto, Japão", year:"2024", y:2024, imgs:["01"] },
+    { title:"Claudia Andujar y La lucha Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"Museo de Arte Miguel Urrutia, Bogotá, Colômbia", year:"2024", y:2024, imgs:["02"] },
+    { title:"La Lucha Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"Museo Amparo, Puebla, México", year:"2023–2024", y:2023.5, imgs:["03"] },
+    { title:"Indigenous Rights, Art and Environmental Justice", tipo:"Programa público", papel:"Mediação", local:"The Shed, Nova Iorque, EUA", year:"2023", y:2023, imgs:["04"] },
+    { title:"A World History of Women Photographers", tipo:"Publicação", papel:"Contribuição de texto", local:"Thames & Hudson, Londres, Inglaterra", year:"2022", y:2022, imgs:["09"] },
+    { title:"Representações e Narrativas Visuais Indígenas", tipo:"Seminário", papel:"Fala pública", local:"Instituto Moreira Salles, Rio de Janeiro, Brasil", year:"2019", y:2019, imgs:["10"] },
+    { title:"Claudia Andujar: A luta Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"IMS Paulista, São Paulo, Brasil", year:"2018–2019", y:2018.5,
+      desc:"Exposição retrospectiva dedicada à obra de Claudia Andujar, reunindo mais de 200 fotografias, desenhos, documentos e filmes sobre sua trajetória junto ao povo Yanomami. A itinerância internacional foi organizada pelo Instituto Moreira Salles em parceria com instituições anfitriãs. Atuei na adaptação da exposição para cada instituição e no desenho expográfico.", imgs:[] },
+    { title:"Vitrines e Fachadas: Dois Ensaios Paulistanos de Dulce Soares", tipo:"Exposição", papel:"Curadora", local:"Instituto Moreira Salles, São Paulo, Brasil", year:"2016", y:2016, imgs:[] },
+    { title:"Vitrines e Fachadas: Dois Ensaios Paulistanos de Dulce Soares", tipo:"Encarte de exposição", papel:"Edição e texto", local:"Instituto Moreira Salles, São Paulo, Brasil", year:"2016", y:2016.01, imgs:["07"] },
+  ];
+
+  const list=document.getElementById("list");
+  ITEMS.forEach(it=>{
+    const expandable = (it.imgs && it.imgs.length) || it.desc;
+    const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
+    const firstThumb = it.imgs && it.imgs.length ? `<img src="assets/curadoria/thumb/${it.imgs[0]}.jpg" alt="${it.title}">` : "";
+    const gallery = it.imgs && it.imgs.length ? `<div class="gallery">${it.imgs.map(n=>`<img src="assets/curadoria/web/${n}.jpg" alt="${it.title}">`).join("")}</div>` : "";
+    const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
+    el.innerHTML =
+      `<div class="row">
+        <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.title}</span></div>
+        <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div><div class="vy">${it.local} — ${it.year}</div></div>
+        <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
+      </div>
+      <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>`;
+    if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
+    list.appendChild(el);
+  });
+  </script>
+</body>
+</html>

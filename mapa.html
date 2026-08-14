@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mapa — Arquivo Viagem Geológica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f4f2ec; --ink:#201D19; --stone:#86806F; --stone-dim:#a8a294; --oxide:#9A4A2C;
+    --land:#eae7df; --border:#c9c3b4; --line:rgba(32,29,25,.14);
+    --title-font:"Fraunces", Georgia, serif; --body-font:"Newsreader", Georgia, serif; --mono-font:"Space Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;height:100%;}
+  body{ background:var(--bg); color:var(--ink); font-family:var(--body-font); -webkit-font-smoothing:antialiased; }
+  a{color:inherit;text-decoration:none;}
+
+  .top{ display:flex; align-items:center; justify-content:space-between; gap:24px; padding:16px 30px; border-bottom:1px solid var(--line); }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .seal{ width:50px; height:50px; border-radius:50%; border:1px solid var(--stone-dim); flex:0 0 auto; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono-font); font-size:5px; letter-spacing:.1em; line-height:1.6; color:var(--stone); text-align:center; }
+  .brand .kick{ font-family:var(--mono-font); font-size:10px; letter-spacing:.2em; color:var(--stone-dim); text-transform:uppercase; }
+  .brand .h{ font-family:var(--title-font); font-weight:600; font-size:18px; }
+  nav.main{ display:flex; gap:24px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
+  nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--ink); } nav.main a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+
+  .wrap{ display:grid; grid-template-columns:330px 1fr; height:calc(100vh - 83px); }
+  .panel{ padding:30px 28px; border-right:1px solid var(--line); overflow-y:auto; }
+  .panel h1{ font-family:var(--mono-font); font-weight:400; font-size:15px; letter-spacing:.28em; margin:0 0 16px; }
+  .rule{ height:1px; background:var(--line); margin:18px 0; }
+  .panel p.desc{ font-size:14px; line-height:1.6; color:var(--ink); margin:0; }
+  .legtitle{ font-family:var(--mono-font); font-size:10px; letter-spacing:.2em; color:var(--stone-dim); text-transform:uppercase; margin-bottom:12px; }
+  .leg{ display:flex; flex-direction:column; gap:10px; }
+  .leg .r{ display:grid; grid-template-columns:22px 1fr auto; align-items:center; gap:10px; cursor:pointer; }
+  .leg .r .nm{ font-family:var(--body-font); font-size:14.5px; } .leg .r .ct{ font-family:var(--mono-font); font-size:12px; color:var(--stone); }
+  .leg .r:hover .nm{ color:var(--oxide); }
+  .total{ display:flex; justify-content:space-between; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; color:var(--ink); text-transform:uppercase; }
+
+  .results .loc{ font-family:var(--title-font); font-weight:600; font-size:16px; margin:0 0 4px; }
+  .results .sub{ font-family:var(--mono-font); font-size:10px; letter-spacing:.14em; color:var(--stone); text-transform:uppercase; margin-bottom:14px; }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .grid img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:#ddd; }
+  .results .links{ display:flex; flex-direction:column; gap:7px; margin-top:14px; }
+  .results .links a{ font-family:var(--mono-font); font-size:11px; letter-spacing:.08em; color:var(--stone); }
+  .results .links a:hover{ color:var(--oxide); }
+  .hint{ font-family:var(--body-font); font-style:italic; font-size:13.5px; color:var(--stone); }
+
+  .mapbox{ position:relative; overflow:hidden; }
+  svg.map{ width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
+  svg.map.grabbing{ cursor:grabbing; }
+  .state{ fill:var(--land); stroke:var(--border); stroke-width:.6; vector-effect:non-scaling-stroke; }
+  .pt{ cursor:pointer; }
+  .pt .sym{ fill:none; stroke:var(--ink); stroke-width:1.4; vector-effect:non-scaling-stroke; transition:fill .15s,stroke .15s; }
+  .pt:hover .sym, .pt.sel .sym{ fill:var(--oxide); stroke:var(--oxide); }
+  .pt .halo{ fill:var(--oxide); opacity:0; transition:opacity .15s; }
+  .pt.sel .halo{ opacity:.14; }
+
+  .zoomctl{ position:absolute; right:18px; bottom:18px; display:flex; flex-direction:column; gap:6px; }
+  .zoomctl button{ width:34px; height:34px; border:1px solid var(--border); background:rgba(244,242,236,.9); color:var(--ink);
+    font-family:var(--mono-font); font-size:16px; cursor:pointer; border-radius:2px; line-height:1; }
+  .zoomctl button:hover{ border-color:var(--oxide); color:var(--oxide); }
+  .zoomctl button.reset{ font-size:12px; }
+
+  @media (max-width:840px){ .wrap{ grid-template-columns:1fr; height:auto; } .panel{ border-right:none; border-bottom:1px solid var(--line); } .mapbox{ height:70vh; } }
+</style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html" aria-label="Início">
+      <div class="seal">VIAGEM<br>GEOLÓGICA<br>VALENTINA<br>TONG</div>
+      <div><div class="kick">Arquivo Fotográfico</div><div class="h">Mapa</div></div>
+    </a>
+    <nav class="main">
+      <a href="projeto.html?p=pedras-marcadas">PROJETOS</a>
+      <a href="arquivo.html" class="on">ARQUIVO FOTOGRÁFICO</a>
+      <a href="curadoria.html">CURADORIA</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <aside class="panel">
+      <h1>MAPA</h1>
+      <p class="desc">O mapa reúne os lugares percorridos pela pesquisa <em>Viagem Geológica</em>. Cada ponto indica áreas de pesquisa, expedições e registros fotográficos. Selecione um ponto para explorar as imagens relacionadas.</p>
+      <div class="rule"></div>
+      <div class="legtitle">Projetos</div>
+      <div class="leg" id="leg"></div>
+      <div class="rule"></div>
+      <div class="total" id="total"></div>
+      <div class="rule"></div>
+      <div class="results" id="results"><p class="hint">Selecione um ponto no mapa. Use a roda do mouse para dar zoom e arraste para navegar.</p></div>
+    </aside>
+
+    <div class="mapbox" id="mapbox">
+      <div class="zoomctl">
+        <button id="zin" aria-label="Aproximar">+</button>
+        <button id="zout" aria-label="Afastar">−</button>
+        <button id="zreset" class="reset" aria-label="Resetar">⤢</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/mapa-brasil.js"></script>
+  <script>
+  const SYM = { "Pedras Marcadas":"circle", "Pedra Paulista":"square", "Seridó Potiguar":"triangle", "Outros registros":"plus" };
+  // codes + coordenada (lat,lon) do lugar (guardada no back; usada só p/ posicionar e p/ o link do mapa detalhado)
+  const LOCS = [
+    { name:"Cachoeiro de Itapemirim, ES", proj:"Pedras Marcadas", x:648.1, y:531.2, lat:-20.85, lon:-41.11,
+      codes:["VT_ES_01_02","VT_ES_03_04","VT_ES_04_06","VT_ES_06_06","VT_ES_17_06","VT_ES_21_02","VT_ES_21_07","VT_ES_24_11","VT_ES_25_02","VT_ES_26_06","VT_ES_28_06","VT_ES_28_09","VT_ES_29_07","VT_ES_30_07","VT_ES_30_09"] },
+    { name:"Seridó, RN", proj:"Seridó Potiguar", x:736.4, y:238.0, lat:-6.43, lon:-36.63, codes:["Seridó_112b"] },
+    { name:"Interior de São Paulo", proj:"Pedra Paulista", x:488.7, y:562.7, lat:-22.4, lon:-49.2, codes:["VT_PP_15_05b","VT_PP_15_06","VT_PP_15_07"] },
+    { name:"Vila Velha, PR", proj:"Outros registros", x:472.9, y:620.5, lat:-25.24, lon:-50.0, codes:["VT_BR_02_03"] },
+    { name:"Peruaçu, norte de MG", proj:"Outros registros", x:586.2, y:414.3, lat:-15.1, lon:-44.25, codes:["VT_BR_16_02","VT_BR_17_02"] },
+  ];
+  const sym = k => ({ circle:'<circle class="sym" r="5.5"/>', square:'<rect class="sym" x="-5" y="-5" width="10" height="10"/>',
+    triangle:'<polygon class="sym" points="0,-6.4 5.7,5 -5.7,5"/>', plus:'<path class="sym" d="M-6,0H6 M0,-6V6"/>' }[k]);
+
+  const M = window.BR_MAP;
+  const statePaths = M.paths.map(d=>`<path class="state" d="${d}"/>`).join("");
+  const points = LOCS.map((l,i)=>`<g class="pt" data-i="${i}" transform="translate(${l.x},${l.y})"><circle class="halo" r="13"/>${sym(SYM[l.proj])}</g>`).join("");
+  document.getElementById("mapbox").insertAdjacentHTML("afterbegin",
+    `<svg class="map" id="svg" viewBox="0 0 ${M.w} ${M.h}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><g>${statePaths}</g><g>${points}</g></svg>`);
+
+  // legenda
+  const counts={}; LOCS.forEach(l=> counts[l.proj]=(counts[l.proj]||0)+l.codes.length);
+  const order=["Pedras Marcadas","Pedra Paulista","Seridó Potiguar","Outros registros"];
+  const legEl=document.getElementById("leg");
+  order.filter(p=>counts[p]).forEach(p=>{
+    const r=document.createElement("div"); r.className="r";
+    r.innerHTML=`<svg width="22" height="16" viewBox="-8 -8 16 16" style="overflow:visible">${sym(SYM[p]).replace('class="sym"','fill="none" stroke="#201D19" stroke-width="1.4"')}</svg><span class="nm">${p}</span><span class="ct">${counts[p]}</span>`;
+    r.onclick=()=>{ const i=LOCS.findIndex(l=>l.proj===p); if(i>=0) selectLoc(i,true); };
+    legEl.appendChild(r);
+  });
+  document.getElementById("total").innerHTML=`<span>Total de registros</span><span>${LOCS.reduce((a,l)=>a+l.codes.length,0)}</span>`;
+
+  // resultado do lugar
+  const results=document.getElementById("results");
+  function selectLoc(i, center){
+    document.querySelectorAll(".pt").forEach(p=>p.classList.toggle("sel", +p.dataset.i===i));
+    const l=LOCS[i];
+    const thumbs=l.codes.map(c=>`<img src="assets/arquivo/thumb/${c}.jpg" alt="${c}" title="${c}">`).join("");
+    const osm=`https://www.openstreetmap.org/#map=11/${l.lat}/${l.lon}`;
+    results.innerHTML=`<p class="loc">${l.name}</p><div class="sub">${l.proj} · ${l.codes.length} ${l.codes.length>1?'registros':'registro'}</div>`+
+      `<div class="grid">${thumbs}</div>`+
+      `<div class="links"><a href="arquivo.html">Ver no Arquivo →</a><a href="${osm}" target="_blank" rel="noopener">Abrir em mapa detalhado ↗</a></div>`;
+    if(center) zoomTo(l.x, l.y, 3.2);
+  }
+
+  // ---- zoom / pan via viewBox ----
+  const svg=document.getElementById("svg");
+  const vb={x:0,y:0,w:M.w,h:M.h};
+  const MINW=M.w*0.12, MAXW=M.w;
+  const apply=()=> svg.setAttribute("viewBox", `${vb.x.toFixed(1)} ${vb.y.toFixed(1)} ${vb.w.toFixed(1)} ${vb.h.toFixed(1)}`);
+  function zoomAt(cx,cy,factor){
+    let nw=Math.min(MAXW, Math.max(MINW, vb.w*factor)); factor=nw/vb.w;
+    vb.x=cx-(cx-vb.x)*factor; vb.y=cy-(cy-vb.y)*factor; vb.w*=factor; vb.h*=factor; clampPan(); apply();
+  }
+  function clampPan(){ // keep map from drifting too far off
+    vb.x=Math.min(M.w-vb.w*0.15, Math.max(-vb.w*0.15, vb.x));
+    vb.y=Math.min(M.h-vb.h*0.15, Math.max(-vb.h*0.15, vb.y));
+  }
+  function toSvg(clientX,clientY){ const r=svg.getBoundingClientRect();
+    return { x: vb.x + (clientX-r.left)/r.width*vb.w, y: vb.y + (clientY-r.top)/r.height*vb.h }; }
+  function zoomTo(x,y,zoomFactor){ vb.w=M.w/zoomFactor; vb.h=M.h/zoomFactor; vb.x=x-vb.w/2; vb.y=y-vb.h/2; clampPan(); apply(); }
+
+  svg.addEventListener("wheel", e=>{ e.preventDefault(); const p=toSvg(e.clientX,e.clientY); zoomAt(p.x,p.y, e.deltaY>0?1.12:0.89); }, {passive:false});
+  let drag=null;
+  svg.addEventListener("pointerdown", e=>{ drag={x:e.clientX,y:e.clientY}; svg.classList.add("grabbing"); svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener("pointermove", e=>{ if(!drag) return; const r=svg.getBoundingClientRect();
+    vb.x-=(e.clientX-drag.x)/r.width*vb.w; vb.y-=(e.clientY-drag.y)/r.height*vb.h; drag={x:e.clientX,y:e.clientY}; clampPan(); apply(); });
+  const endDrag=()=>{ drag=null; svg.classList.remove("grabbing"); };
+  svg.addEventListener("pointerup", endDrag); svg.addEventListener("pointercancel", endDrag);
+  // clique nos pontos (só se não arrastou)
+  document.querySelectorAll(".pt").forEach(p=> p.addEventListener("click", e=>{ selectLoc(+p.dataset.i, false); }) );
+  const cW=()=>({x:vb.x+vb.w/2,y:vb.y+vb.h/2});
+  document.getElementById("zin").onclick =()=>{ const c=cW(); zoomAt(c.x,c.y,0.8); };
+  document.getElementById("zout").onclick=()=>{ const c=cW(); zoomAt(c.x,c.y,1.25); };
+  document.getElementById("zreset").onclick=()=>{ vb.x=0;vb.y=0;vb.w=M.w;vb.h=M.h; apply(); };
+  </script>
+</body>
+</html>

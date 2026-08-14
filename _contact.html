@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><style>
+body{margin:0;background:#222;font-family:monospace;color:#ddd}
+.g{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;padding:6px}
+figure{margin:0;background:#111}
+img{width:100%;display:block}
+figcaption{font-size:11px;padding:2px 4px;color:#f0c;letter-spacing:.05em}
+</style><div class="g" id="g"></div><script>
+const g=document.getElementById('g');
+const names=["", ...Array.from({length:42},(_,i)=>String(i+2))];
+names.forEach(n=>{const f=`assets/serido/VT_Serido_base${n}.jpg`;
+ g.insertAdjacentHTML('beforeend',`<figure><img src="${f}" loading="eager"><figcaption>base${n||''} (#${n||1})</figcaption></figure>`);});
+</script>

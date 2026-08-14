@@ -1,0 +1,37 @@
+// Legendas do diário Seridó Potiguar — extraídas EXATAMENTE do site atual
+// (valentinatong.com/viagemgeologica), em ordem de narrativa. 30 legendas.
+// AINDA FALTA: confirmar o mapeamento página(base N) -> legenda, porque são
+// 43 páginas e 30 legendas (várias páginas são só foto, sem legenda).
+window.SERIDO_CAPTIONS = [
+  "A viagem começa com uma pequena trilha que leva ao Tanque dos Poscianos. Do alto da Serra de Santana, vê-se, do norte para o sul, a vastidão do Seridó",
+  "Esse pedaço do sertão, entre a Paraíba e o Rio Grande do Norte, guarda na paisagem registros de sua formação muito antiga",
+  "No fundo do Tanque Azul, na Serra Verde, foram encontrados fósseis da megafauna pleistocênica",
+  "Casa de Pedra dos Ventos, na Serra Preta",
+  "O cacto candelabro",
+  "Na encosta da Serra de Santana, nasce o Rio Potengi - o rio grande do norte. Os arenitos que protegem a nascente são rochas sedimentares, formadas a partir da deposição de areias ao longo do tempo. O leito do rio segue por 170 quilômetros até desaguar no Oceano Atlântico, em Natal",
+  "Margeando a borda da Serra de Santana, um pouco mais ao sul, uma trilha leva ao Vale Vulcânico. Aqui ocorrem outros tipos de rochas, chamadas de ígneas ou magmáticas, formadas a partir da solidificação do magma. Do alto se vê as rochas erodidas da serra, que acumulam líquens e fungos e formam os depósitos de Tálus",
+  "No fundo do vale se vê a formação de basaltos de 25 milhões de anos. As rochas vulcânicas são formadas a partir do resfriamento do magma na superfície da terra. Quando consolidadas na profundidade, são chamadas de plutônicas",
+  "As disjunções colunares do basalto acontecem pela contração do magma derramado",
+  "Junto ao basalto que se desprendeu da coluna vulcânica, há outras rochas que foram trazidas para o vale: o xisto azulado formado a partir de lâminas comprimidas, o fragmento de pegmatito brilhante e o arenito ferruginoso avermelhado, um aglomerado de grãos de quartzo",
+  "O Cruzeiro de Currais Novos é um dique de pegmatito que foi solidificado no interior da terra. A lenta subida para a superfície o fez rachar para suportar a pressão; são as fraturas de alívio",
+  "Abraço de mandacaru e umburana; Açude na base do Pico do Totoró",
+  "A força das águas do Rio Picuí continua esculpindo os quartzitos no seu leito há milhões de anos, formando o Cânion dos Apertados. Durante a seca, pode-se andar quilômetros pelo fundo do vale",
+  "A cada cheia, os quartzitos se reacomodam no cânion. A rocha metamórfica se forma quando a rocha original, o protólito, sofre transformações de pressão e temperatura, dando origem a uma nova rocha. Quartzitos normalmente tem como protólito os arenitos quartzosos",
+  "O Tungstênio Hotel foi construído no centro de Currais Novos nos anos 1950, durante o auge da operação da Mina Brejuí",
+  "A mina, ainda em funcionamento, é a maior concentração de scheelita da América do Sul. A scheelita é um mineral metamórfico de onde se extrai o tungstênio",
+  "Vila operária da Mina Brejuí",
+  "Seguindo ao sul em direção a Acari, encontra-se o açude Gargalheiras. Rodeado pelas Serras do Pai Pedro, do Minador, da Lagoa e das Cruzes, ele faz a contenção do Rio Acauã",
+  "Casa construída com as sobras de granito abandonadas na época da construção do açude. Para chegar lá, é preciso pegar a canoa na vila de Gargalheiras, cruzar o açude, ancorar na base da barragem e subir a pé a Serra das Cruzes",
+  "Dique, em geologia, é uma formação de rocha ígnea intrusiva. Um dique atravessa camadas ou corpos rochosos preexistentes. No leito do Rio Carnaúba é possível ver o granito cortando a rocha preta mais antiga, que se chama tonalito",
+  "Dique, represa ou açude fazem o represamento de águas correntes. A barragem de Gargalheiras se apoia sobre a base de granito da Serra das Cruzes. As fissuras no concreto aparecem pela contração e expansão da estrutura",
+  "O granito é formado a partir do resfriamento do magma em camadas profundas da Terra. O processo é lento e permite que os cristais de quartzo e feldspato cresçam, criando uma textura em grãos distinguíveis a olho nu",
+  "O granito é encontrado nas bordas do Rio Acauã, principal afluente do Rio Seridó. Aparece bruto no centro de Acari e polido no Poço do Arroz, alguns quilômetros adiante, onde foram encontradas gravuras rupestres perto do curso da água",
+  "As marmitas, ou caldeirões, são esculpidas pelo Rio Carnaúba. Os diques estreitos de granito são caminhos encontrados pelo magma que se acomodou na rocha hospedeira mais antiga",
+  "O Monte do Galo, em Carnaúba dos Dantas, é um lugar de peregrinação. Faz parte do grupo de pegmatitos da Província Borborema, datados em 520 milhões de anos",
+  "Castelo de Bivar, na rodovia RN-288, no caminho a procura de pinturas e gravuras rupestres",
+  "Itaquatiara em quartzito na Cachoeira dos Fundões",
+  "Na base da Serra das Queimadas, em Parelhas, as paredes rochosas direcionam o caminho das águas que sangram do açude Boqueirão",
+  "Metaconglomerados são rochas metamórficas formadas pela aglutinação de pedras de cores e texturas variadas",
+  "No sítio Mirador, mais adiante, há pinturas em metaconglomerados",
+  "Os blocos maciços de metaconglomerados são extraídos e exportados para uso ornamental na construção civil",
+];

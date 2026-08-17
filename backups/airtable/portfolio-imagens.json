@@ -1,0 +1,1871 @@
+[
+  {
+    "id": "rec0bn9GbOcai3iIP",
+    "createdTime": "2026-08-14T12:47:06.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att0FFMAgiBeaJGLK",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/FBKTJFdZaVezPY8ipxgseA/7s3ls6VlSE5QKs7VGvy0950nDn1zA0HHHWTWq9gjHa5fXkFQZO19ntkZL3_Pw5LohWpgS-wQvF41_BeGIhP3KTzAmDANd9GF6L8f5RJc4D9u6wC_HG4-nwDdfxIHX3H4pG3fiJbIrZRf_1t54X0lqxb7Tw3a2ibgUFnt9pbAQnw/Uvxs8lpjY5SrbAWYghJ2gMyV3LUUV0iUEK0_nDSgGGg",
+          "filename": "VT_Serido_base15.jpg",
+          "size": 884933,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/o-IzZlyp8cxyaB2bE0NXBg/1RPOAsGvMLykyjAX9DEO6FUNhtFmJ_zzWYJDewE_UKsU4RpjqY3IYs2ZxatCnEVcblOe9w3Oxy-YudEfaBFPohM6EbBB03iqjO-ho9WDXDj8JhBuDijcbp9JD3KNKU4Xg-dLdbTUcsBDtQ46CrZI5A/2ymIpFODhSzrvKN1ah1mNloAHjJodlFSRKhh_5AObvY",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/PgQ5JdC8LeQVwxgBGeh_Ng/5QCxCbttUXGcB7yB-T3nuqvFlGickK4yoAMV1V69dYDUI3S0_3GTpKvCd2ukLEUTXUE9ggPiky-2HWYiv64ZtMtqxUICowOzidkDYHt6rhXyU-HZPUKA-S6jKnViGHLK8HASjH2WUGNzOH9u8f_Gkg/0S79wgxg9dSTIJ2sfqdfjbghW9cb8FqEnDP3pn1lOPA",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/3XPpvWE5ZKMibov7RRcKMQ/lLXaNQfysaaJVkaslkqq0b56Srfw4615GmNehQhXt8lHrUAF37AO2KL09iQ86BBqdB86H_JJeKCSCS1fFkXghb4fobUKgX1wIbL2_GoEUdNdd_hIt86G10wuHDTLq5mST5D5tYHVunjIwaNX4RQ6iw/WQE2k61asuSIcDi-uiJ2AS0HnsQGSqrBNSnvUNl2nks",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p15.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 15
+    }
+  },
+  {
+    "id": "rec0e6oxKtbeL4wnD",
+    "createdTime": "2026-08-14T12:47:11.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attIPdk4hVkBDlGJJ",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/6p6l8xP6gbAey_WyfQMRAw/UbCDk-DW4ViMHh6bq44OEAvOg5_yLGM2_eKD0rn6BWgZV-kFPFX5oiEkHlIiRUE74rmW4JCC6V0Er1g3zo4KI9zLvWFsjWjgsGUWW48fIHT9OJ5SO4TqwACVjRGDH3wxnqGy_LnE3i37dP7b9-rgEDdIxhECdrd0g9Lc4wz_lpM/I_FcpQIXIcHv9qPsxYAHudOJwQHzvsngnVc71cThDIo",
+          "filename": "VT_Serido_base17.jpg",
+          "size": 845079,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/7_IQMXWtlx26TKHEmR6orA/m00D3ErZ1RyQVzG77wHD3VPQGYfFysjrjgRHaeHRSRckxeFor7bz39FIEIYVhkS4kD-p8XWBCTOVYnI1VOmslIZr3gpl0BnBqGi3-MjjbciSpOVYAfYHs3Ito-xChrRjnFfMpkDPzn0kwTyk6vEohw/tJi1-6-yVoEm9nlZqIdOE5y4v2D89vJmTOhxFOZ00Fw",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Vc6UMwMxUcq6A1xov-YM5w/f_RISnjoUV5qyhFQ16HZIFYNNgG7z11ObG0YMoy9Ux2nLLUO8_6WhN2IP4SVPEsBEKL6ebctbifRHsBvbXd9KQ6h_HqUEF3Hy1UVnnHgyMofYaBxhd5Tz0mVHr2wrgmUPRCEEehSIEKI3v51SUY-9Q/ParybieObF4JuQ0T4cljQE9JS_pq-Sx8pKo0OgGRTao",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/klS-0OatTEcAiAT_rkoGKg/CZ6Q15zDOXu2uyiV4hQM6JdZ8Poy8uQJ4wJM8QWYysAkHJPruCP0TO6_A6ojbzweDSO5Uzq7cG4aXgWbDdlNTOQ7MCC1meTg6OI-Kl4zvdqR_g7UPDDUpukcoB_pogWfhuMLHloxZ5_rB2sWmgvNLw/0Br2PKYaL1HZo1eUygbDD5jqAMV8v_US4iSaE7uUses",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p17.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 17,
+      "Legenda_PT": "O Tungstênio Hotel foi construído no centro de Currais Novos nos anos 1950, durante o auge da operação da Mina Brejuí"
+    }
+  },
+  {
+    "id": "rec16YHekwag5Eat1",
+    "createdTime": "2026-08-14T17:16:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attUv0W2IbocrrQab",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/dG7CYimTc2xj-wiEduNKVw/YWjhcw6jkBjJhIItU8sVdHGjq8tKEMDSRkK3FS7fjnBgkSz47c3pCj8wrUMGdHvQuKZrQaSiozx7F1aqtY85OIgwTxD-N0cVUkEKc2jq20c3OgkGeI-_gLowXJ5PhMGvZjJHwvoV9BeI7s-9MX-xTQ/3ZrDSDokxZDg7Vdu_4E9wyZAxQpb5oYtqCeqLiCZ9uk",
+          "filename": "pedrasmarcadas_p4.png",
+          "size": 4908958,
+          "type": "image/png",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/gfE2tgwMKhUBkcNayvNT1A/T4bVOmfbt7zz0E1ZZ8F51je1wajACGWRtzgJJNN4eg9qPNCCqxzLGz8La6PXOhb7bIZPVpqE53pRXjCx7FWji9vkFXA5lqdMql0UwcunWJTi8aSBqHVRcIO2nFG1-b0bN8Jw3XC1TczBoAYp24P29g/Xw5MG96wUOcRe9SkbOnWcr-KlO48HAylD6FByin-ps8",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/SjdO2RnyD-MzBSjhL9Z1tg/OCPGqJq0F9tO-ddRPwTLaAMUqvcnklHx3Sru1TyUFFBgBMtqod-r-QZz5MENSxIQRvTYQ2jt9dxNAwvYwTtQXBf5yzdnyGigHLZ3E9rf6AXfv6elAPnxT7w6PzX6LJbMbIdlYQosopv1mkNshLdGXw/fjFzSsd_ZxL5UaRxmn4CK7Ha2A7tRCEf_9ZmuLh8RWg",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/FWqfiHt_xLmAyT4w1cKa5Q/m8UJbFwVl3NuKPPgKRqleRjwOK_klVC7_Tg7CA6fkMXqEHRZF1raAzf7fQtxiDMsTUfhCWQTRYOH6e2Ptvc6m7poN4mTqQrEnxqn9wjS5GSpFT-4_6MNuxKjrj6Wf72HF4D1Pk0xR0g9AHdGx2syeQ/AtuzXXpBZ46QXQm9bomB3crabw1kqXunq13e9gBwmhU",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "pedrasmarcadas_p4.png",
+      "Projeto": [
+        "recEDUGBycJb2C6N3"
+      ],
+      "Ordem": 4
+    }
+  },
+  {
+    "id": "rec1ByfTCIlYHRwrL",
+    "createdTime": "2026-08-14T12:47:24.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att7zAFI5PmfK895s",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/OApnpmnTTEKA6N8q3KvD1g/V9pKpYDLpIWUIVfuuhASR1V7QevnKKiuWUVcqCyCpjTXjDrRFGEdc8NnWtQsMMSEXG4Elq2SWog_PimCTrGrCkW_0YkluWpax1yz_iJh-Kj_cc6-SqwvfMqshoRXYwPvMP8Lwf2_z65gNY_n3OSDSegk2wsGZ0PMVgwA1_v_J3g/kHFydrX2lCk09zj5XBYWQlzqyVkN8IeRuaSx7AsP6yY",
+          "filename": "VT_Serido_base22.jpg",
+          "size": 750462,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/BIRuLwnFy-42HKNcs9P1KQ/RzdUATxKFwXYFTThXAxIB11jhn1-d7l8lUwQ5t1MzpyL55FhAmoopHeDsOkcx4iDSWm7LqJCOrtzIVL4XjPi8kIAxvCWsEAoPWTMtBu6Zc_W3NvXnXf5n6YwpaVc7kbUl4Up72tzdVx2kv8a2nbGHw/rQEYr9p3GE-6Kra-t22l6rhUsPubFcLvNRkfH1cfZdQ",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ha-yvMkALc1ze-NK3bQGTg/BzwFabs36KIZJTJQWIWiCDC4rCsxPoYLM0qUj6o1DIJzgSjiNA9U1Yb9OAel-yVvvCg3OJ8t_jlCNOmvivPde0TTWOmiwdFyeVtVBDN4amG5nn9SlK-Ofj_wlNyFA595qwl4ViasLMwJrzZlTmFVeg/EsSlOtmHVbwnVfxTQcI0cDDBABuDF2b6ENodAMzbSDs",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/YAVRsYvni3MEvS-gNhjXmQ/-D07Zh5V-gfY2Im4E35GHe2qIu9QkzvDUxgzoWQDXpLUZxlisi0f_fKoX3LWt2NGtqFhauV5Fhx7SRuIpJByv9bmQtiOtSFUEB4-IKdJm57kmF8ffaL1_o_3MFWnsLhYV-9OQPGea1xtLKGh4GKG_Q/7e8ONJ7c30CPf-g-HkjgwfvwE0rJ6POZFrrjUCsK_Kw",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p22.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 22,
+      "Legenda_PT": "Casa construída com as sobras de granito abandonadas na época da construção do açude. Para chegar lá, é preciso pegar a canoa na vila de Gargalheiras, cruzar o açude, ancorar na base da barragem e subir a pé a Serra das Cruzes"
+    }
+  },
+  {
+    "id": "rec1Nzn2TGR0lXC8B",
+    "createdTime": "2026-08-14T12:46:36.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attTLzNJa4yRiFpwd",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/s1Z0BnfICX0XLMeBz0T_qw/H3-qUXXUj0IrKTz1ziSMGDSFVaYsREdh1CyPo5zZXsd2fQUIywhmAAPwYyXT9pVU37A4cgclncCK07jaoMidXVColYRZeDMM6CtgAzcGzTyk27--8iEWSzAWcyh0DGqNT-K8yZVCEn8Y5dAUq_tNYswOFBnIBSAmHo7n_p1dr5Y/BGDfTOsSZj4S8ywqo0izKSLuHowCWgpKDWDIi50vtRg",
+          "filename": "VT_Serido_base3.jpg",
+          "size": 820289,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/mjbzOvvr4rkd_h8VnWcfjw/4rQI6mVlmLhqkf0JP177aTnbIGoV_0PR0g8lse7da1PIg_8C7Au_wSQM0jQLfPQvosW8_Ucp4HVQU8fmDgqYhStfOF1eTrO2C6T2vIS4RyCbmDSVlZFGszVfD1jiNVsd5YEcTGEKYCFWi1J7sbKmKQ/ymLkYkPHxBIxAXN9ZBRPdJ1eZgHnIJEEYJHrzo9sgZY",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/PLR0vNo7yKpolprX-lvBPA/n6mKFi95B4w7CkyDzpa4-bOmGyUmhK0YJ7iPm2qH763W8gDpiTAIU9zSFSuCHQlfpRiaTzbIBEu8x04QVDZ2AVSf-GDvGNG_iUiw3ZbPuwMSBOBmTMh7UGtZacoV1Bcw4SCUGOYwRv9CLIg_oSwh6w/a7WzTUA2KQjDhQBj6Rr3yUGSwCoSAoYo9HVpFRpCbxo",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZOQeUdfWLnyFtaz2bQU8FA/jnvBKl1o-xyzBBKJSeFhtMYxa8zIS4c6ggfWkmHnefm1QZBOJrs9RRSo_LQVUB-pfRyLM-oDK1pyJw48JHtl2JY6SGjZ-AFa6b1PgjBELMcpSn-sf0oSyjwLHZqWWeayjSUOpv2LCbiQ4L1gw_jNTA/fZMZAwHO9DTaBbqH0o8tQMEHvq3Q1Bnyigw17Y8nOqI",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p03.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 3,
+      "Legenda_PT": "No fundo do Tanque Azul, na Serra Verde, foram encontrados fósseis da megafauna pleistocênica"
+    }
+  },
+  {
+    "id": "rec22NEoR2JiFlH8V",
+    "createdTime": "2026-08-14T12:47:17.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attSs5BSUCieqHWvQ",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZRWoy4lGxl-fBfODcCGoKA/HLcfnQVzHvEhcBW8pe_BxMuo_JT9-5_uw6p1btHzF0Mo67ya6JXYTeljbEvaZrNepWw4mAFAZNXF-1v4BzjYrg0hTNKgwkhzDm0cukqTh_paAVxQLjlHIqJdlh1xWRXA3QYuJ9Na8F9vv0o7IBh1ybM5NlBTdOpAh4bZ8IDKmXo/kNsTm3DH2ZqOjBduupRhwzWyn24xpsnmGWzTimuZ6tk",
+          "filename": "VT_Serido_base19.jpg",
+          "size": 463264,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/IiOXoj7enJiZEteGpikBVA/RjP0aMiczSmISNhRzKkBCPz4OMtq3kXyg0svTw97balYL2hEH-Zfk03xI4H4ZRQ7Kb1A6xkwkKosXHugsHj20SIZquA-ysBmXj_AP1c9NbkYjLGckts91zuNaCq7DTgvwRw7f2Xx8VPmi4xHAY1xpw/uRDUDmyY7VAO6BUg-Hv2sLL-2NgxUIShXISMnPF57-4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/PbOpXlHHuCwnqFPUhn_I6Q/AxdQhfCWMllrfjECwnDJSltMTa5B77xSpLxe12ZMq7TaLCZZdLrRLq41n79V7qcFBmXq_xYJ8F9aNxN5YAFWk5RgK64y1fVWfs1af1SAov-Tg8My7yZDTeEOYVqBGcihPiRj6FkEl0ELVib6sMUouw/3SZf-DI2TX4Ki9NURAyZfmzCKDz0Pj5_Vceh009esYU",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/UiD6YBM1bRUsIQqu79ihWA/8r2txKraCY_iV7C64-grSQZd6GeMCWwfHwQHjgrafV4Uw2Ok0wxQKYhyq-ByF2YQpDrgEp77_kBIX-2aE7QgRb-VYtDOPspWKh6qUQnev4f57z1A8MloC1B32CZTafgTdsO8RPVytelal-JwpvgDQA/xYXyTx6my7ZJnX1DH0Bxj-vDCpFOTtPxQ-WGfDUX42o",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p19.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 19,
+      "Legenda_PT": "Vila operária da Mina Brejuí"
+    }
+  },
+  {
+    "id": "rec3OQNQWGUEjXh58",
+    "createdTime": "2026-08-14T12:46:56.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attiJmBvK4nxWaS8e",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/kuW3OXCaYwHFWj-rJeqeDw/St4_7EEJNf6SP99Blw9nzX3NstFBJxkXrTLAFLPI1wUqPWt93OibLD_UYWwlMXb3q-BsUNQOgntVL3fQkzl5Jn7S96LdlEyMJ-whVZA46FhJD9VEmXhXzzVIr4jGfeZVSosXN-I23mDd4X4QiGuZpc10nZimAbBgI6lti2jk4Kk/AtCG0dNg6R_DC7DU-QHtls5m4KPRE9GVm3E4pXp4FMA",
+          "filename": "VT_Serido_base11.jpg",
+          "size": 646687,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/xeyoF1DGZjumpi0SLb3lsw/C5zEZDWSckT3XCuWnQbsY5zGMpYM7gF_fQtjXfkmPkKDOHRKynWrVG-E97zkQRXnIzT_Gi5KtnSpawCQtc_0D0puMuBxf6sV-GKRE7R0doxSCvYDiQOwMw3SFh4cv_fq9sGRjM8EffK19NY_tgcuKQ/EO0Ivk3mdFGigD16UdtoCbkcdd2o8-77TzDjm4rhgRE",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/cpxKhp9Zvg2L_HNgznPReA/Lz43j5u_74WDcvdWl0h6m_xFAWOcXMXW4ueXsd8w6bapWls8qLPT-LSf9x_jRnbn2IQnnq9tXHRwOu_04bLnadM9mFNIYr2KS5TNbCmuQ9LVU5ywmD0NinABmp6hDnI8HPhF87StXYBFUSG9DiFDJw/wH76x6tlUZoMgp1gu7X_aU0p2rnGt7TKkMP5XgYslJ4",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/hQFN-iUKLAws3L8uqQDKWg/4n00leysNkhJURDKNn_AGwPA8GvOAbj7yWINHw1WEe_NicsI-_uiHiL56-mQOs_489ZfAcsPWxqV5PwJc5jrR4nb61ZWUhcnNHJ0MjL7mO7Zopta1Ky9mAet0cPsYsawpf_wiTuW8D11zrWm2LZT4g/B9KIuiMXzY0pM20tDebQDxDGBivkUe6IuJwPZRwGN70",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p11.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 11
+    }
+  },
+  {
+    "id": "rec3nRg9z0lq4v3yq",
+    "createdTime": "2026-08-14T17:16:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attXhJl8vkH8l899M",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/4dqo4M7yxpdcT9nrMbAnSw/i4GsvCXDYkF36gnB8ZbBqbt8qnnjpRKVTClQy3l9vgSvnauR2JFLNld5eKO2oIXJ7YcEWMa0bniCbBxq3gBf5KUuDH39rA9zwpn4PixqxJ8fFRSEV_qw88V0lFKs3B4aWBjHauFj1rOTKEv6Fp8YQg/XzMyT5wlq363oj0XfaKmwFacqKWeJ7QphQWhukH0Q5U",
+          "filename": "pedrasmarcadas_p1.png",
+          "size": 4239027,
+          "type": "image/png",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/6Pv16k3rNDHxORy-4cFRCg/r2LqgasK5QOTdr6gm3aDgTKnXScXVthfIO83GIRRYtpDDqcsrlHnLplWrPYncdLik3oAP5PmRylYNwS9rm8IXwnM6xJoxmK7o-o0i0AlE9fil4ss4b8MuRZNDZwQv9TncpzoafMGiyS5VAztWB6VEA/1zcUNMZxV5JiKzXi_84L0srw5uDn3qwaC3Zh3QI5rv4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/j3sq0QPfqJ8Ll8HMmmIabg/fddnA0k8MGIo5yP3YjPnkjmUEep_7iy-VYkNJa6hQde0QfNDkXWuf-0C7fCWnB9P0CjF_k-g741vKfQZ0FDJWXv4Wl4B68hMkLdXs0PBwZKJygVBDAkn2Toc1c7nMibyJwl7V10-1NwmdSOoctd5eQ/ZLtN7o9i4gZeKk0XTSrt0gCJXjxnNpY9F3-nEu14bF0",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Sldi1dNl213J0GOAmk_izg/az7Yk6b9I3OFWk8roqZrEEQE9g0sssc8m82MZyDO8aO3KqjHlr5xwg-JP4q_EObNsikVodlzkb6kQhoCfYqk6lHVsrKPsZyGEauZeAC4G5ZfXijzX_a9i4oNw5v69IrqioRwdBpK_x6oFZ-aG27Tig/qozpiobHrPmScOOp8JFQeZDBnoOeV7LR-nRfA0Hjrgs",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "pedrasmarcadas_p1.png",
+      "Projeto": [
+        "recEDUGBycJb2C6N3"
+      ],
+      "Ordem": 1
+    }
+  },
+  {
+    "id": "rec5YnJdOqly84anQ",
+    "createdTime": "2026-08-14T12:47:41.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attK1Oda32mQGkTGI",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/3bJCQJMCjp5RUJZwLDUSFA/UhzcgpLAFI7EyQsfHz8at9as892cTbInlt__PplbCCVrUOMbKktUZHRRxxyPmBRGHU7tpskb--QYgUuKHG8E-zN_U87KFwRyJ700jSQt-u9HhWzaU8lqdRWv5XZ8NOxFlNhb5xXKC_HYtQ3IBLzfA3dYZAq5lJJbAaz4fJqkrzg/0gjU0mQmOkigjQKwdCkWy5ZDDLmLdD5PDv1tEX53G84",
+          "filename": "VT_Serido_base29.jpg",
+          "size": 394777,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/qXdguJ5Qc_H9YVPCV47tLQ/EF9grxibgiMvUutcqiwiWLj9P4iFmqde08-793E8Yy6bhJBWK7EkuL0iDr7r08LTwAp_4cLPUeYYsmHmkn0tVNW22k-TaZyrMz4LXeVbOYIM8fL0yCkqKSRyvr9AC_rjC6rF-eJV6HGjZsIo1L33Bg/Vpg-TDZjbAlC42uk4Uk-VFrixVYsBRkFMLXQVxDMthg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/JZfy15c7TUcG61cmNgGbmg/GOIMuZTJV59bnuuvVSGLKe2bBfx1OFsnaRNKCn0WN8-tvw0YXNcIYDe7mCCf_QQvdmQ72R9LVC-wEIoZFSXQququOITzwvwEvSm2gF_7O9BCpYrCJgVRLpy87rthhI5_aFrTsJvTdto1JDmdaISXOQ/xpR0IX0gRPtf3DmDkC81Qi-aftPGkfRNtBFEbdT_Ddw",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/dglhkApnNXRAcQzb_10TPg/f8kS2fb-Oli5flvCuPUYdgU0z5otdO3eSVm9g3e_IF2iLnIHA5ThJVa_cQORd2CUOkTHEHByc10pZg3h42XGp3Y488Nl9zpBDX_uRNSIlHZCZ2JOrrieWfB9S0yE6F2gTzz1ONJZwwaSEo6o68C32g/wb0xX2yoY53hnP6pIAACn8cZY63M6zC1MXHOvI5WtMM",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p29.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 29,
+      "Legenda_PT": "Itaquatiara é a pedra pintada, pedra escrita. Do tupi, significa itá: pedra; e coatiara: pintado, gravado, escrito, esculpido"
+    }
+  },
+  {
+    "id": "recB2EPZUmcEFl2A5",
+    "createdTime": "2026-08-14T17:16:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attnFx4O8vvYh0szK",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/qc0_ML4m8xp5gx1yJ1trAw/opiVxCpNB56vHEtjwT14PURy3M1BU_0GDftOXWStLgu4n83iyT7wu3vbbZP91fMWsATWhghTb2vcQG7mQ3v1ncu8Q4MHo6KPLRkzRuaBBUMnrNcjyWT4I_L45uSNFFidGrH_d1wQUDPhaP2jAtxayA/GMWtA0pi_t9AWd7Cb-vpykCG1QGv17gIb2ploIjyH5Y",
+          "filename": "pedrasmarcadas_p3.png",
+          "size": 6121952,
+          "type": "image/png",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Do2sb-Sk_6Yd7OKsuiy3DQ/IjnVHLsHJoiOzdA_jPAlUU7uEAauTmD9BXgst3rkctv3IyPJrCgf6eGHDGQperAMLpI2lggRb7XNIqI5OyJcsIxVOxE1IUaFyOgWdOfdvEbaHq4vJYLv9QNcQRK_Fjz03tfOTESl4ecHq106rD5GXg/-VW0GUUP52Jpn9GZzw01qYEiMq20cNeq_RDf_i09p1s",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/KbboUbbsHu53teMCbDmjOA/BHg-1zW65uI2kswP4paMovd5b7vL-8-26k2AQDpTTCmvV4m_2xg_qSgWeYKBZ9VGFGIalf8AKCfn6p432r_yCI-k1YCvEqcD-ped3aMamnD0cN8Reio9B3E_qcXqWi9RQWtdX2tFWt4cXB0eeBVOdg/nnrGlq0lJtCiEZlQ68u-ciiroMRMsSOKdzAGp0FwfAw",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZzfeEXm3vETlXwVz3qlVvA/754e9aZsMeyOA-drGFyQ1o9wq1t0LnYrdZcaT_iZAuAyHAtzesfZXET83lxjovwJkgf0agJ9hR9C8bkrCW0b4GqMaboBX4nUF2uXw_OvL3oog8VmZbB4-XPYWsnlb0wOoXsLGYVG21QE9sLc5lBMVw/0zo-ntYpWV6PNYeOV6XxtrmiO_YzdFbOP0C4_AczZyU",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "pedrasmarcadas_p3.png",
+      "Projeto": [
+        "recEDUGBycJb2C6N3"
+      ],
+      "Ordem": 3
+    }
+  },
+  {
+    "id": "recC9N4LULcQSEXt9",
+    "createdTime": "2026-08-14T12:48:13.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "atttBCYilYmopha15",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/v49ESBMxZ455gweoC7HyCQ/3hr6l97DHd59TfgIFJ4LPLiTgyV-x0OZFJZxpxOIwjlWLn7-TEFH-RCLxaFvhZWJr8tIN-v8TlBRcLUCyc8OCVnTrs9H9pFGRKEnQTti-Yp7kGOUgRClCWTYI4DWVIw2YRkKZfXzu4G3GQx3GTTCqh4_W5uk_Mh-dtEym7anAbI/e20nYIZbxa1XwNbynqUJGU8Hd_7DoJlQcQsPDr-kY1I",
+          "filename": "VT_Serido_base42.jpg",
+          "size": 230576,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/utVRTKLIbzkLmnuSNfXunQ/YhPp8Yu670762pyYG6up3e75Nm9Bb08dlWZkeX6Vms2nsm239dtXnrZ8fArnpdngOitaRh0hOSP_rii4mtwFfMSosVW-kflR7AeGyaLYtqGgUhfVvI15oqQzzV7_pbmhVx1MdjBNx6LliM3HXVPJKA/0o9WWL-Kqr_g9ZOlAt6PbqMei-hnQ0J75YUpmAK6LpE",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/64nFcuxUyEtWx_0fxhMrxg/uC3PJuJ7azpfLZon55zoGyAt7X_7Cw7qPl-GPbXzQK2YmMRaQdvtMhQ7yH31DDbLHu0BbkXrTi1BQznvsFfAJ6kI8fZXKaRhlrCHesJoCFvorbGfUCulsNzDNuly1OupHZizTCQ2ofPvYqYFdWOiHA/X_WsOcUQMk3dEYpYcUjnMd-dTzEUwnN-0R3Cr7U_un0",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/xkm_KNi4LrbJmTGgyConTg/X9rHx5yAQ76v9k_EFNkBI2lJs7hgOpIdZmpkZitDvMRbbxgu-FSK-p7H7Q75reV1TrH-6pyIBxtv5hESnEVfdhwKGJRyDVnytb0G4BKpTXfTzM-nUS3DVPGOW1KHmNQsHavxJS0_0Mt_-MQNd3Q7Uw/3J_lBLgQvYobBxYDsg_tq83imwaKlYRrWGAK0qZAXgw",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p42.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 42,
+      "Legenda_PT": "Inselberg de granito, na margem esquerda da BR-427, marca o caminho ao sul em direção aos limites do Seridó Potiguar, quando se entra na Paraíba"
+    }
+  },
+  {
+    "id": "recEp2I5R7UbgpJsU",
+    "createdTime": "2026-08-14T12:47:14.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att1MgarLYoOHdo6i",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/WSL7X0DVWXkcFf0hIwmnDg/ZC4tgtszow5KymhhD9-8yMx_JEi6Msklrps0glgPr7GbGVRYB_4M57NcaGxJViSgtgS4eX5BdaAlaMavJVfmntRdxraGBEihLBrY23Zbqn5MYV9fUFEQdM5O3xdvDdQesd0YZf38YVCgy6_hYUZY731ZyLxlLOS0QV4O2NYwH18/gSZXj_mgyRJDrb9PQh4HjBP_-jr_Qogq7qOXA374T1U",
+          "filename": "VT_Serido_base18.jpg",
+          "size": 958155,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/1T-_XzRjn5CWd3Xi14n65A/q-BeSaq9vEexGRDuB_PhRPZ2bXsIRdS5oRn67bwm0lv0DsJXYEDi-UUMbHxroqyZj1V3pcjbV5SvIoFvfxX6j9fJyhJUxH5cbxrVwv839UfADJwk26Q-s7dstDASo_MQKqyNLpJRb0wpcrAgz7hquw/Nr0wAuStau3HCwPUIOTo5gtQDg6dRf9rcDEMajt7_3Q",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/fbtoBELLRL1hezTj9a2afA/kfufbQeqzTkLM-YkYkkGyNg_EZh_NxivVFngZuRexMESMuJqPnT8um5VSe5eYU1pnlr4Dro7CzljvxSxoYPNHnT4ryxMnNhNwcyQ082i7UGXVkjcosUlSZdBF5i6yEQXDVK_40IgMUjeUzFHG0O94Q/zw8_5ScHvKJsMLAbnwH6t0uyUFVKR_UnrOKzvjmY9xI",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ssKov_eqeu7GKQET7sijoQ/sci0AWkmhNv2vNFvzhPxD97SCPoBjrAm-lfjXawuc-c2M0sBtlm8l0twf3mxUEZOzun6ocDEFqSi7YRc5OzJMCfhZeifU7b-xP1PcyXDo_y2UBvbU91pt_FNXw001Dkd1jzcrW7F0ZoSudFwbFB58w/WSYgPqJ4NT5sgqlOx9wjbSNpyAFSn8kynU6BizTY5E8",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p18.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 18,
+      "Legenda_PT": "A mina, ainda em funcionamento, é a maior concentração de scheelita da América do Sul. A scheelita é um mineral metamórfico de onde se extrai o tungstênio"
+    }
+  },
+  {
+    "id": "recFXdFBcT9fGb1Sn",
+    "createdTime": "2026-08-14T12:46:46.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attIsvYhWIMBEbYim",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/eeutfbhBVat-PLDhh6aE-Q/nYFz6wLcdFfs7Uu2A4FSW_MY1N9rZiGPMsNARJPzGQxd33Si0mQrZb1FSnLzFgjfoOS7tdWa0U3n5rh73nDQSsr7QQbzPOP8uLOL6Cwx4FF821PEeZjmpm8dkkXBzQMEWrifC3jXzKoQehJdbWv8a3Gre-9ygI75kS2zMPKPzPQ/nKTzGALswmb2i3XKRKhdLTvqoUSX7RUDHAV_ohFaMFU",
+          "filename": "VT_Serido_base7.jpg",
+          "size": 1146940,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/NFGWZXMH-s6pw_E5nw8o0w/msMTled_KoJ4gYCYkxE-WweUENBgx2JNA8jPqvLVpC-9Qnlbb60v2I8K_7LSZOSTYo0qbhm8bfvSQkvBnSol3w-qdPuDBtuS7c3KRJzhZLWyFLyaoCu0jO4envNnJnpA1Z0CxzDjZZxn8pw0J6h33Q/qiLEGQP5Q96Nhz4XkDCYL1n6uPxx1eoNhIHkBM_rtCU",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/GLrdoUVWbicBS6dDN4o6Hg/NUYQFEFT2tAVbQICv8DLwxjmwM_Cp6efI6uFUOpdp_TaTlW0-_s0xGo461FhOmivNUC-rD34w9G9KT4HOcZ6aZcYf4O1AXzm47L0RgliIvxEhq8hQcvsJty6-w8eQ27OxcLdL0YK3We6guM6XYVOdg/tkiBlajS8rCpVQW6QGRo6tTEq7BipKxPP29AlyDmqw0",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/-CJln95AaWHQiwNPj9fXjA/3gOt0k7LiBl2BIiKejRc2YAv_uxZ0qk-efhJflX1mxYCf5PwOkiEp6k1nBZyfLoH3QbejwPlbUMEYPJUy4uLISzCdjcudaWVAZx6w-YqT9ah8th8n5ydi5PDS3BhcWHXOHiG2tGuPsrVjM1dMr1ffg/wO2tJWjaknBnQyWiDytlmEz3tIam-0bwQj2MPq_RbrU",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p07.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 7,
+      "Legenda_PT": "No fundo do vale se vê a formação de basaltos de 25 milhões de anos. As rochas vulcânicas são formadas a partir do resfriamento do magma na superfície da terra. Quando consolidadas na profundidade, são chamadas de plutônicas"
+    }
+  },
+  {
+    "id": "recFpohlUUVEIDBJh",
+    "createdTime": "2026-08-14T12:46:49.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attsJKF9v4rqiRZ88",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Vhff6iMQHAM4u873peuEjQ/LKiUBMdtdGyBOmhEzMkJ1NeDZfG8yFXegkZBXnSQjzBV4iIEB37HJLF6VGGWUG8E-Wt5wcUDtlZGstIlMx1UkOO8oyyxIM9M7amciOwj-XPDWKnsybwfJAb3KRdyNHcuhndhUqVfIqgJRb8oWH50AMHTBqITOotxjusBMODbzU0/PfOgvHOWNVOEP8qu1HIf5mLR9xA7gxEDGhTUrRg-MT0",
+          "filename": "VT_Serido_base8.jpg",
+          "size": 886358,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/X76Xil_0yDtisiIoeSw4uA/iqa5qFzmINUh7ERe14pTmHck_0j7TiE73fIXmoIb5h9P2FN9HHogDuHL1InbuAI7fYoF5lT36S7QOjJPKANEYU_VCgqjX8kgwfDOIISpFy0G0y3WM5yS8dHQiVICNyLfd1n4MXSy80qod573we1ffg/NuLxNY-lykdEKTM6C6X1WhGaqhH7MHM4tAI7ymIw5Sg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Qx1LyPtc0yMl_JIb0ReE_w/HfoVEDaTvnzydNXa0loqWgIKBJqJM9ptGqlppybW3G2uiIEA9KUbHJHPXUVCieSZ1dXv95K92rAAN7v7YvliLMslS3u_1v3oiZRlg5CX8L7UMknJbfZZfAnkTzhWzPmLJlJuWoJUf91qQxpEooeq1w/YGNYTKeoeQ3VhxvEjpK_-jB3LyDRBTj4QJ1fHPQYF0M",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/hIUQ4k86OBBdXXxcXa4MsA/NrfdskYwPiaEd1E461MKIs5afSKX2absaELjDgZMb0s5FJ5y1zPejTugXDiLW1XgQiRJvbrbyKxt2WJeRuGckVG0QyTERZhKsshLzRGyNwUNNOfuIu1C-HfEycyDxtP3gWYUtoLfcORjMtgEo99ldw/HQQMPaEfYCIeh3jBIliaqteFSUAfwo_-bBSJL9PfJEE",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p08.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 8,
+      "Legenda_PT": "As disjunções colunares do basalto acontecem pela contração do magma derramado"
+    }
+  },
+  {
+    "id": "recHVu9qgZ3EXXYbt",
+    "createdTime": "2026-08-14T12:48:05.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attMkcMPetLSCIF5Q",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/U_QPJOnGaPiflo1RecXmbg/AqH-ZR2XGqg8_7muc4oB8ZK_WZIYZH0BH_IFSj1UGQIBLCTeWqoEVUGjuuGt_5Efy2KnuUFm1uD5TwnU2PtSMnhSYXuZbU1ZGOVbWANfXJxRrMAraVnRfqqrole-Qwfk9iz3jn3lEOm4qz3zAZFPdqHDe20qrxbe7VoyIIEYpfc/z7hCTFUATOV3FKg0Z6Fc9kZbK4Qu6vQkP49rAnpCAWk",
+          "filename": "VT_Serido_base39.jpg",
+          "size": 331934,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/E-JQfuuE4mvVgb5oPa1urQ/iZ7ztvVynayVQulAW5qeu-pYAgWCrsNDvGvjpjllRO8MRTOEo22_2hhwasJOzFkoa2CbWlU8DtOoY1oDhqfoGwdVZ6N4cwFq3Q4foaw1EhwtOMLX_1JNnp2kdj0OkcOrlMHqrO2ZjoXyAGLUwWEK2Q/3XRto519O9TAbWNA0th7tAmTQrVxjokDSmFoH3piey4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZXFuAFNCpYEgNdaL_6PPeg/3TrBvrWFJf5OmuWtx7BQiLZjLCJ7SaAq2AaILlq1QZWLthcaU7XN-hQywi-cfkG9_WCak3VZnpLSLYc-zaOyCSN-fdYrS_9MyhTa3-Cy3FpDm9GfFEI9ia8to-4aJXGRk7bIWMAcPP69KJ9OzYiaQw/7OqZOWt_8pChgfpkxW6UZKMUhKdPVBd-z9JKjLOLp9c",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/kUYkWg4WfDG1HTDgZYsF7Q/D7w1Mn2jmHaH-Dq040p0KQrrJ4gAWVvReyeN1_ylirYWsTBpvG5uoWuJXEw0SdZ7LMc6QxbXe8DM8YYgIvfRFoBuTQmPyya5amlgngLMeocDG9sXujHIP_gJ1Fi_QXyrfaT8BT6gFJXuvOOT_9yV-g/_WMCRlpVS4Mpv1rtt8gOH8_wS8_l9bXr5y40-dYvJhY",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p39.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 38,
+      "Legenda_PT": "Metaconglomerados são rochas metamórficas formadas pela aglutinação de pedras de cores e texturas variadas"
+    }
+  },
+  {
+    "id": "recHlmSysLt2XYT6s",
+    "createdTime": "2026-08-14T12:43:57.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attDBYfRoFuH7dWsN",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/WcChKNU0nCda5WVPvQX1iw/s87NNX6N3feYUj8JmmT8km1oibNGCECo0qs56j3mMufbtKcyShpHcHVyLje3HmV2eNVXS812yd_COa-m3F6hCd6Xe1uX7GhIWdjSLezcpV-sQJGdlG9qzNee2kG5XTyG4bA5l1Rc4gljgyMzR2DWqROAiGsAqGEtz59ySMPu0VQ/AHJBm8t3FvkYIjvlifcu3rTNi2On2FU5MX6PG2Ui5zs",
+          "filename": "VT_Serido_base.jpg",
+          "size": 711497,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/CaFLE45BiyGWcOFCpcw5Hg/N55JqMQdydoRj27drpxhtqvFgo3PSTuWoXew3rKUifJStwSxWv5i3i4Irdn7_DQFmnPBcFLePXcn5hisef0Rl4nGKkHoozqPEwr9OraysAgCGKSqq9imR6auXYANNTLaXV1DILYoRDMVHnvCXcJalQ/iXk4uk9WXdDRf5ZGgswXU6__RZ9z2g8Yh9__OWCLruA",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZObWl_eQEvWBsFm3urRyJw/dTNgC4cPWFGHOkbELvhae84doU2Ak2zpltnTg5Lo6UXYyPKc21KWgUfvLVOT5z1nd2WPEl1mWGUp6vb4fVTHMvja-dNu_1IT3nAgYqt61jKfHPWhe2v_riPS6E4QlX0fp3jMZwUFeNVh0U8DISdTSg/Vq8_8kSFa9hGa-KbYrLbaSNQmyXMxAJsUwz8vC3ihiw",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/iGaKJxbU7B39P47Stps1Vw/2ViAKMTlYyhrBZVl8F6LcMBCCGBWU4h_dRuF9QH6BL5s2uJbrAz1_EolieWjgOmy5xkDUUlpKvLqAog94KlZDqU0EhKGKt_6cIm5NH6JVJLQeDfnwsyka1-atnflRAevLbDhmTk9oyMragNlqzkr0Q/XU0cKDt8ousaOOxxodsU65FxkocBD_I4qPfkfrqm7hc",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p01.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 1,
+      "Legenda_PT": "A viagem começa com uma pequena trilha que leva ao Tanque dos Poscianos. Do alto da Serra de Santana, vê-se, do norte para o sul, a vastidão do Seridó"
+    }
+  },
+  {
+    "id": "recJ31rGbGxAJmnBK",
+    "createdTime": "2026-08-14T12:47:34.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att1d5vO1rSYz8Fn9",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/5E69en8Q7RyyVu8EBFp_vw/UJtlexYraivp5JlEt7oof7vaKXCMZjCCI5rf_k0DvviR6UzN38sOAIleKKk3L9CcMZQufPgLaKXtt9-MpYqBBmpIHjBZoHtqoEc_wRmmk8t-BZ4Cky6jdWiDDaoXIv6OUv0hiCea-dsMjulbsH8193sXtrRkTeL9PLbeIRd44y0/k-y4bP1bRQK696DBn6yu6wkwbKCuu2slT0UGMBIiUwU",
+          "filename": "VT_Serido_base26.jpg",
+          "size": 755911,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/HC44U5yRzHGwCxB1A3fDHg/72mKX1Cmq22Qxcr6IEVLsWYge4eOVH2pWmQv5dq3wVXirjH2jN6NEM6OO-pbgiipD6HuK3chYUym44stSgCHBNlB05_wgpntEZ8iN6tYVndDOudxyLMmx4DYYRYq67U20W_jAg5HcCzTGXthANhCEQ/bbTK9zTQWF4dQLGEhljkIxq8tC4bQpgewI6CkVD4zjg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/AWTSoaK5skwB7fule5mF_Q/xRQKKudL_Q0RfJ5aI6xO6Av8wnzD4iJjjCHyYdCj3eekQDzSWHkZBh2a8cssHKzQoYwS-V__bTciv02pZ18l2Ji3-Z0-FHh271-eK2BWJdF6_7szFkQWoFABNoslXiXO0b6uXyeH5o-mdmdf94TqVQ/h1F6ikEzG0yK3n17AvvnqgvtaDxYL4rj2N44VXpIErU",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/5_kDkrMXrqlsKMwt9LaTQw/GFi_S5OHoVNQWyK803BFizInxpWwX-MNtEO2v9BTi0JmguuMt2eMRC0lXPFzeKlTN-yp8tMSHzXDss7kPLC-LnbYmeGTgq-9aa2vund7i2WIXGwbIvGfB_UmV4mAs-NpEx9ewcBBigUeEDCfknttWw/-O_OctCW1bc8IgWkak4PxQC9Ef11FMdEZrn9j0XM94E",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p26.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 26,
+      "Legenda_PT": "O granito é formado a partir do resfriamento do magma em camadas profundas da Terra. O processo é lento e permite que os cristais de quartzo e feldspato cresçam, criando uma textura em grãos distinguíveis a olho nu"
+    }
+  },
+  {
+    "id": "recKNznldrLK9cdet",
+    "createdTime": "2026-08-14T12:47:39.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attzQZYx2JWChYg1w",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/WmzjN-5_XqM92-WQzhr6uQ/wUF91NYk1zK5YYVUAws4N5-LilSmkfVC6Q0TpSzZCq4Jyuwc7Ab2YcxYg0lBuD-_Igr9kyH76M84TdhByZWcPWgFA_hrjF6-__bF4UDL2H5_1uaLLHYR1ZDFQco38F8JoWV2P9-5ke-BzwXlo76Rg0dcFpwhgfPxbrP4npppDCE/B-KJMSxdDaxIbYkDIRQCiZmA0vXMEI8Kddo3OtBTzHI",
+          "filename": "VT_Serido_base28.jpg",
+          "size": 832694,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/MJz8AQW9hTIPVgDwFx3_-g/WCxurDrW-qdlA4qWcYJ-2YTCpGWDWzWHZ-d-3SnRRydeXEhZBzSs4ZlPQUbnW7DSVe_EO4AoV2V1C9iygeMDvpxYqb41cFtPObq5a4bNTeiFyaRAF1muRZBvrTgVSNZsl_hFkaLDMLvTouehE_Ykww/SRaIkOuiCJ4W4DckApxkBtswpVBcZOrMmy77FlrJZRA",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/tchgE0WnUTPbcM6pXiwcBA/R08ZjHsUvGokVESbiDu82TxLW1ApOHMFzBfH8vHdmOqzBU8Yte53GQYWzF-BGiiRgmpDGbsROgo55boV6C8dtTFKrJjwwDtyB_BMjODWe75DGeJLcw_okaQXywuXu7TNUnwb3hZBeBOIk9NIcvwQgQ/N-DdUEyHzIq3l5N1zgVybyOKckwBxPBEmL3X4010rIs",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/KSugH3IPAUeUVNxEKY1yYg/dUPlAaikwcOd9HEdSPwp3cWF0Au8hgrMK-UjGuebfHc37ihLf7Bw8Ei0wMD_LeH8gKEE3iOQJJbHPWC_gRMXgNzKyZo2MyzH2qjxD-EwZGhlQ-qqIRvDXK--iNLmxz-n0oHVhtD1yAcQpQMZymV9iw/xEf3hJh5035GtL3Ufv5CrZ2x4QhrQIyjL6LYMCjiQlY",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p28.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 28,
+      "Legenda_PT": "O granito é encontrado nas bordas do Rio Acauã, principal afluente do Rio Seridó. Aparece bruto no centro de Acari e polido no Poço do Arroz, alguns quilômetros adiante, onde foram encontradas gravuras rupestres perto do curso da água"
+    }
+  },
+  {
+    "id": "recMdfOMtwNUsKrii",
+    "createdTime": "2026-08-14T12:47:48.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attI9APYA1sX3uuwH",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/PalGKLhZKqmoiJsu2LnJsg/wYuZJwnoFVGYBdVbLJmjSGDumW04-NInLKZdaqiDuRREda6DdNyrZvrFNXMKmpQOjx_WkKs2FYtKGsIp_2B_24jGsO_mVqfTQJxaImCOXWkW86z5WmA9lq_ESEqR-B8oygz6W4QJR6oaYbWJlE9YuaH2ZYTF7uY-LlWHOKwl8ik/B5L9j78vfRUzeky4r2EUauZewgP9if5ZSVOD7dKBYv0",
+          "filename": "VT_Serido_base32.jpg",
+          "size": 842091,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/zULmDcfCCifqsv3wmXdqvQ/PeNSt_SPeSGrLJH1ZW31Ro0rSB7_qpVTVRLmOMuOlQH0a5u64SSm-6ckYRF-C9e3rfov4R5YWJXeRMDU_AERCMsp-AGizQQydWpPdzKKrlsmT0wsnoLlChgloJy1x4twzrVUod1fY8fmkD251Mz8Vg/rydENhbJ-nwscKpF5b2mrIuCIDKm9uUpRtNZImZu9G8",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/DXxyfUBOgouGcVszkpKidA/q4VCOYkeW4BtunjnC5tNfgmTUf_q7sVYuLcxQtGN-7wNP-Bfr-KGKYgW-ApqZQ95PiFnHqX1xqpWwCHLW5-8Xc2xS17egrkDZJGChHxp_AomLd7zjMMlAu2KC6-Y7id7y3C-CRB3FZPgAZ5m7da5_w/0oshn1HGdVJTtqRQ_i37rna4uZTx3n2BCi2umbxywt8",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/WlULPOcso5JUUdnCK2CpBw/A7mV3_GEC5Uhoc9W4-PUMCu1NQGOyC4kOPIy5TFSg_0TtlxE1bvXPTRu-RS_wwbYNjFAWT1ash4a6JWI7Gjooe45qkZY5ZIg6v7oS8oFkAnZfLb3GNdrKrOO592XcyquesOYCPXGc039HPHTNa8QFw/zVkuepycw_-Bqyl1xazbOf3o_A7BULqK-WHaanI8DiA",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p32.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 32,
+      "Legenda_PT": "O Monte do Galo, em Carnaúba dos Dantas, é um lugar de peregrinação. Faz parte do grupo de pegmatitos da Província Borborema, datados em 520 milhões de anos"
+    }
+  },
+  {
+    "id": "recOLqUmQM6MsgNG4",
+    "createdTime": "2026-08-14T12:47:19.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att2oBpYZ2hCXSW5m",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/oVNm6Hfh-28TuTACJq_tpA/cCh2i7OKOE_ZdWiW_jUcDmM0j34zgOuRHB_N04rHy4XI_pb7GOfvdNSpxJMa55rxKx7e_4SwqudGHpDSnI_2ld042kEX6YaPmE3l3nse-2P7VjnUiGBHysduCI_UQeSE6A0_8BczHA1Wa0ko0M7Tun5AkcNxvRJUTOjV_dFdtBI/eRUrTGry6Hbpu3xFg0ZSGzPwNDd1XdtCFfKnfZLlix8",
+          "filename": "VT_Serido_base20.jpg",
+          "size": 474954,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/G2-zbYPrsOIJOw36YWtmZw/XbxaSEUFtDeLQ15WU9dG9NrZxwla5mL4mbE5sRiTaCZcB9TVjUk00xANVwI6OjfjCXcqntPvgnHNsYgefpz232oFjL2ql8u_KX1FVpGoDx1Bxi18Itahr_tJrtoaZ1MfAwLaFzwkvR_tSZm8dawLzQ/v7KQq18jbGWcJVLFjtLHSD9AWH993bYmddTERNmgIi4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/fzgOM_qSuRDXjq6Wt0WtbQ/9GyBfmM6IZeSRjjKqOw5iCOsLCMEutlU5_8m-56aSoMxCmNndAc3AiL03FPMLn3X7-IdTlIz6051qcCww_MBscqbUNjhrg_QqvmkbXc3yCfvK-0SBFO1L83EnBOlplbRDSK-anCR-mj2ixbxJsLMVA/D88Cbkjgdol7wEH_XQnbuLC8kmQNKznnkhXdPIruvWQ",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/hHrDxV_kHpwJkJ-kLilXyw/V8I8lXjdu5CmAxIDgsI7iWwUH9-VBSd8P7xlHVKXF4kE1Ma0uvl-9R7OhWnK_CGrO067M-b5jJHRGmg0jee0lk5w0knlp6ogK30KvJCR1EQcLhqCKhSGiSUTXotWGmQaN0BiDGetVujdBmp9cq4PbQ/YLqiI99LpIv1ZfhDsbSwFhm4j4qnH7fegpcCMUNXCNw",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p20.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 20,
+      "Legenda_PT": "Seguindo ao sul em direção a Acari, encontra-se o açude Gargalheiras. Rodeado pelas Serras do Pai Pedro, do Minador, da Lagoa e das Cruzes, ele faz a contenção do Rio Acauã"
+    }
+  },
+  {
+    "id": "recPspINhFXHtE6j5",
+    "createdTime": "2026-08-14T12:48:00.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attPWVj9mOobVNMFc",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/sm2gXtcuLJPr6k5agW_aeA/EY5IF35YTDjB1jt7H6jsjIprWRX0wbcIN1wUZav3Ou8HKFyKQVoEORCNCYTM4Ihb6FD7fr6Wn_Ay8hdEun2VibLA_DGeZfi6ym4k1iVrH9ualqqqdasSBVH9OW-tduVnEHDw7-lxI_SAAQwQMYJzplD37s2jlvhOV4A5LVZ1vtY/8x2ozzWMpAMxGRGhyXyXFCocjib4mXkrN-97QPnoh7A",
+          "filename": "VT_Serido_base37.jpg",
+          "size": 564614,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/adxW06dga3FKHDyVrd6gfw/i2P3gYvWuEf5mCn1_FzD4GO47O2ii9HPV_vkDfiwpj6UYWoajHD1Y198tcnQtFYCMRNbXSy74GMRyL5QC7IOQCmq4yQZkdUjM-41tNxuhsRaktFArI849dXfew2wiAxg1Z0jZZMP8H65XACmeDb1IA/3hCN7CmgfFoguvUSz9wG-7jLbwOn9iXLhhrsqPP9dvg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/6KcvfgBjGrzOiHbLPgRd5A/-B10yKJHZtN9Yu9qNDjY-swBvs8jb82SyT4vTkwDX3zawHmQDZCx938gTl-G_c70eYq9wbuQRdifkATBc0RDBC_jcz_Cx7-tJCEzssq2jjsN6S86fbb8arqYv09iYDwmnZaZ7TUGy38OIEGsvpmwyw/GhkrSZlBbESKuKC3btKJQQ_H6LlzveF9hfsXM-PRNDc",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/dVMgkpenM42ruN0WZTMJFA/CbcHK38IlYx0W5K826ZFhdsOpn1VqMurlrCULYKUnZAnatKUrNvXVtXaQtNeeGSBbhI_7iZxt7ndBPcWvOw8iklra0Q88bhBYjmTDaMMwWvTOtd4y3YeLG23bOb90fuvlksbS5XLv3AOMt7uV0yCMw/-z3YFHNavOwOiZ8i9EpOO0mKfwvKNC7JmUZKjVqcCB0",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p37.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 37,
+      "Legenda_PT": "Na base da Serra das Queimadas, em Parelhas,  as paredes rochosas direcionam o caminho das águas que sangram do açude Boqueirão"
+    }
+  },
+  {
+    "id": "recPvwvuOsHy2gZHQ",
+    "createdTime": "2026-08-14T12:47:53.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att0Mna5Sn83jIp3M",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/fzrfE_4ksUCCXL0AsV2iCw/6KmkfwjkpZUOb9HqEIWOBxzX2hNxg3Ik_Gqclg2aDM1MnMp-m5-9sK2UuHmD_8ZKe4i56Vasi20OuD8Wh_esbWYJmN5dB9PjxkhlytjNOd79zNr9u_2fK-4tweQdLGQ9ct_lw8Due6h9hmQJYQz_Fgs14nD42I6JXzI0nfdAi2Y/oHouHZThSJLB5EsHpqLlDRTBmAnjtUg7ahD0QG1jS0w",
+          "filename": "VT_Serido_base34.jpg",
+          "size": 931070,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/U-nWv233CaySTfo9GNxovg/64rTZUwD07R9Gwgk9NN1xNkWIdlxxJVrkPSSYCPZwZGrmFlToRD-rvaluYY2kWcUrpZc4Bc7CqWGDOpWVdcH9879kolRa3IZHzSvVaLv0jYkJY_p6TtYuICzDmC58tUrGoOyMGYRwO6kRBpmy7S2hQ/GF7EvH086WlGr0ytoldqU4cBkAnnx0R7lYZ-xBPUV8s",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/4awXy_HRmEJGhTNIORQpTQ/fGrhXv8-AEwJFLOl0G-n25LmYB406T7vnwQTb3wtoMHlC87AS3sMCMGgyo9a05BbXi63Ayph5N3tH-rDV_NKBWXtmxPJFDd3zSKwAK1mf64Zxv5gW4RIjnPsMUYuW2FXvoW3_nNR0dZwSvWklnkSkw/_Ttkvu6xIUSiEosFnJ-IC_0MDfVw9ycJaK9KooPNAv0",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/oSn7M1sb9Syx0xjpbs5G9A/63pdWFYUHOOSFt-NSBFw4l9s3AB5ggqOO98ANp3KU7UFrbKcKAv3A_V4d-NgoqFux1f_JJtb59g6tpaxjtzPeE4H4WQ2czlmGK-9FhqvzIGXdLpGQUVyFUQHpbkLc996eKWYLfGrhUueG8vrTc7dcQ/PaoADbq10iiyHTYd0d7onWph_0xyuZQOK7eQFj3QtJ0",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p34.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 34,
+      "Legenda_PT": "Itaquatiara em quartzito na Cachoeira dos Fundões"
+    }
+  },
+  {
+    "id": "recUz88iwBGd4c8AO",
+    "createdTime": "2026-08-14T17:16:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attj4oQFLrcmVgdO4",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/O1gHQWkEnZ2i95WDhK7XRg/gqTpLwBKokRN_hXAqs_PGu6Src18zNY10t2e3bhKxyouj_TXoIoz5qmgFYkwnrAi9_zZs5VaLzMyPP34RNfx6q8eE5K61y83rcZ3zVU49TlasgeAnpb70v1eeOrrck7bJ7PrQGyqPyeIFNkmXE4mJg/c80522yhebEA6CmJhvUxhGwhOwKK6fR6abBt6Y439lo",
+          "filename": "pedrasmarcadas_p5.png",
+          "size": 2761390,
+          "type": "image/png",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/KQnzmsSa6lQPsf6NrOmelQ/XMcIouPAT2V2yYpy_0rO7DUSIFxaxLdg4f2a2Ca2NPfiO-8U-CwGqCTIhfWBlQvhIcxBLytSkUyZIzxc6_cdR_CBBOnO2AmZtlu_5Jr-pWIe_icEALZlS5aLbWJyO-DF8-LdyY4_NVZNkNQzp3e5Hg/R_jMiv7IQJVU4ZAqkiGMsW6UX5fgWeISx7SfQUPAIm4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/168ryHaz1OPUnpoREHzKjg/FggQ1-carLULwoEjhEUiqa9tHt5fqZBr1lDj-717PGf1GYEo8ihAAk9vy4DMc2JIeamAj5LoFlcLMxsateKVwKf0k5rBnyr1Kr4aTV4Cm2FzHEPEgDoj6HCs6lEt_R4v9fSG85_8Z_3zd5sZudbHoA/IEuqRnPQbPUbVclLEjjZ0YmhwQ82s9J-r0GAaIRJxEI",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/lnVg4dp2aldcpKRYe4TQhw/qsi2D0LfrDnv3R0Dnh_mnxv3iLfXRVtHIwNjPmFrfmAXkxlMbVnfAPsee2VEnZxhgT5IyfRGVqjSG3SS5L628yoTLPE8nD-EPe4i-LRczC8J_RJLxJes1n3puflQUXuo_BlRa_UKM9AwS7F0Q500Wg/7lyMx-ujGRckAucA0y0j5KDPIUJbiv27bbaS2UdPeuE",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "pedrasmarcadas_p5.png",
+      "Projeto": [
+        "recEDUGBycJb2C6N3"
+      ],
+      "Ordem": 5
+    }
+  },
+  {
+    "id": "recWUXZs1x5k9n5Le",
+    "createdTime": "2026-08-14T12:48:03.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att01SVgQTH2rxc4l",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/63Of544DC80pwCqukj0NdQ/30bTgo83UIV5WXhMThdDFoXuK3zH1kErwFqTWwzhmvlAIhD_WKbYDF1VCwHpXgRe470RUvsR0BUTumHJGE4UucxBjySHtATp3wBZBLlahuTPI-2VNmaQY7O-zDdAlwwFnVBoGJw02o-vWlCVw0SYvdf8ChSb_Znq2JTJoTjQJ1Y/oudNNw7R8HPGbS9zqq-9RLYuMFChn9IATO6m75iol-8",
+          "filename": "VT_Serido_base38.jpg",
+          "size": 1056817,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/4PXe5P7kn1KgBx_rDMKB7w/r1QepuYlNRpM02HHjLgs54HXr2ZJ_4-3V90I-qAfwTKWvs7ZtnySTam87tfRQhlh3mk9XULLYcnD8U00z7eBAPnhQxB5ZPWJoyEC-Nx7oiEX-cPHGzMIJbzcT8YYq3csNu-zDTDljQbcZOgvFGAsrQ/ReKDqs14_fvHb4X7JYI8gN3cXKt2-Gm3jw3Wdzu0s2o",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/cgnj-onIDrwCJ3ZivRwZkQ/gGNGb2cycXs6Smyv6E5-vJq3sUWSycpFEG-rRKDYcmusfd4NrvLRLeqat9sXoGAx9KyhqpiTmNTcO23ttU8sq1GwOhJu-xjb_z9FN_5WJvsEnXuiz1XSzG9bhR2kDFWJzPBNwqUXdr609m1zjIRubQ/fiTdNfiSoptb5AVR34G8LU0Oy65ub5lU8L5R0r71j_k",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/k0G72iMTqyRfSDiLhZO0gA/LSGgKxEuE6F_pPEKaKgMlluKZfIC4Z-pU9h63b-lLPsZnT3FmY6u_3TkJK9u9sIW6VTUqzdqBYrY8PzlnFxCrRTPbPFZjbnAu-D1-M-QyEWcSYbVVb9AZMIVnapZNq1WkqenjC5dslpBRNSn4qFv3Q/Ug6IF9dRek32iqikWGAg-LqIFlkXgROclrbM1uUEzMU",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p38.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 39,
+      "Legenda_PT": "No sítio Mirador, mais adiante, há pinturas em metaconglomerados"
+    }
+  },
+  {
+    "id": "recXfzPltIDafp94y",
+    "createdTime": "2026-08-14T12:46:39.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attafogVpR8Z6nKyP",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/LjT_W_wOmtkI4njREmLC1Q/tNKluAV6AceQRc4CoPPa_O0U2o9as0ePFp_FVVm4za7KTyniLkSnueMKuAq8xkf63-04g0aoQZksO-ajd4jczNaMETJa0j_mDc2gYdmLe2djyUxFsEq36e4MWy3zEg6r6zp7NdYyfCFCcB7QsY1eLX8j_024HzoetlNEbBDo2Uw/gcjbkVn-gQVZIQNImUbPJ4ROmflSTGyQt_CsnyZvhlc",
+          "filename": "VT_Serido_base4.jpg",
+          "size": 564523,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/DvoGYc5tz3BJBRG0GUo52A/SmkQKTfAegzdNJfw6N7-Nn0la1rJMlO5kjorp5UtT_NAcc-3-H69l1E3jLlI1gcOC8jPaczSsWXHrc2DCJw-ECoEh0w9_Dldcomn5n8UI9PzwXFaudJZb_wxvhNQyen0VbSIS3PGHC9RH9Bz5Y8KYg/ssWIKZmF6yUjD680thxpEdwSFRv16C-hyrlTYwPuOL4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/_QMZQiX5lfO6R4lkAo8Erw/TIsLDJTZRct6o3un42JDP5aEhCNi0Cc2H5410JtJXBz7F_xUVsioaGm9rnYzJvRJVw-OCmCi5MTfE0TQWUjRfp-VPuHN8p0oIx3UwpYyXc8CEbZzNR758Mwy95UB_U9yoyAGLBLNP5VhV4ItDPoqPQ/hijyW5irigOSb5znYxzhbA0a1DZOG-4mQbK3ypRxm6c",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/3c8V7JZIh_3zEHIAUGqilg/iIDLQVWAwLiplajtbOuVj9g2db3UI6h8BcGMEy0GipXE-JsADEjF_JD61mu0Pr6HPfaZvjNqHbMKeNBs2fWYZ53oLctJyRSWJFR7-pGHbHqmW0XpL973pAj2JvheOsg89p4fFbCiwHJBfiRC_8bMtA/DOcqaxLes6LQo9LN3n1OzxYriWdTU0ZJME88oczgp3s",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p04.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 4,
+      "Legenda_PT": "Casa de Pedra dos Ventos, na Serra Preta"
+    }
+  },
+  {
+    "id": "reccLPU1Esc5Lp0H8",
+    "createdTime": "2026-08-14T12:47:31.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attorVvrKDKwgKnrp",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Nu1e4jqReWUKcrzczCH_Zw/CW981174xQdKXlak_derlv2KVpkqP5zMt8ZBbwsj4USh6neG32hZCNpcW-cJGRwDIcgM4jyGQP73zrcYf4gNzxxnXIMk1Eb_sLfNawkX1W10yQjOsYZXlUgxh_uRZ3XAMBnTesjB6yddVSbPNjC5RHW3Vi6A7yPfsNcwiFosYZo/6Fy1qtN7gAJXvfpPyw83Z10_7rx5Mx3nR-8HREngWbg",
+          "filename": "VT_Serido_base25.jpg",
+          "size": 921089,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/hTO3B8-gTXORv6XcwFiNqA/jIy2dHheiwRbseEvGE9SJX_zWIotgVEemkmV8_IbFHtMzbOodF41zXqI_ZKrpYEFyOQdma_Ux0Rxh56oWysg8SPTUFhnElkLKgwSgmRgAiMzC2bm_u9jUprkk9GmAnUVd_QAPDLCCQ6e5P2Q_3RtXg/hcCQuESMmsZPB2aqMw4uC3eR0vH59kouYKi18E4fvI4",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/80ecaKZoaudHVYHR7Bcn4g/aemaRrt-1JHBiCpKKN0MYqL6UykKslxB53VgfwsCnZnQN4uFZ0AJ0ciMY4lqcuntCEaATXgyXsR8dNzS-gltv1El8qzHuVFR2mXh6eOfDyGQCTH2buA7iAE3B87YpVpP-AGQdgr_DgRp7SZZRPwMrQ/KLROj1rx0HSIKH6FjWBvq7SUclPKBbH6KaWwJ6bdDIE",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/UJYTfL-WwZ8uVhsz1ejymQ/xCB8q_C2QhMnfUjOGH3pjKlfIVXWpkEdoTrBIkVG0IT9bEqZ0g_AG0VvQ1KYwiyZCnoKqiRhXkc_AL8JzqYDUQdtueHUcbYJ2hpgCWEABnYWLare5_NBoyXBVrrBQP3ddRuhWNko3YBoDCv7znH-HA/VkhxVZ8ItaHIVpq2-X1-gRLIpRj3tkeQ5AJ_ZdL4crM",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p25.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 25,
+      "Legenda_PT_2": "Dique, represa ou açude fazem o represamento de águas correntes. A barragem de Gargalheiras se apoia sobre a base de granito da Serra das Cruzes. As fissuras no concreto aparecem pela contração e expansão da estrutura ",
+      "Legenda_PT": "Dique, em geologia, é uma formação de rocha ígnea intrusiva. Um dique atravessa camadas ou corpos rochosos preexistentes. No leito do Rio Carnaúba é possível ver o granito cortando a rocha preta mais antiga, que se chama tonalito"
+    }
+  },
+  {
+    "id": "reccdJrQbxGOqX3ot",
+    "createdTime": "2026-08-14T12:48:10.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "atti2iICVVvvOFm67",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/_S6KBOKULnRweuzYc-vc-Q/MqXopWvHNScdmYF8aYT6iJT7G-8cX0eTW8aVK-FS2bOHkR6ENCk3auuPLa6Dkgwfv-o3MIoHlJMxKVFgZ_EmCw6mOtKrbSdqoDfFheNV0lYppyvRJkSeudSVFiHogfkU-bG3EwQmNzykzprffRXLXrmqmWMTBzdxJfBIfSy2Ekg/GITqc70McXumxqGgSjDDr5D5f8JJuYCKL1JjH-R7Mvc",
+          "filename": "VT_Serido_base41.jpg",
+          "size": 1018365,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/sGXAr2dmG-gKjDImaHla8w/bn6X7x69kUyI3WcCP31FO1kbOcLwxyb0t-HMhn9p5fSXwvzuVr_RqSQvdb8NFgR2rw66rMDs-3rRY-rlNThvY78iXs3s6H1kFSGjlHrihcudTIcPPXvIUrtdBovlNja71jNg81y4SGFfih_CfTQeIw/EWuf610cT9btiYZKOEqnajjHffGHxGODhfVcw2NJCVk",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/IzdQyT0aYzzjH8yI3RcsXw/Rfy8gNtnxeZSwVCp4FAkXAxrLJyitiPHgTtzitghTkdfArNNf9B_YpIZ6EEnyu619iutV9czGCvYDGrkJKc_S8A_jbtDTeSv_F-0B6YU2Z4KKZ-BXUJT1ihwJXx4Lemo6MQKvpTrVoa3tySq-JZtDA/8DQUopOw_TpaTttgreUhxzWT1yUFI0NcBxe45d5xigY",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ABCTadY0NDzvcNROkrRAdg/KrCukLL2u-HkRoON7XDxXlPVe7u1fO0viFKPQ5XWc6_P71Mih8Wk9qzDhHJChoonKcpN5ZIm4kesHuMbfCXoOiw1v5lmlVihkOiuSvSHIOdTLApkPvCeqAdX_PrYsI88XLX_fROQxF0UI2d6mcfbqw/dfewbsF1J8BKwk3npzM_R1-Yxe8ldpWCsVGLiVo99Mg",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p41.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 41
+    }
+  },
+  {
+    "id": "recdmbGsPDLnRVNeo",
+    "createdTime": "2026-08-14T12:47:04.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attX6JJqyq0NvJt1O",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Sy-q6Bbyn7Urjl_VeQsl7A/9SOcbV_z08YY0OamL7bU1BsFr5ZDR9utJ2VtYyT5Dzme7LTOOkUO2Z_kQtR4D2AWd6BSl1BobFHireS_1ZsYb2eN7tOc5br2WhbuG1vIzgWPdW4bOSjAeZg6yyAUr5xOBmjU7kCQwUfKJry4J1__xKiXlRoq2QkcA3S5Aq4CV3w/pVpCHJuyqXqtVbl7lQderSNf8fpIye2eedGOtoq9rsI",
+          "filename": "VT_Serido_base14.jpg",
+          "size": 1077100,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/pkIIvLyHipnoBom9XolVeA/XyrzAK9RoU_kKrLRS7u98-a65vez4xI1OTREVBbtF_gJKrGIq67tkBF2g1K6hTCYc5DCNogI_BQrMCNdKs8OC_HedlUYeLCRDDwYQWoeG2nzw-tc_II5-gzRexKKEEqVOrUBkySebRxoJbVpmLDmIQ/oRzdgT1ciizlR8YqnLevQ3htxC0tVN9-GIa0qONNJek",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/TmfU00iUEMPkyA2crtagMg/ThBbkD7UtMCbuupyAPlAvlPmnRosOft0mLxo1pvabmHt5b8YMpCnJ08mELRGQ87-Of-0LmUon9Rbr8On4OoADhNacCxxAfeAvgAFxfZLfEPHapMy1BAC7ulGcLsuOdHeGIoW26c2FBLKQ2Vn9GXEcg/dDioB6Gag_mQagmJ9zTGUxoTgFDSOOULKXl01_qaoeU",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ZmuAhIpixV8skA4HV13QPQ/t5zt9vWDuVg6h5RYYKJFv_9lb0HVTUNiBoRCUxzA9jq50S4Ta5z8EFIL4Eo3tYgLhXEnYULIMFErFe1DS5-mwPWF7Cj9r_cDlO8yobsua_BWIIFvkyJS9y_krDJt9k5aDSpzFjI3KIluo7REsKYDAQ/gFAvPlfkAuh0OCFyIfOfjmbeWO_kqKSPuQ011SGK4mY",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p14.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 14
+    }
+  },
+  {
+    "id": "receJeFIjitUT7C22",
+    "createdTime": "2026-08-14T12:48:08.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attH00PI4ofdfWZs6",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/0llnLOKtHNqEon7AY_GHOg/u-N9IKdNwcin15k-M_w8HrTEpKlgvfmhz22VG3mGgQKpy_IUKbvAR7um6F8i32Cby6VOAHcnmwyjz_E5pcZ2EkW_mEFA-GUuHUGCgUBiof9DW1PixgIoZBaGVpPy4U8IenRgr8AZhOUH4KxLhIm_xe1ns39H34HSMHvGdZ1UAyQ/XkEJxekkDtRhn_sPN9CPPPwGINN9_FuvAorLnb-mToM",
+          "filename": "VT_Serido_base40.jpg",
+          "size": 684015,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/RmU1pzSMIL6qz_QVeUa-Zg/1dc7gMOnznTgKoECdtrPZdmYQTQ-AVsOth5YEXXxNSEgOAgLMn09pI1oOmKcsOd2U6sQG4U_rmFm3Gtdf-OF_h5t80YavRQUadbBLl_-vizfM0Im6Swam57L9tWSOJByO7_-DxNAkoSFSDhnUfymSA/KIo0hGQ2K-Cd2SzvCsUEivQsV8YbCpMs94hV-K5DUVQ",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/u-N_t8V1DbaQOGYBjH5hlw/fVAsiKB1iTyjadKsZirXtOFJikHbA1uv4XxQGuoVVY8fp2-8aDIyZCdmV6sNr1NXfZ9DT4K3Tkn6ZUy0NLBuiE_-qfuAJYwJ8xqdLRXXn_aEhpfTwzRtyuoiurHa1DZR3RMRBfGbE0lTMa1X4i9DGA/BDY-A7-5D9gZTkzOMNEAHq1XcNVC9ru3sdNJNCh74xU",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/oIlnZziu_Sb_Yoniq6qvHA/VYw5rKE4lnsyKrdNDx4n0aDkO9-GbspJfwzqPUoniPC7E6dSzMawUKxKlgnnCOTbm7bQXbRwL4Drf8QcSKJfl4UcD6qjt_wBjOccatu4aEwG0uVhSvtY6TD-JBga4kRr-8TU9g1SV4Hnfj_BhJ4Lnw/O0Wiitd5XPfn5BYjSw2hJdLzlEF3H2IfOQdeXqrbqLM",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p40.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 40,
+      "Legenda_PT": "Os blocos maciços de metaconglomerados são extraídos e exportados para uso ornamental na construção civil"
+    }
+  },
+  {
+    "id": "receQbNAkgI0sqBOd",
+    "createdTime": "2026-08-14T12:46:41.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attbvrKNNzwwN9Xpa",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/tydBC-X7KG1JybNYZ56fKg/MhgwludmOVP_hGZj_idbmIKRMMtrMa6YQVzsCRpOH699viYjCJKPnryVh0ry9Dfoxl8NS5LEzz3rZhcWh8kcAO0oKaR0sdchMPV0tn7xxl_rWcoERW0R2dJ218L0_585rwgTrLBMJuatv_8TU_VBzcWrp5qBEUOHztbHvVUKwfw/GV4Lvx9sIydWt20bwwZ8Qq30P9CcbNsnoU5cydh4daE",
+          "filename": "VT_Serido_base5.jpg",
+          "size": 1153800,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/SxvuUIwrJoFTSEa8h3vjDA/j5OC5oIO0XO4WY4l9Kr90u13UBnn3_GgJC9yoheMqFW1MdSlkrYthD2mct5h8D7hjFr2Ehz9lrAHsqeR507cF96yl4pIA7WUp59oQr5G4sDPTYlugoExdWk-rdSaOpm0xmvmAzqcODiDNE19AgF1aQ/rEbon5YRWvpVjBasNPh9uNHRx8tqgH641n48Iw0ddrE",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/RwO4EbPOf3kfBcdZEyfiEQ/rN6cPFP8TUJNku-jBjrLkYxO7VIl7zUTl23cz6tl4bdC-FM1RQN7IdlC984CnTdTC3hC8FnV3PbSs0CQNWh4Q7kfCijBHGXQfS_mMaVJtZmUPQsdnwK73oJ_opVTKoStoTKLJitUHObuTuVFbqtwaQ/gYYVwhcxE4CklbANBpGcGbYEuCznvlnWpCPWx3OPBfA",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Rgck-DtBQU98PSvIf7xItQ/TwGr2Ws8l7G8ktWbPzBRmTHXYSDedpOzY2V3pjni_gwuUm76qAw759LQiZyMlEdL3_Dt30aFwBeZRtgCXngtZ2PDNQ_qyR07sZQmjk4LTzbRr0ucpd3QYxVejoJHVVMYjKGX1SFRg85C5rARvJjtOA/Df4X2g4HWNzJjO3oA2v2k9RoA0rVYWy7l2KVHc8QSm4",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p05.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 5,
+      "Legenda_PT_2": "Na encosta da Serra de Santana, nasce o Rio Potengi - o rio grande do norte. Os arenitos que protegem a nascente são rochas sedimentares, formadas a partir da deposição de areias ao longo do tempo. O leito do rio segue por 170 quilômetros até desaguar no Oceano Atlântico, em Natal",
+      "Legenda_PT": "O cacto candelabro "
+    }
+  },
+  {
+    "id": "recgyXlLUwyUptA5v",
+    "createdTime": "2026-08-14T12:46:44.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attK1WOp4KJQK8gLS",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/X4zJ9C_9x42DJJIQ0Ucamw/dibEsPk3pbEqA2ZM8iaRpIj7jokbqvrFeKBOSW09yxHql0K79nNWVmTlnVerCNZL7Z8jLb61FpxhLYfIzVYNwzSckb4oZ2QYUCvQ7xCKO0id_PfenKeKMBzWURihzaGIiiXbunc83UFJR0L-aeEl1eO3gAWggZ2f9zYeq2Scuys/6fxWexar4FBr43dZ8rIvwG3w_LmfB1mPs9nIvvr14X8",
+          "filename": "VT_Serido_base6.jpg",
+          "size": 879092,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ecNc1NMfNeliSLSWzrjUDQ/qG7TY8A8uTR5Cqyb8Ov7Jj0cnQ2mAiJhheFlVz1yBC0L4Cmuu69kpzulFRRRHTEXyug1sKnsFa4PQaocF9fsHAxIkwzcWE2MnvG9JdtGBXIakadV16WLTmqYe__nIS6OOV9XM-xF_fT0x1MbOAiibA/vzq72nksHFAPiFgtwQkHylGmWID3ptTHaC0Vndn76Mg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/uNS5xEmngN_aqm7ZbXSg3g/amW-Pw86wyOl-jd_4FUzdekA_ru6Z63on_CG6kYYAWK2Gh9jTuXm_1hHnME-4u7b7fopUlqIszEI2fq6z2Ms01Yrd-jgpBBkH8JD77fGtc3pE0daerlBv8NxMq103FsBC7ZSiTzUrQOI4yWaHMUR_Q/oup3zwYzuuBpSh4qdwsZPbb7GBVDB15LO7fihc2ZPE0",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/gV15fSrgj_tss1mGPZgYlQ/F30PNWqIXPBdCp7kozTW6dFcXpCbCF4mvW4ivqeY_9VNBN9G-g7Xdogf-6-J5NtJG0H2nrfaViVhXOS8OFTDzgWKk3rZlImo3_gpDXQj-S_2rilIdrg7G-D0cg7A_97ZzySc2A-C0PARTvtpSZGJ9w/yUI5HVFnkU_-nZp9OEwrpm5KiSHjssKbslw1Dx0h7BE",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p06.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 6,
+      "Legenda_PT": "Margeando a borda da Serra de Santana, um pouco mais ao sul, uma trilha leva ao Vale Vulcânico. Aqui ocorrem outros tipos de rochas, chamadas de ígneas ou magmáticas, formadas a partir da solidificação do magma. Do alto se vê as rochas erodidas da serra, que acumulam líquens e fungos e formam os depósitos de Tálus"
+    }
+  },
+  {
+    "id": "rechAQGP51QN2qQPa",
+    "createdTime": "2026-08-14T12:46:51.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att0xHaLziM6V3vpt",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Xw76Fd71oBNw1CQ20Bz_Rw/TQSgm1ZYYht3vba1ZJKPk4IC5ZPxJunsjRmyzmqqp61_Cjo9ZGvtpP956Cx--LZhU36n9i_Bf0LSj0l2UlNMLcve2x9bBGRrOGZT2_wUBrfvqcgM4PAdlSQvGwPbyfIzmi8ai6-ZEynBaCXj2vlB27hxT52LngHpP3xPgZsQhDk/lVRWG6_UPQWd-xzCaaBtaPCUwrDmtCmWB_rpX0SoWpM",
+          "filename": "VT_Serido_base9.jpg",
+          "size": 777777,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/_lewZBCj9RIVUu4ljCq1-w/GVY6i5kmohiCWGuheTQkQBsveLbO2m65Qi_TQEL7JIy4ChlDydoDpelCea3Tqay9zL9a7IMGGNA3RjyNMofDXlnh7DFGavifQVJ060sa1l1lxFqhjI2yswU6lJE8A8nuQjlDa9A4zRwwVMAU8F5z7g/VO8MdXZ79QrTrsQ92GXk6AqIVuLyvGOy5ASjAA-s7fk",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/wH3cKyD89Ji1EtrDBYPn_Q/ZjQKlfZkWAQJM6v3cNyCa-aRWY68ZB9NbQykTAqBVUJmmawRwkceeS0lwq80RKNWpMZpp80LsGTTiEQ6EhaZslM5kdA3R7X7h7AD6xbRBVKsmViim23AsN9ocJBa75g1eN9wzhI0YEUL1D1Kdn4Q2A/mLs5lPnbulILLGDwx4a1Et7ot4Xhv9Lcf_KEmax_zDU",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/_8Ayxw8vk3wvqCvYcFm_tA/vXxhnYEn0ttaSTQp4WnBNfZOE-rwilh3G6ZN5CEShvOqb3SOV8oE_LibeVTTVi0TlV8dfoqSQ9LVuigS0oNXwJQEqXN4DeCqdP_Z43N7x1UGNvqayxo8l3sBY961mWdauusYlac2k_8cQIJQWLuV7Q/EmxbTTLfoJLvpR8KyuKjdRPn7ibCnlNen6ohOafeb9Q",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p09.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 9,
+      "Legenda_PT": "Junto ao basalto que se desprendeu da coluna vulcânica, há outras rochas que foram trazidas para o vale: o xisto azulado formado a partir de lâminas comprimidas, o fragmento de pegmatito brilhante e o arenito ferruginoso avermelhado, um aglomerado de grãos de quartzo"
+    }
+  },
+  {
+    "id": "rechTTUImIMswJdyv",
+    "createdTime": "2026-08-14T12:47:01.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attohDrZNWANfxbjm",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/GRUhczW8GGurxAdyAajSAA/le9QelxP4VcEj7bLkUzhRHf-pzLFGd0cQPTpPvn1FhQX4lcWzvyRdQ8OAplHF4No9_aQShgQe96OrnIYnXmqvOHQPvXbLCCZAKJ_6CE9_6S-9X8iim5Z8cFzMqgoCxpshtRlQs1r4i6AXAFQUD5GVN6FpYOE1oyLS5M16g_SDHo/jOlINWMLX4iz36Bo1-e8KtB0Q4LGgVwj8I_hbCnLv4k",
+          "filename": "VT_Serido_base13.jpg",
+          "size": 804361,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/jXlHi5bMge6Q-DALNNAX0w/5O9xD_gjP1sldqtu94MXNkG7kWpVOMDliEa90aJE4jd_UsEFVs48DorptAfn1PuAFToWUc8bIXWmMcRS2Lip4-6pXW3dO7NoME9kaFpw6HEBZmkP1-XA4Yk9CLJIj_hOKeI4p8XUfECLZFSeK2WihQ/26KLUBAo3mP5saqG2g0H0bdabfxG8UTfmh_0pBnJJHI",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/zcsTtaK8wmjvVjiSp027_w/c8wdJQOwuPIICEmcBkRyIui9KZZXk5XFVp-_C4jGljWv4CgGvTH5M9srLreFL78GRkB1F4K1l1WblzpSqkZDJYKtrt0wiRDMFE1oqtnNVdAbAQ006NTikh6FpzjVUYfh8oUqAYSX_xzbShjB5ChZfg/05Y424H6-jMwrgmPH2Q06mLS5AuqGsVdpVPuIwy1lwg",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/4LjcbcTpOJ59DEKniCLU5Q/meFc_qCCOgnOmnyuer5oH_i17ZLmPl5NLq6AxC_0qjgmPwTnw4VAmB073A2Biz5yDevP967qe-sGts63kS61pSDDkO2xeC2Bx9N0SpkaXXM_FiKwjbjdulmiM-JBGg0ntRZrfWYBgdiqMzMG0bsY2Q/Bpq_d2V0iYxXqLB4LEqnlUlJ1d61lEPJh5MRIbKqhZo",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p13.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 13,
+      "Legenda_PT": "A força das águas do Rio Picuí continua esculpindo os quartzitos no seu leito há milhões de anos, formando o Cânion dos Apertados. Durante a seca, pode-se andar quilômetros pelo fundo do vale"
+    }
+  },
+  {
+    "id": "recikiz2bHIuvDRaB",
+    "createdTime": "2026-08-14T12:46:34.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attA7l65QnvSNQ0HK",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/ljk2wWLkea3CIpi57VvTGw/lSh8VzBD0YpJKPq9wvR_feA2tn9LTTk3wCHsSPXKpCcJm-ZISQBHlL53fJskrWF0y8Zc_BGotvisX0ZxVrOiwsPj5ReSk9QhCNxChn9opTLpxs5SUIXrf9ZnjrZ3KggBJ_b_1M3pyRp6jOGLI79vHV7Wz4m0vHOUd4BgkAsp0yY/HO5fEQEYkJknbyQZipi244Waye0zUtbtOdNolhPKsvU",
+          "filename": "VT_Serido_base2.jpg",
+          "size": 227322,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/_iOMLu6INWXKOSsL9c5QlA/xQAq-nn5BoCQUWbfnecH2lV7jM3WXSj8qVtLhgfNI7Zev-J9R4NpzTWSEr0xKuV4RMSLBnLgR15TDl14HugzQrBlkG_hlAFqUtHobFOHOPnrsNe5FOsmRh3yGEhdiZMd5f86zjflfIr5S5AB0VCavA/L8s1jj7iPjSy_WrjKqBD9BEg8wlnWALN7i07w-cwXvg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/FQcaj2QC3veZmG49VLmHlQ/2V8HBDIYEKhlzvJkFcV0Z_MgGJO1ZaSW7JfkUxaNopOCBUNysm0ofX-vGYw4aTO6giHa3e3EpYavc1mzGkCEpdfCVK7fJxfWuNL6qqFzeWj9QyAysaQ1gYrvKTh2soRuyFYBGERnkOReokM7MB-xtg/mS-7suRL0h4lKuTLrE6cW6HOfCDlL3mnsHc0iesriWk",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/94KKtoYPU0SAtfz1uZxT3g/YoYfNSVh0booGij1EZUZXBQJciaTDXqrw4lfX2rA6zZt0WxR2BC5eT76-BwThtidWltBZ1IhKtCPREZ4MaKm5mWjiRwG1qXfwXlM5n-EHi3ZT-E5Dqy2t1V0DsvQlXzbIpf0-M9zzVy7d0UpIAjRtQ/XY8fcw-FimCYPnRq3_KP1maEm4cD-GozfGWMI0vqwtM",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p02.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 2,
+      "Legenda_PT": "Esse pedaço do sertão, entre a Paraíba e o Rio Grande do Norte, guarda na paisagem registros de sua formação muito antiga"
+    }
+  },
+  {
+    "id": "recjXr4Cp9fpEHkM9",
+    "createdTime": "2026-08-14T12:47:29.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attumZUWrJHAqbm7W",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/wEQbV9kNiUH6vwP4coyxVA/5D7U64VwUoTbLrsgwPp2XlYd8l4NoQhmcQEp24cyZqslc5MkscDNoumaZFP62cAzyJTCgG5vdA4HhpOmNkeBJBxADimdYDzMXGVzDnZy6VDNnJf3M5lOjzov8d6Bbnsz97dObcAWFtpJjQZ2O8f4JxofBWI5Wm49mbqGnNjV95Y/nES--_bzjmwICHf8RAfdi4eBweVFRVaBwnT56LVDxts",
+          "filename": "VT_Serido_base24.jpg",
+          "size": 618324,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/KUSOkQrRZVKIM2vQ9s-cYA/v-Ojv72-9wOIhtGvcKejMB73HHUDbnP5bh3dToYIN8Zcd9OJGVTUUq4tEd2-p_ZNyFeGzhEZQiYennvw08-ARm7FRZtiYLZH6Y9mI3Z0XX3X0EkIlpwn7tFIsKGwbYYc0EFWSYq7ezYoW2ymXKNZPw/sL5yYFuO-crvfZDQk-9BMj0vzug0QC0YJZU9M_bUY9w",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/olliRGjEbWC0AuBkuOjkwg/sObvHxOnptT7BuTnjB_Q2wbYHInN6NFNUCUQAGaBchRNdZIOsZduzAHh4ZTtcPNmo-At05MPHs5UtPBWKs35YSMU5c07EWBuV8_ONOs6yleCKnNtFbvXa87wI3yq5vl0RUFqzWtyJpRis9S-Lup3cw/kTLKGzBJdCs-4T2dGObdqMfaUH7v8xdt-s0G5y_ZUBA",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/nNmK05Z4cdZ3hQrs4Ix8hA/J8368miZxbmeCCIzOJjX06787j4VDdsXDf3_bSgfrGJxRkxWPRQihBJQX1LhqFBrdM33oNSVaUWUnNndRr-N813a0k1lduaTA3XdoCCDke9mgH-GwXiwa3C5eCYu0WzDdaRzTdmZqp6x2Z1Xit98iw/-v4tbc1aOpOjlusheRfMcfdtGJiPkvxGk3OV-lrAbho",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p24.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 24
+    }
+  },
+  {
+    "id": "reckxuH5bj7Jqxxka",
+    "createdTime": "2026-08-14T12:47:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attJNvyfh2cFrnQHR",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/igOPZCtXPjC3CWZPuJ_uHw/NDgpnSaG_4DGZpC2ymVwBWxFLCousjV6dV6KNYRIkNX7qqfewn6KhQRFV5CKKx8Bn1dLkn1rNssxo_TDNBGDr2CUdPCb03Hlb64xVeuEncT6ipQbj4NPU2m05GFaqx192q5t06T3jyPZXlGgsFJWIQf8JumJa73zdl3Ok5fazfk/IOm1bcLboPt5NfaEsvPErtImZdUsgClyirkj89NnRA8",
+          "filename": "VT_Serido_base36.jpg",
+          "size": 592528,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/OApu_26bsHltQt0YnVWfKQ/zH_ZYonzk1Gkfto3TMaaLiUejB7zetkT2huRFh7cBbt2SO3hFBdnNV7QeSdcjUWs4IGgYIrZQVnymyqhtomzwWCcOxdUUenHalwE1Vbu7wwikDqv0dEQSxqPh6_cIhes1_2MQKTfxh26rtzniA8IGg/SsCtGcPaamm_377J-za_WtrCco39J9G8zKY6Q54GNZc",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/KQnUmOoMQV_wZEIELiqvNw/h1ZW5Znby0vMgjBKluRRlgVRWKpHZpByceb4xDOQLOuxgXe608ddFaYPE3jA1lWPCQ66Rgn928w3wJahJmTceBionvXcp_YQDg56LoIgt8uwiBxaMx51cDmhVBgyYSdLD1ocu89HwVmfBGbs7Nd2DQ/T89kCHBWJ9HzPuBnEkCm5M3cvyQQzSUZ8jB0OUUPVCM",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/TLI_Q-6GbfTZtOXOUSd2_Q/W_qYe_FMDEJq-HRobDnG0jZAeTySeico2cFyXxsThzzA8yGxDWr8AgOqNdiOlVS2NQgONpF5_lUIKuArf3Lifb8hR8cIbdrTgja_8ejQ6frsJEiOry_TwKG5hzf5SGjz91MBgAk3FqEmfiLuuyoV7g/tgcHBjLM16MD_6WDUnil91EOWXka38fWriQpSwJDmA8",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p36.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 36,
+      "Legenda_PT": "A arqueóloga Gabriela Martin explica no livro História da Pré-História do Nordeste que aqui surgiu a subtradição Seridó: “os grupos de caçadores que pintaram os abrigos enriqueceram a antiga tradição Nordeste com elementos novos, próprios de seu 'habitat', tais como pirogas cuidadosamente decoradas com desenhos geométricos, objetos, ornamentos e pintura corporal, além de representações fitomorfas que dão a impressão de 'paisagem'.”"
+    }
+  },
+  {
+    "id": "recmhSlABFBWWrvxh",
+    "createdTime": "2026-08-14T12:47:36.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attbiWdgVpzlsLgcG",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/cG056OK5qvUUF4vWGa4Txw/RSxLCjE5E0MHbRDXb3nG0GxSfObxonYOSFJYEK3aJF-wLoaWgYzIp_TN01SQMZ7LUDhmrvxrhmS3X7zepgbYgZxUYNrfDbKoVGOoFXiQUwYPcW8XielHuGL_ujlAbOyIsnw5ZzXLP6xts3_ovAzlJjyrR2Js7qMAtDBjTUjefmk/urR6etsJ7rTSqDt8_Et7_h-dBTukknkcGVDq93rWo0w",
+          "filename": "VT_Serido_base27.jpg",
+          "size": 402570,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/5dc6EYSOxob85VjkeGZsUw/0XAI2rggwHgA9MLP6OayCSYPWxrBBgcZEwlXjKAPo8mtra6mWbgoLOn5MD9UFycvyV7oLrVYlphOBzu3Jpac0m2DTrOum-N3pmlEXeNmZ-624sWWgGmolCKXsoDbJkt2A5ttm4kIMVerHth95TCNCQ/nLVniiEFfrAMfxWI2tAb7mSYTVJMZb_ghO08ks_W9Us",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/QVPrRbDlRRKbjouu7k5zdg/uwm1fNKOUoubpluiBrjyoEKUsekOXjOlWAnU9TnqImI0ED8jOoq2SNRQPVSpvxZl1JTGc6vuzD6kM3FfD6i683XYzyBBTiUgl11MMIEaTO5sxsqJ7aMxpJd1TlY3U795flx_LOHg3FBAI1FUszF-pA/p5Edm4_O-mmnqi-xdLvtay7ow2y1bJHhL1B5xJ9MVtY",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/0J5y18U6ehbCNvgQycJdiw/Mx_L9bQClRKKqDuXyv06y54wBG-RuIw4eVKk2szU4EZsYMVimWZI5PxR7xWYGJoHgfqf1tIx7XuSLGqAwQHuxzedQUAcqSxog4UqBs1rkuea2JMpgvjm7rToSfHV4GkP8TZVO526PSBSN_kk51i7ug/XjFaXCWSDFja3KI79X_tf6F-V6pKMADcHiPOLgy9MhU",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p27.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 27
+    }
+  },
+  {
+    "id": "recpzBrTU9kMrhwBz",
+    "createdTime": "2026-08-14T12:47:09.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attlNMOcfhd1XSDwP",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/d9U1HAi-icXrEAo-0J7G4A/25o_bVcgBYJhfS56nav70iRLWLnfju3ZoFAvuDkIhJ-Jgp0tAWd6fV5P2wFK8aoWk7LEIfRAYEEnDwYOG7j0zZjnJyOEIlM8F_pYoTQG8iYMR3BqsUOJ6wTrHdkOFHGEWyC7dP2stH0VLVeKqQ2dUqEKbavIqIJ60V9SaOrERU8/BmembIBUSUtvrRSgdYuANaUk_7cfc_8dZ8REYJXsais",
+          "filename": "VT_Serido_base16.jpg",
+          "size": 848149,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/lZ0xyjq7LXpGYljZDmoyBA/hLjIMrkaj16CqzR0Qb0Qzg7bKzfOW6XNQXoMcKHSrs7X0sYZthYvchAnuJwcFis0Yyfw8LJ9A_CNTlBlfpplFPGXj-_ESiGIuHStmdnITWJj3DQHXbZ2aRJK1n6PCNMxz_rlmDN2jW9L5JVkJKy12Q/hm0KaybdxOvIR2GmyxAIJ4Ncb_14YG5dMn65BQVu0Ek",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/L9yu3JpbKAudSZN28istww/acfvnmRT4L-yRaaAGjTxQOjT4fAKSuRYWt2P0wVvgVM-tmRrGcMvh07170WC6F5y8od7YbNdNVb1WYyhh9wSAq84fMjgsKMGIkBeKk7-wrOKOA3vUMVk3ZZZJQVoXfIsBqyW_3F6IaWGNtuySVizsQ/iQep50QGB6FhPRXTG0K7R2WM6MtScVQ-UpnI5eZLkHw",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/J_wIEKgILn2OMMJbOwNqBA/RLY7xkpOyVwXEv4IBoydrS9o3FUBs9V0tmlfR5dslGPIpCjsEgWjPy2PAlk6k-m8amwP7309YAl9jMeHwwRFXcFrn3kC2oU-NndcDYspTnHg57DNRb5Az-sCD1Ji0Z4wbns4YNVdNeLBReHauWjPmQ/QuA3UjKjMCdwgsOp3PEcUKNwuzoNAdt9bIDfQ7u9wB4",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p16.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 16,
+      "Legenda_PT": "A cada cheia, os quartzitos se reacomodam no cânion. A rocha metamórfica se forma quando a rocha original, o protólito, sofre transformações de pressão e temperatura, dando origem a uma nova rocha. Quartzitos normalmente tem como protólito os arenitos quartzosos"
+    }
+  },
+  {
+    "id": "recqioj7cIU7drz5H",
+    "createdTime": "2026-08-14T12:47:46.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attnU8G5aHfhgLQPd",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/-3TUZAdGGRWXPnImXmUNJw/ygU6r1ZqnJscBQObIaslFY6Z5g9pjmwNqIHZI1kZWcwBHLKSfluqdQghHVOFaP-bQOOJDYsCB9x06AT_dFPHULEx46wLmNHYargQjwdzLQ_C7qTCnEt4huFLJxAxOdGv96aFijeQW8qyuTcmX1d4yEOBzq70Kqub8l3-yHUrWA8/6XtkZs-IcPpVWXZM0gjQxIb9QCCGCPjF-xJYxS-D4mk",
+          "filename": "VT_Serido_base31.jpg",
+          "size": 929557,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/fSNGO2YUlz3lF0KWjnvaQQ/p1ON2adHgeY4r_JNdyazdyuy35iJfm_v6sE4Ar97FLeKlF-accL6pGNul4rxR6k7RWN-Z3N104e-R9vVO3SB3EwNZmMtzaWpTNinA2fQyUl5eWeQsy7A8zaJ8qWSWkmB2XXQ-nac9aAWoSq7pcGP6A/ofddI9ra5xaYY3r_pj-xo-l3FQ7Cz000kSiEU_ExXUg",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/5BbiAEWzfeZ_gEoZXKqIBw/JxZvi69-Orghcg2lxDRbomy0_A8umjDmladTbWnHH78oZzA_IyA4cpLGls11BdC1lRk4QsNp5zvSJ8DcnoIraSPtFVdN_JLRcfwxxedWeqbDgGgbSauLs_tb6iJOLrBi4RQ_llF4b1jHE-nfpxQIsA/kHSZtTMFPwpEiaUjYmZFAQ01X8s4ADwVSK79pjwLdJ8",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/9iz3yjdh3WP5G_tKETmNiA/FLGUfm6lX7Jx-GOTgwIQsm2-jRHQ0kJTyKcGUTw4hETcMadewjcS8Y68eeggHgNHeR57d9k64vDeBmRiStL_CkwRZBrlzlLqxPiFLgrLAAlw5ix4NLoUm4xUKMQUbK2lzheVyuoTNlvaKvA9GKvg4Q/Kq2I8cfJSu-XS1E4y0mkUDoANORXBNktDKN_xCRDfJg",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p31.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 31
+    }
+  },
+  {
+    "id": "recrAqgcV2QUsZftk",
+    "createdTime": "2026-08-14T12:46:59.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attmfEPpxYKVNMTkz",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/1QNs9l-ZIIBrLNanGMqrmQ/SMmXvr5MgpiglrC_WSw6cNBP8nDa1ZLJHvELgZXM_FOJQXlhp6NUOuxZ8wGtIBBpSapMB84BypVQjxjlhBX8miS0AUJCXdr5m8agqm7RSiS6kSTwg2JQyEAog7Rk63pdLMcPgOY53Dg_q3aBOJrVk9KXxYr07nCaLVU593Egjvo/7trNxawZUntbkDdiiQavMH2FNB5WztsL_OvaZEilwTk",
+          "filename": "VT_Serido_base12.jpg",
+          "size": 833465,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/kMip_ZuqVh2Vbt9p9kyuUA/PgOIEr1Az4ZtIjNW-bLgP2vRKPg1do2rpHh8SJIqz8pFff-x1v5Xt26NsnLVq4NASw6DeMAqpFHeR3vQJbYmLN30kTLRq6Gy61VbVBeI3WzOmLXWRiIx4414LoOLP2QkMk3lkM__Wpj6PshSbJtoiA/zItPzqpXBbSRm10H1stIwhf-6CC02x48xsVUBYhZR-A",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/gBwH4Biwr0Fc4hzgOMoKiQ/vIkesVleKdgzza4nn0F-qD0LDqPtbn-zkNfYvXM35gQsJ52V0YXaSQHJZwtIWG7ePbxXJQrL6TIH6wLkTKJZ-wev5QnoJq2be0N5iWWHeNC3cx_M6PnbmdsnFb1mn8qCLAt9lbOTiC2CphNGJBRuCg/U4CFcdDZN6_YRrmtr6jS6WDQEdUVap8tOwOvb-96S0Q",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/C2EtHJkuByqt6j0b7nDJ7w/Xu6UsT_fm1zNICIX59HiSyr4wdqrFiRtrr2cL-3a0cEsFidqUsbknRrfBQK_KWAi3DpB3TVoLuu11T1q3tptLvrW1SgC1Gs249fefd64ll1BgTEhdfDNyvosCVDfOXD6NZoroz49DsoqbXhtraGWOQ/6g2lh4oP19bOp8bJjvsvlGu7LecLDlv80M9U6nl4SF0",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p12.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 12,
+      "Legenda_PT": "Abraço de mandacaru e umburana"
+    }
+  },
+  {
+    "id": "recrVOdu6RxIawSqK",
+    "createdTime": "2026-08-14T12:47:56.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attGT8bsWqkFSg5Oj",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/5-zc3kBJ72g6nD7OuC5hLg/MA12HNKoJRHrayadjvSQt4n3n9RGm3nOZ0h35XsGe9kwrFlbhYmKBgoSq8-bJDSudxtbKMcit8_vJgiT8fSOVQdkAZ69EOIgEJPFyC967ZmnLug9L6hkKMoPko-O2ye1UVVTDWOP8Hf7LAzz8NUPWbjaYxQgQqPBGYrV4OLJQrM/1LOz6hsfyN5FNvcAo_JHydiMlxvoz9AUZAjkTgacrK8",
+          "filename": "VT_Serido_base35.jpg",
+          "size": 751635,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/OxgO62pbEDLtAt3-eGLqHw/kk5-ayE_eXVMAB228PIhNass99HC2ZgtMYcG8XR5Btz7F4xmq4ZVUjFiXqyeKOTm3BxZLOb1t2no_oT-k72ioVqC3JsBPVNC4lzRmTSGioV9tSKq8UWWMkJD0h3uxT7Z-t4WoX0S3daCRAgvBVBMag/qLPUbkOAWBJqSlwOL7MY7OF_9-RoWVwX8GK6Wv8mUFQ",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/rxcTNSPt_gJjFfTF7bM0-w/hjYQsPISaImtieHbx2OzPbOxTVuf5aBFgvKjx7pLmmIF94QLwTRddtrY5RUieSiHX6uUUdkisZb72YReeoT5V3T09mWSQbLcaVtTB7h9inAJNzpHD_X17shatayYVrMMO7b5t4U2X4q0sIuw3E9rFA/CTh2eIZImdK8BI13jeNY3iLiM8CstWAXsH4oPqCm9UY",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Z2vRYVGIEM44xiq4GOTnjg/J0bxbmT0fXJEVbuXr5uLrpsTElOYgtvB-8Op87QD3vldh0gjrG8OTZjjjk90UwW_duMEb-4TIzTYmdgCMOW7x_VTOCzrX1sYVftGwCJKtEU8jCfa-7EcwluxADBOtqqZ5nv8o3hVYXhUVgj_MoSxJQ/CKJ62nc6140KFNQHPVIHfuklrhyuvMGUrS-dTDmuFCc",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p35.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 35,
+      "Legenda_PT": "As pinturas da tradição Nordeste foram identificadas a partir da extensa pesquisa coordenada por Niède Guidon, na região da Serra da Capivara, no Piauí. Hoje aceita-se que foi de lá que a tradição Nordeste se estendeu para outras regiões: o vale do São Francisco, no município de Canindé, em Sergipe; a depressão sanfranciscana em direção a Central e Chapada Diamantina, na Bahia, e, mais significativo, a região do Seridó Potiguar, de onde se expandiu em direção ao nordeste da Paraíba"
+    }
+  },
+  {
+    "id": "recrZ432saHjcLzNg",
+    "createdTime": "2026-08-14T12:47:51.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attLWlmUklURBG071",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/WK2wNWWxW68TpOOHPTx6kQ/A8OHrbiXLjqukMK7gGRaer5VNSZUI8espLL0g4oUx05ocjPI0Ka7n7nL4qE-1TJNx0ge2awkkUBlxXXXmqkqUEDOWZLzc_opIG3_Bmh-ruGb6wbwnksIlmULAXBAVJmbUtcqnKugJuoDhOQJ99SxBI8zWqyQTg-M22sQ5ncGjTo/6RsVTBs0oK7uVJkIpQCuRMgQcpM0-hGfQVCtiFiD3Hk",
+          "filename": "VT_Serido_base33.jpg",
+          "size": 267950,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/LDzOge7KPtefJ9KaO70hKA/hwpK_iogUMckJytDP_0eg2QGdtRYH-H1vSve_OWdykQideAyUz5quNJ5S-c-QJezAThbSqCYSJWS5-cAQ43XDwic1-4e0GBPM9xs_emuNIdv9tn9a0VladbDxE5tMg0d4awJAvi58wVfmB71_onnAg/unsjT4GclhY31WgnIbXbbpEqdQhyxdayx4kKshfS4cI",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Ope8VBwpUA2O-mSK0xoUqg/U0KzGAqkOiiu7sCvPMB6VlZgAqb1E5iE5sYLS6eirgTeIcc7FDF_-jF9uVeasdlyAeta7YMu3EZZHIrt2xzXVOwjgRNljOiRrquoEnFtkq68zmG1Hp19lfSVgOHdvjr8AFO2eDbGm6rQ33lmV7vXeg/dAjHh8Mt6R1Eolx_wleIfbAYSa_Lj_hH5000wgOes4w",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/4FeLyRcScwIWpu-x1QpDaQ/o2WOJMXc32q-mRjno-wzpld1J_PbI5GC-Q0znzBP0UGoyTGsMVlgkbqCUYaJPUQIWB83eic-7cGjiyKRpWdx8lIhHoTXaX6GEO6tMot2bHceiJB6920G7jry0q57YzfERqJN1dXWZqidD1g19e6ClQ/tXeXf86zIdTfbBOME7npzgTzH2LhbN0yx8B96YRU8CY",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p33.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 33,
+      "Legenda_PT": "Castelo de Bivar, na rodovia RN-288, no caminho a procura de pinturas e gravuras rupestres"
+    }
+  },
+  {
+    "id": "recw9IBoDg6NzdbIA",
+    "createdTime": "2026-08-14T12:47:43.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "att5wDs3fBcDj8e9f",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/0HzqjLGRQOMnK7iNgLKDEQ/dQJ84GLpUYw4OADzHG4DGT6N71MtYBg8gWl0KQFuXb7zqWpv1pw8nHIX1VDZLc0l2qLW3LyQYpnjqxYs2WGsbAdyvFA2JZnETDjF6FLazHJ4QMW6WSyYx6JSVEm-RkNjXCf9kn0Mf1Nk6ObovbM31OEUIYL_-tx6ESZeCC8U66Y/xrXMSS8FmGo7dQ3y61PjX2AQovhkHAjLKoJyGdA9XYs",
+          "filename": "VT_Serido_base30.jpg",
+          "size": 1064994,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/sJ8vzP8uXntRUxS_t072MA/iAq0IEzM4-dr7No5REABDPZw7VqeS7GVsfM-dyU5exrT3GBP7-P0C4Ps72NcrEPOid_izmQ1Lk5GzgmWFrYitbfCN89MFz_uE6L0wy0c6WQvThVklqrinOemujNUfD-nBIrrg53Owa-LevO9WYP66w/-OqAa8Xm3xJqyAJWngU7i1AJTKgP3q4toC_0fOxOWsw",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/FHl2vHkzVOHeRgy6Z-RTJw/qb8k9xhDgRSaKqmoVzoD6TaLNQMCLXgp3Uo6E3kuG6_--CEua-wsAh2kK9Ljq14mXIta9fFueZl49iTIr2ztcCnNvWkoJceMbCM6FmFN_AqcZ_YqeA9KCn6omtaZjyk6c7tLN8WrjOiY_qcexSb0Xw/hHE03yEEp8gKkVpfvmwKswi0WNqugiQqmlgrGQ0WC-c",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/cdVPbxhPK9Dq5Qphh7muNA/S3fFeRwxabA-ZsyBr3d-59WiTjxc_At3kTKotYfgFVqCY7Sv6LkAOvkQvjS7tmMqENarDFu5jUNsYkRogNZJkNrS69YEoz0g77PT0qtVwW68Q0COSXF8YJND7vr7Sdm-7Y9LreoHjvkui1dvSt488g/UxGEYjoYnwhilqJEleHJ1ZFxPNg7N7g2FqsFkX_u8Nc",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p30.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 30,
+      "Legenda_PT": "As marmitas, ou caldeirões, são esculpidas pelo Rio Carnaúba. Os diques estreitos de granito são caminhos encontrados pelo magma que se acomodou na rocha hospedeira mais antiga"
+    }
+  },
+  {
+    "id": "recwDLbPeapTUITV2",
+    "createdTime": "2026-08-14T17:16:58.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attDtgKya1fsKOCLE",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/63t1N2rWbZEzfuhEg49Gfw/o2Yt0LhCKCHyXNlm1NLn0a25SjfTC9pt2lYy1Wrb1ehzfFJjgpPR5YpOMKD5YyndrkcAb7WBxoPnuKZ_6wH-JBb9z9RveWM3mf7MinW56IM5xV9ivhV4KFa8eksMfqnGk-dcvIy_ArN8B9H5ocRvUw/CmDilMXAIuMBvdt783yPgg_N_rQou735TqeUmeirXt4",
+          "filename": "pedrasmarcadas_p2.png",
+          "size": 6432402,
+          "type": "image/png",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/63zZQDB-UzHxkR6Re2iQCw/v-6wBmX0tKpolatwVFfCDc6k700-s9u6b6DtZ4Lenc0taJFlrsTPUEva0_aufs50Qc1QqYbIPLXPrGnTU6rsZumQSfr6NeFk2Xe261rYKb8BxS77V5NjQ83ovI0-EzHOMTi4mhJfmugYbz_iKtlxDw/HYOnE8YSSGrxtkc2dZQqBGhw0ZZc5rmjwdQM0nUaCks",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/mNHX43paxiEsxRofV7FIfQ/uSVoqEDhWxlTRGxGdvPT4_fli9Ke8NbC06uVKCihcj_YuintuUtWDiz8ALgjcZ0uVi8taDMv2Hy0cT3nY9HCgJc6syWkO3CYz6kZ8_Qu7HC2ijQZdgzFXdOba3mnxNylRK4FTVCp8ti1BZshGPWkoQ/dxDZkU6PS9-Oh_sGXYyP97Y5lTmwBA8gLdI2uwh34UA",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/vkI73LyGUgY3QvUsP1Ljew/ZuHDq5xOj-Ts36KdlW4sMYwx9A2_2hLDEN2rLLpWrPQOPgCyOPAvdyxlJByJa2koJLmkE1vKekxJjShkQvVvMqcZVmSq3Q-3rbBD9qaqW9phmacis6z3ABS3wiHGso3o7mlmejw9-xc6cR83gflKPA/QKWoQdzvqA27hBgZ7y5bGs3bzPNks_D7EeFvezdM_mI",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "pedrasmarcadas_p2.png",
+      "Projeto": [
+        "recEDUGBycJb2C6N3"
+      ],
+      "Ordem": 2
+    }
+  },
+  {
+    "id": "recy9w234UAVmIflE",
+    "createdTime": "2026-08-14T12:47:21.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attTivG8COaElRJQk",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/2gxV-fW2zzFFZ0WgxsGQ4w/ofd5kznRoatP3BHrKtNdfjoiPm2Te6_Qc_wqlt2SCYpSV1CursQS8lptNS7AlfMATaQGNdv_qbtzam14uXI6ETdxZK-SJd0BZ-DPhVkw-a84g6dqxNNre8zduV9k9e7Sd4AMDZ_GgM5Yfe2qW5pguT8S83c3yfj2mf8RuBnP_ZM/N6KB02v3m983QQlJjWRRx8Qp-9Qn96DsFbt8gu8GTco",
+          "filename": "VT_Serido_base21.jpg",
+          "size": 482080,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Mdhl49N5o9n3MWJZAVF_jQ/dyyxpIEb-pSsMHo1bN0yTFVGx-q2WrjxP1OVnWzHVYhZjV4fY4QiMUqmQkwv0pQwSIw21MupSAkxTTk055Ecl7yd-CJkDnk7-qoDi_P-1A17jxKadUFd0l--xiSviGMYH2OYJJDD2X4OCvUyzDviQA/nboE5bUFxAi1BZcKejbDMcnHdfJCoPl3aocfETRQNwc",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/HAibEvxdzpLDW_pbUI3YyA/O2fhXBUnWlJF5rzQy0UhwzXtyvL9j_0lJCBq3W71Y3G19MiMOzZDYF787v1oEQlmupayJBrCZlbJsjYEMi-TljUfwhk0gsb2Tl8eMAsKpnCMwIJv0fWYBKmMioTtQDZ4wWEY_kxbefNG3FY3U2Qrcw/XLXsQd8dxiChXPGDeIWtQmE0_OgAGS7aoNCEEBb0hrc",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/lCdM4l6Es7PKZ8lA5A9alA/nabSzZEO7MVTEaACp1e-4Hki8LHUtWMqfumGuuUT07k1KoWjVyEsPIk6AYcuv70aoWBZ889phx_zReYb3ZA4JPrWqLxJLYuPSbYqukadsQMHyaonwnerqkZsuJZmGCfzGnT-vPXLWuMaJdIYQwqfyw/VP1arPCeHrdjL0gAOyW5WdYraPpa2EaxPE7iW0vOD2o",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p21.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 21
+    }
+  },
+  {
+    "id": "recyj2DrU467I6Akf",
+    "createdTime": "2026-08-14T12:47:26.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attdrqPPHzqAZlZxM",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/Gv09P617rjpy6nkL6R-MpQ/HzokwKQ6bwspE1kItU0zepPOdz6Cn0UV5kkLt0SSQrEBTaObgJeuFcC5tgt1_RakRm2dHFN8StixovM8V2PJ9tZnCnWfcqDG9Gi1-YfX7z2R2B0cjSTpIlhBjeVBl1zU_mek3c-WMUiS3-eg3asmGRy1QMU2tsF_aEOPqbcekgA/QECikHVPJwkqWUkrjYM1y9sBn3_kcIUAtfokzrvMwyo",
+          "filename": "VT_Serido_base23.jpg",
+          "size": 862076,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/h38RJ5pFI11sfvPmGXS79w/8qac5GNz0ByZVM7I44s6Ps6rv03v7yYqD5ViXXDilF8FK7G9_Wp5KO8ler5qT1pbJ9MNOYj2YXvwwyMXTwJ-BgoC-Cqj6dvwv9SnjwcjdfLaBQRL67v9nM6hWdq6pzoDLhDp9vIKTl4269kOcsfsxw/wGWyDcB13UszoEOzX72duTA51b6SVCgpVQ-zF9ha6HU",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/wjpcGIIrQzxB1sb0OgrDlQ/BuHeL1jtdqPcuIDEl2lMgKN0cjYfq9IaGJPNhDl1IZBhSQ6zjYo9a5ElSUq5ai6DAT2uCXUZM9ceq5eN15jj47BLlUVICqYcf-Pb6nu5MLC3rkMCQ5LvQ-tZFN_SXAMRJGVRsjjjkDNKXC42VYDE2g/y905YCE_hCFAs9CC3dIdKCd-yvzEkz_xiNz3-LP9Zx4",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/kdMY19GgF8lqzPY8iaU8-w/o8WssM2y33wKUWW0DxOWaZEVoNuw6MlqE7M05mqfka9E1bWRNXFUxiC1Rmbc7GbAEvduByjrF8J6VNhRUkJZKiGt_8npVS_I57a8PY7Ohhrl6Z2Wzxl-aQRCE-jg5pTPfMwBFl3NGRi_d3hkaEO7iA/NwmXUXMjR0Au7hZZqJhoUIzDDlgmp3cI35Lk9oE8fvA",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p23.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 23,
+      "Legenda_PT": "A barragem foi alocada no gargalo entre Serra das Cruzes e Pai Pedro. A construção começou nos anos 1940 e hoje é um dos açudes mais importantes do Seridó\n"
+    }
+  },
+  {
+    "id": "recyuZbHULbaHabqg",
+    "createdTime": "2026-08-14T12:46:54.000Z",
+    "fields": {
+      "Foto": [
+        {
+          "id": "attKO9F0XutGMRVG9",
+          "width": 2400,
+          "height": 1350,
+          "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/w-LiA05HMPI1TN5ke0_IfQ/xuAcxihNUgLZ3lBj6z9hjR5YQgQfqTzL0X4BllSWewOnZ4Sul61pL8ESV_ltgU1JWsaf5c8nFOgfDyScPz2lqByroHOCxzZhmibn-7Iq_QljWKjyABAcrlfMD8VBIqqzybrFwwBXbNq4xOT3cg-VOUTxhOYBusCQs9zxhiy6_d0/GuC2wp8Ah0bhfAMZfmcWN8B4zSl9d57CjgQ1ImysZ-U",
+          "filename": "VT_Serido_base10.jpg",
+          "size": 845532,
+          "type": "image/jpeg",
+          "thumbnails": {
+            "small": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/DoNZk7Or-m1KWVhQeXp8WQ/lFt9T5vfetrtyKZXMOVASyXLdEHqmv1aLkBBB7GdF33z9qywVPfGbVpwQQccUy1lz9CUrrWw6sqqBMLgk3wZVX-VHDwveHaaFfxj5o6J3DDQg1VJn1hIqaD6LcWWS1MBoEjA3QUr6UJ60mnDqBvwNg/F-mMdL0hVMzoy-IGnfqajT_33uhId_hwtGDkcJkmiHI",
+              "width": 64,
+              "height": 36
+            },
+            "large": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/zR05a8fy9cjwAObKg2gisg/KFyyffDkXgG7RSqC9Nf_gswDA8ZIqkRS2OpYmr_NYX1ke3Lxfq2XNCRFItKQvRSAcDse-utfHEhi4ZnWHLCgIybLHUrRYssjiuvXTP6m43PiEeMgHmspq3qiFj4vRNiIXbPcRbmsytgYzvNm7ulS5A/Yg097FL0b9ffh3BVac-Te4uX4b-PErI4QHWcEdt011E",
+              "width": 910,
+              "height": 512
+            },
+            "full": {
+              "url": "https://v5.airtableusercontent.com/v3/u/56/56/1787011200000/1pnbOfRQ5r2FWtke-bYhNg/Mgwgjlt-oWAY5LP1SaqpsEklJ_PNtZ194nB3NuW2ONPOcdSiIdkd7d4qriKGmqnfamOlN5o2HeTlfeEH3WG2fetmBA4wXo7ut2mT7ctMTVxAmYQUY4hsp06kKJXc_Xz6D-yKO_6ghwh95mjhdmC0ZA/tAcwRVoaUfdtz_j40omLxovMqqU8fnWcbnZjIjeYx2k",
+              "width": 2400,
+              "height": 1350
+            }
+          }
+        }
+      ],
+      "Nome do arquivo": "serido_p10.png",
+      "Projeto": [
+        "recqT4UAgYvuRic9m"
+      ],
+      "Ordem": 10,
+      "Legenda_PT": "O Cruzeiro de Currais Novos é um dique de pegmatito que foi solidificado no interior da terra. A lenta subida para a superfície o fez rachar para suportar a pressão; são as fraturas de alívio"
+    }
+  }
+]

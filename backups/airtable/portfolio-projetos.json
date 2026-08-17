@@ -1,0 +1,177 @@
+[
+  {
+    "id": "rec4amJnixubez1nx",
+    "createdTime": "2026-08-17T16:08:33.000Z",
+    "fields": {
+      "Ordem": 6,
+      "Nome": "Castelo Zé dos Montes",
+      "Ano": "2021"
+    }
+  },
+  {
+    "id": "rec6BVq040gWtNiuu",
+    "createdTime": "2026-08-13T19:41:12.000Z",
+    "fields": {
+      "Ordem": 3,
+      "Nome": "Carajás",
+      "Ano": "2023"
+    }
+  },
+  {
+    "id": "recEDUGBycJb2C6N3",
+    "createdTime": "2026-08-14T16:51:21.000Z",
+    "fields": {
+      "Ordem": 1,
+      "Texto de abertura_PT": "Uma investigação visual sobre a industria de rochas ornamentais no Brasil. Em uma viagem de norte ao sul do Espírito Santo, revela-se a origem extrativista da cadeia que alimenta a arquitetura e a construção civil ",
+      "Nome": "Pedras Marcadas",
+      "Ano": "2023–",
+      "Cor de fundo": "235789",
+      "Imagens": [
+        "rec3nRg9z0lq4v3yq",
+        "recwDLbPeapTUITV2",
+        "recB2EPZUmcEFl2A5",
+        "rec16YHekwag5Eat1",
+        "recUz88iwBGd4c8AO"
+      ]
+    }
+  },
+  {
+    "id": "recMMh3SRFhyWY01p",
+    "createdTime": "2026-08-17T16:08:25.000Z",
+    "fields": {
+      "Ordem": 10,
+      "Nome": "Cuba",
+      "Ano": "2015"
+    }
+  },
+  {
+    "id": "recMiywIwokzR1fIt",
+    "createdTime": "2026-08-17T16:11:20.000Z",
+    "fields": {
+      "Ordem": 13,
+      "Nome": "Linha Ouro",
+      "Ano": "2013"
+    }
+  },
+  {
+    "id": "recW1jkVKAuSVBbzQ",
+    "createdTime": "2026-08-17T16:12:07.000Z",
+    "fields": {
+      "Ordem": 9,
+      "Nome": "Monte Roraima",
+      "Ano": "2016"
+    }
+  },
+  {
+    "id": "recX0u0bYJnSFBLhe",
+    "createdTime": "2026-08-17T16:08:56.000Z",
+    "fields": {
+      "Ordem": 2,
+      "Nome": "Pedra Paulista",
+      "Ano": "2023-"
+    }
+  },
+  {
+    "id": "recYYyeVhIhmJZ9h4",
+    "createdTime": "2026-08-17T16:10:56.000Z",
+    "fields": {
+      "Ordem": 8,
+      "Nome": "Serra da Capivara",
+      "Ano": "2017"
+    }
+  },
+  {
+    "id": "recnnL2ujUuwYEH0f",
+    "createdTime": "2026-08-17T16:11:03.000Z",
+    "fields": {
+      "Ordem": 11,
+      "Nome": "Mundo Mostruário",
+      "Ano": "2013"
+    }
+  },
+  {
+    "id": "recpVz732eQPifcVF",
+    "createdTime": "2026-08-17T16:11:11.000Z",
+    "fields": {
+      "Ordem": 12,
+      "Nome": "Ordos",
+      "Ano": "2013"
+    }
+  },
+  {
+    "id": "recqT4UAgYvuRic9m",
+    "createdTime": "2026-08-13T19:41:12.000Z",
+    "fields": {
+      "Ordem": 5,
+      "Texto de abertura_PT": "Esta pesquisa é uma viagem geológica pelo Seridó Potiguar, entre serras, lajedos e o tempo profundo da terra.",
+      "Nome": "Seridó Potiguar",
+      "Créditos_EN": "Photography, scanning and editing: Valentina Tong",
+      "Créditos_PT": "_Seridó Potiguar: Diário de uma viagem geológica_ é resultado de uma expedição realizada em 2021 ao Geoparque Seridó, Rio Grande do Norte. Todos os geossítios mencionados no relato são abertos para visitação. Esta publicação digital foi contemplada pelo Prêmio Marc Ferrez de Fotografia da Funarte. Este é um capítulo de um projeto de longo prazo sobre a paisagem geológica brasileira.\n\n**Fotografias, digitalização e edição:** Valentina Tong \n**Revelação de negativos e cromos: **Marcelo Guarnieri \n**Design:** Alles Blau Studio: Elisa von Randow, Julia Masagão e Mariana Caldas \n**Consultoria:** Marcos Nascimento \n**Apoio: **Janaína Medeiros, Geoparque Seridó \n**Guias de viagem: **Genilson Carvalho (Cerro Corá), Dilson Gonçalves (Acari), Neia Araújo (Parelhas),  Dean Carvalho (Carnaúba dos Dantas) e Ivan Simplício (Gargalheiras)\n",
+      "Ano": "2021",
+      "Texto de abertura_EN": "This project is a journey through the Seridó Potiguar, among hills, rock outcrops and the deep time of the land.",
+      "Cor de fundo": "ebebeb",
+      "Imagens": [
+        "recHlmSysLt2XYT6s",
+        "recikiz2bHIuvDRaB",
+        "rec1Nzn2TGR0lXC8B",
+        "recXfzPltIDafp94y",
+        "receQbNAkgI0sqBOd",
+        "recgyXlLUwyUptA5v",
+        "recFXdFBcT9fGb1Sn",
+        "recFpohlUUVEIDBJh",
+        "rechAQGP51QN2qQPa",
+        "recyuZbHULbaHabqg",
+        "rec3OQNQWGUEjXh58",
+        "recrAqgcV2QUsZftk",
+        "rechTTUImIMswJdyv",
+        "recdmbGsPDLnRVNeo",
+        "rec0bn9GbOcai3iIP",
+        "recpzBrTU9kMrhwBz",
+        "rec0e6oxKtbeL4wnD",
+        "recEp2I5R7UbgpJsU",
+        "rec22NEoR2JiFlH8V",
+        "recOLqUmQM6MsgNG4",
+        "recy9w234UAVmIflE",
+        "rec1ByfTCIlYHRwrL",
+        "recyj2DrU467I6Akf",
+        "recjXr4Cp9fpEHkM9",
+        "reccLPU1Esc5Lp0H8",
+        "recJ31rGbGxAJmnBK",
+        "recmhSlABFBWWrvxh",
+        "recKNznldrLK9cdet",
+        "rec5YnJdOqly84anQ",
+        "recw9IBoDg6NzdbIA",
+        "recqioj7cIU7drz5H",
+        "recMdfOMtwNUsKrii",
+        "recrZ432saHjcLzNg",
+        "recPvwvuOsHy2gZHQ",
+        "recrVOdu6RxIawSqK",
+        "reckxuH5bj7Jqxxka",
+        "recPspINhFXHtE6j5",
+        "recWUXZs1x5k9n5Le",
+        "recHVu9qgZ3EXXYbt",
+        "receJeFIjitUT7C22",
+        "reccdJrQbxGOqX3ot",
+        "recC9N4LULcQSEXt9"
+      ]
+    }
+  },
+  {
+    "id": "rect0tl7vhlONQdGQ",
+    "createdTime": "2026-08-17T16:09:50.000Z",
+    "fields": {
+      "Ordem": 7,
+      "Nome": "Costa Vicentina",
+      "Ano": "2019"
+    }
+  },
+  {
+    "id": "recuININCYzwouGDg",
+    "createdTime": "2026-08-13T19:41:12.000Z",
+    "fields": {
+      "Ordem": 4,
+      "Nome": "Cariri",
+      "Ano": "2022"
+    }
+  }
+]

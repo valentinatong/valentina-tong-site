@@ -193,7 +193,7 @@
     const subject = encodeURIComponent(`Pedido de acesso à imagem ${current.code}`);
     const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${current.projeto}) do Arquivo Viagem Geológica.\n\n`);
     fichaEl.innerHTML = `<div class="fichaBody">`+
-      `<img class="preview" src="${current.web}" alt="${current.code}">`+
+      `<img class="preview" src="${current.thumb}" alt="${current.code}">`+
       `<div class="code">${current.code}</div>`+
       `<dl>${rows}</dl>`+
       `<div class="divider"></div>`+
@@ -207,6 +207,11 @@
     const reveal = ()=> fichaBody.classList.add("loaded");
     if(previewImg.complete) reveal();
     else { previewImg.addEventListener("load", reveal); previewImg.addEventListener("error", reveal); }
+    // a miniatura (já em cache da grade) aparece na hora; a versão em alta
+    // resolução troca por cima assim que terminar de carregar, sem travar a abertura da ficha
+    const hi = new Image();
+    hi.onload = ()=> { if(current && current.code===previewImg.alt) previewImg.src = current.web; };
+    hi.src = current.web;
   }
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });

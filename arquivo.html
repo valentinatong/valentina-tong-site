@@ -65,7 +65,8 @@
   /* ficha catalográfica */
   .ficha{ position:sticky; top:88px; align-self:start; height:calc(100vh - 88px); overflow-y:auto;
     border-left:1px solid var(--line); background:var(--panel); padding:26px 24px; }
-  .ficha .preview{ width:100%; height:auto; background:#000; display:block; }
+  .ficha .preview{ width:100%; height:auto; background:#000; display:block; opacity:0; transition:opacity .5s ease; }
+  .ficha .preview.loaded{ opacity:1; }
   .ficha .code{ font-family:var(--mono-font); font-size:14px; letter-spacing:.06em; color:var(--oxide); margin:18px 0 16px; }
   .ficha dl{ margin:0; display:grid; grid-template-columns: 118px 1fr; row-gap:11px; column-gap:10px; }
   .ficha dt{ font-family:var(--mono-font); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--stone-dim); align-self:center; }
@@ -127,7 +128,7 @@
   (async function(){
   // ---- data layer — vem do Airtable (base Arquivo, tabela Fotogramas,
   // só os marcados "Publicado no site"). Editar lá reflete aqui sozinho. ----
-  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Local","local"],["Ano da fotografia","ano"],["Geologia","geologia"],["Contexto","contexto"],["Publicação","publicacao"],["Exposição","exposicao"]];
+  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Local","local"],["Ano","ano"],["Geologia","geologia"],["Contexto","contexto"],["Publicação","publicacao"],["Exposição","exposicao"]];
   const FIELD_LABEL = Object.fromEntries(FIELDS.map(([label,key])=>[key,label]));
 
   let ITEMS = [];
@@ -135,6 +136,7 @@
     const r = await fetch("/api/arquivo-fotos");
     if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
+  ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
 
   let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
   let active = null; // filtro ativo: {field, value} ou null (todas)
@@ -198,6 +200,11 @@
       `<div class="divider"></div>`+
       `<a class="req" href="mailto:tongvalentina@gmail.com?subject=${subject}&body=${bodym}">SOLICITAR ACESSO À IMAGEM</a>`+
       `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`;
+    const previewImg = fichaEl.querySelector(".preview");
+    if(previewImg){
+      if(previewImg.complete) previewImg.classList.add("loaded");
+      else previewImg.addEventListener("load", ()=> previewImg.classList.add("loaded"));
+    }
   }
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });

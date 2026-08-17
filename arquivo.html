@@ -65,7 +65,7 @@
   /* ficha catalográfica */
   .ficha{ position:sticky; top:88px; align-self:start; height:calc(100vh - 88px); overflow-y:auto;
     border-left:1px solid var(--line); background:var(--panel); padding:26px 24px; }
-  .ficha .preview{ width:100%; aspect-ratio:1/1; object-fit:cover; background:#000; display:block; }
+  .ficha .preview{ width:100%; height:auto; background:#000; display:block; }
   .ficha .code{ font-family:var(--mono-font); font-size:14px; letter-spacing:.06em; color:var(--oxide); margin:18px 0 16px; }
   .ficha dl{ margin:0; display:grid; grid-template-columns: 118px 1fr; row-gap:11px; column-gap:10px; }
   .ficha dt{ font-family:var(--mono-font); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--stone-dim); align-self:center; }
@@ -181,7 +181,7 @@
     const rows = FIELDS.map(([label,key])=>{
       const val = current[key];
       const empty = Array.isArray(val) ? !val.length : (val==null || val==="");
-      if(empty) return `<dt>${label}</dt><dd class="dim">a definir</dd>`;
+      if(empty) return `<dt>${label}</dt><dd class="dim">-</dd>`;
       const vals = Array.isArray(val) ? val : [val];
       const tags = vals.map(v=>{ const on=active&&active.field===key&&active.value===v;
         return `<a class="tag${on?" on":""}" data-field="${key}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");

@@ -148,15 +148,34 @@
     }
     document.title = P.title + " — Valentina Tong";
 
-    // timeline
+    // timeline — vem do Airtable (tabela Projetos, ordenada pelo campo Ordem).
+    // Adicionar/remover/reordenar lá reflete aqui sozinho. Se a busca falhar, cai
+    // no array estático como reserva.
     const tl=document.getElementById("timeline");
-    (window.PROJETOS_TIMELINE||[]).forEach(p=>{
-      const cur = p.slug===slug;
-      const a=document.createElement("a"); if(cur)a.className="current";
-      a.href = p.slug ? `projeto.html?p=${p.slug}${lang==="en"?"&lang=en":""}` : "#";
-      a.innerHTML=`<span class="yr">${p.y}</span><span class="nm">${p.n}</span>`; tl.appendChild(a);
-    });
-    const cur=tl.querySelector("a.current"); if(cur) tl.scrollLeft=cur.offsetLeft-(tl.clientWidth/2)+(cur.clientWidth/2);
+    function renderTimeline(items){
+      tl.innerHTML = "";
+      items.forEach(p=>{
+        const cur = p.slug===slug;
+        const a=document.createElement("a"); if(cur)a.className="current";
+        a.href = p.slug ? `projeto.html?p=${p.slug}${lang==="en"?"&lang=en":""}` : "#";
+        a.innerHTML=`<span class="yr">${p.y}</span><span class="nm">${p.n}</span>`; tl.appendChild(a);
+      });
+      const cur=tl.querySelector("a.current"); if(cur) tl.scrollLeft=cur.offsetLeft-(tl.clientWidth/2)+(cur.clientWidth/2);
+    }
+    let timelineLoaded = false;
+    try {
+      const tr = await fetch("/api/projetos");
+      if (tr.ok) {
+        const td = await tr.json();
+        if (td && td.projetos && td.projetos.length) {
+          renderTimeline(td.projetos.map(p => ({ y: p.ano, n: p.nome, slug: p.slug })));
+          timelineLoaded = true;
+        }
+      }
+    } catch (e) { /* cai no fallback estático */ }
+    if (!timelineLoaded) {
+      renderTimeline((window.PROJETOS_TIMELINE||[]).map(p => ({ y: p.y, n: p.n, slug: p.slug })));
+    }
 
     // título fixo empilhado — uma palavra por linha ("Pedras" / "Marcadas")
     document.getElementById("brandTitle").innerHTML = P.title.split(" ").join("<br>");

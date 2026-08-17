@@ -117,31 +117,35 @@
   </main>
 
   <script>
-  // ---- data layer ----
-  const CODES = ["Seridó_112b","VT_BR_02_03","VT_BR_16_02","VT_BR_17_02","VT_ES_01_02","VT_ES_03_04","VT_ES_04_06","VT_ES_06_06","VT_ES_17_06","VT_ES_21_02","VT_ES_21_07","VT_ES_24_11","VT_ES_25_02","VT_ES_26_06","VT_ES_28_06","VT_ES_28_09","VT_ES_29_07","VT_ES_30_07","VT_ES_30_09","VT_PP_15_05b","VT_PP_15_06","VT_PP_15_07"];
-  const PROJ = { ES:"Pedras Marcadas", PP:"Pedra Paulista", SD:"Seridó Potiguar", CR:"Cariri", AM:"Monte Roraima", PI:"Serra da Capivara" };
-  function projOf(code){ if(/^Serid/i.test(code)) return "Seridó Potiguar"; const p=code.replace(/^VT_/,"").split("_")[0]; return PROJ[p] || "Outros registros"; }
-  // ficha fields (label -> chave em META). Projeto cai no valor derivado do código se não houver META.
-  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Formação geol.","formacao"],["Contexto","contexto"],["Tema","tema"],["Ano da fotografia","ano"],["Publicação","publicacao"],["Exposição","exposicao"]];
-  // metadados por imagem (depois virá da tabela; por ora, exemplos preenchidos à mão)
-  const META = {
-    "VT_ES_24_11": { projeto:"Pedras Marcadas", estado:"Espírito Santo", municipio:"Barra de São Francisco", formacao:"Granito", contexto:"Pedreira", tema:"Extração, Rocha Ornamental", ano:"2024", publicacao:"Revista ZUM #30, IMS", exposicao:"—" },
+  // estado compartilhado entre os dois blocos de script abaixo (um busca as fotos,
+  // outro busca o texto de abertura — podem terminar em qualquer ordem)
+  window.__arquivo = { statementHTML: "", renderFicha: null };
+  window.__arquivoStatementReady = function(html){
+    window.__arquivo.statementHTML = html;
+    if (window.__arquivo.renderFicha) window.__arquivo.renderFicha();
   };
-  const ITEMS = CODES.map(c=>({ code:c, projeto:projOf(c), thumb:`assets/arquivo/thumb/${c}.jpg`, web:`assets/arquivo/web/${c}.jpg` }));
+  (async function(){
+  // ---- data layer — vem do Airtable (base Arquivo, tabela Fotogramas,
+  // só os marcados "Publicado no site"). Editar lá reflete aqui sozinho. ----
+  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Local","local"],["Ano da fotografia","ano"],["Geologia","geologia"],["Contexto","contexto"],["Publicação","publicacao"],["Exposição","exposicao"]];
+  const FIELD_LABEL = Object.fromEntries(FIELDS.map(([label,key])=>[key,label]));
+
+  let ITEMS = [];
+  try {
+    const r = await fetch("/api/arquivo-fotos");
+    if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; }
+  } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
 
   let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
-  let statementHTML = ""; // preenchido pelo fetch de /api/config (com fallback abaixo)
   let active = null; // filtro ativo: {field, value} ou null (todas)
   const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
-  const FIELD_LABEL = {projeto:"Projeto",estado:"Estado",municipio:"Município",formacao:"Formação geol.",contexto:"Contexto",tema:"Tema",ano:"Ano",publicacao:"Publicação",exposicao:"Exposição"};
 
-  function effProjeto(it){ const m=META[it.code]; return (m&&m.projeto)||it.projeto; }
-  function fieldVal(it,f){ if(f==="projeto") return effProjeto(it); const m=META[it.code]; return m&&m[f]!=null?m[f]:""; }
-  function matches(it){ if(!active) return true; const v=fieldVal(it,active.field); if(!v) return false;
-    if(active.field==="tema") return v.split(",").map(s=>s.trim()).includes(active.value); return v===active.value; }
+  function fieldVal(it,f){ return it[f]; }
+  function matches(it){ if(!active) return true; const v=fieldVal(it,active.field); if(!v || (Array.isArray(v)&&!v.length)) return false;
+    if(Array.isArray(v)) return v.includes(active.value); return v===active.value; }
 
   // pills de série (facet Projeto)
-  const projects = ["TODAS", ...[...new Set(ITEMS.map(i=>effProjeto(i)))].sort()];
+  const projects = ["TODAS", ...[...new Set(ITEMS.map(i=>i.projeto).filter(Boolean))].sort()];
   const mapBtn = filtersEl.querySelector(".mapbtn");
   projects.forEach(p=>{ const b=document.createElement("button"); b.className="pill"; b.textContent=p.toUpperCase(); b.dataset.p=p;
     b.onclick=()=> setFilter("projeto", p==="TODAS"?null:p);
@@ -173,19 +177,18 @@
     if(!grid.children.length) grid.innerHTML=`<p style="color:var(--stone-dim);font-family:var(--mono-font);font-size:12px;padding:10px">Nenhuma imagem com esse critério ainda.</p>`;
   }
   function renderFicha(){
-    if(!current){ fichaEl.innerHTML = `<div class="statement">${statementHTML}</div>`; return; }
-    const m = META[current.code] || {};
+    if(!current){ fichaEl.innerHTML = `<div class="statement">${window.__arquivo.statementHTML}</div>`; return; }
     const rows = FIELDS.map(([label,key])=>{
-      let val = (m[key]!=null && m[key]!=="") ? m[key] : (key==="projeto" ? current.projeto : "");
-      if(val==="—") return `<dt>${label}</dt><dd class="dim">—</dd>`;
-      if(val==="") return `<dt>${label}</dt><dd class="dim">a definir</dd>`;
-      const vals = key==="tema" ? val.split(",").map(s=>s.trim()) : [val];
+      const val = current[key];
+      const empty = Array.isArray(val) ? !val.length : (val==null || val==="");
+      if(empty) return `<dt>${label}</dt><dd class="dim">a definir</dd>`;
+      const vals = Array.isArray(val) ? val : [val];
       const tags = vals.map(v=>{ const on=active&&active.field===key&&active.value===v;
-        return `<a class="tag${on?" on":""}" data-field="${key}" data-value="${v.replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
+        return `<a class="tag${on?" on":""}" data-field="${key}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
       return `<dt>${label}</dt><dd>${tags}</dd>`;
     }).join("");
     const subject = encodeURIComponent(`Pedido de acesso à imagem ${current.code}`);
-    const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${effProjeto(current)}) do Arquivo Viagem Geológica.\n\n`);
+    const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${current.projeto}) do Arquivo Viagem Geológica.\n\n`);
     fichaEl.innerHTML =
       `<img class="preview" src="${current.web}" alt="${current.code}">`+
       `<div class="code">${current.code}</div>`+
@@ -198,7 +201,9 @@
   }
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
+  window.__arquivo.renderFicha = renderFicha;
   syncPills(); renderGrid(); renderFicha();
+  })();
   </script>
   <script>
   // botão EN/PT — troca o parâmetro ?lang= na URL. Ainda não traduz o conteúdo desta
@@ -236,8 +241,7 @@
     const esc = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
     return "<h3>Sobre o arquivo</h3>" + esc.split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${p}</p>`).join("");
   }
-  statementHTML = statementToHTML(STATEMENT_FALLBACK);
-  if(!current) renderFicha();
+  window.__arquivoStatementReady(statementToHTML(STATEMENT_FALLBACK));
 
   fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
@@ -249,8 +253,7 @@
       root.setProperty("--tag-fg", readableTextColor(tagBg));
     }
     if(d.textoAbertura){
-      statementHTML = statementToHTML(d.textoAbertura);
-      if(!current) renderFicha();
+      window.__arquivoStatementReady(statementToHTML(d.textoAbertura));
     }
   }).catch(()=>{});
   </script>

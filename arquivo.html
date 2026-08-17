@@ -65,8 +65,9 @@
   /* ficha catalográfica */
   .ficha{ position:sticky; top:88px; align-self:start; height:calc(100vh - 88px); overflow-y:auto;
     border-left:1px solid var(--line); background:var(--panel); padding:26px 24px; }
-  .ficha .preview{ width:100%; height:auto; background:#000; display:block; opacity:0; transition:opacity .5s ease; }
-  .ficha .preview.loaded{ opacity:1; }
+  .ficha .preview{ width:100%; height:auto; background:#000; display:block; }
+  .ficha .fichaBody{ opacity:0; transition:opacity .4s ease; }
+  .ficha .fichaBody.loaded{ opacity:1; }
   .ficha .code{ font-family:var(--mono-font); font-size:14px; letter-spacing:.06em; color:var(--oxide); margin:18px 0 16px; }
   .ficha dl{ margin:0; display:grid; grid-template-columns: 118px 1fr; row-gap:11px; column-gap:10px; }
   .ficha dt{ font-family:var(--mono-font); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--stone-dim); align-self:center; }
@@ -191,7 +192,7 @@
     }).join("");
     const subject = encodeURIComponent(`Pedido de acesso à imagem ${current.code}`);
     const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${current.projeto}) do Arquivo Viagem Geológica.\n\n`);
-    fichaEl.innerHTML =
+    fichaEl.innerHTML = `<div class="fichaBody">`+
       `<img class="preview" src="${current.web}" alt="${current.code}">`+
       `<div class="code">${current.code}</div>`+
       `<dl>${rows}</dl>`+
@@ -199,12 +200,13 @@
       `<dl><dt>Localização</dt><dd><a class="maplink" href="mapa.html">Ver no mapa →</a></dd></dl>`+
       `<div class="divider"></div>`+
       `<a class="req" href="mailto:tongvalentina@gmail.com?subject=${subject}&body=${bodym}">SOLICITAR ACESSO À IMAGEM</a>`+
-      `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`;
+      `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`+
+      `</div>`;
+    const fichaBody = fichaEl.querySelector(".fichaBody");
     const previewImg = fichaEl.querySelector(".preview");
-    if(previewImg){
-      if(previewImg.complete) previewImg.classList.add("loaded");
-      else previewImg.addEventListener("load", ()=> previewImg.classList.add("loaded"));
-    }
+    const reveal = ()=> fichaBody.classList.add("loaded");
+    if(previewImg.complete) reveal();
+    else { previewImg.addEventListener("load", reveal); previewImg.addEventListener("error", reveal); }
   }
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });

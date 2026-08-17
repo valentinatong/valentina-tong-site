@@ -137,6 +137,15 @@
   {
     document.documentElement.style.setProperty("--bg", P.bg);
     document.documentElement.style.setProperty("--accent", P.accent||"#9A4A2C");
+    // --ink precisa continuar legível não importa a cor de fundo escolhida no Airtable
+    // (um fundo escuro com texto --ink escuro fixo ficava invisível)
+    {
+      const hex = (P.bg||"#ebebeb").replace(/^#/,"");
+      const n = parseInt(hex,16);
+      const r=(n>>16)&255, g=(n>>8)&255, b=n&255;
+      const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
+      document.documentElement.style.setProperty("--ink", luminance > 0.55 ? "#201D19" : "#F2F0EC");
+    }
     document.title = P.title + " — Valentina Tong";
 
     // timeline

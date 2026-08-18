@@ -20,7 +20,7 @@ const API = "https://api.airtable.com/v0";
 const OUT_DIR = path.join(__dirname, "..", "backups", "airtable");
 
 const TARGETS = [
-  { base: "appxMeAg3XIYX3nbB", table: "Capa",          file: "home-capa.json" },
+  { base: "appxMeAg3XIYX3nbB", table: "tblp7CJrU7goelmtF", file: "home-capa.json" },
   { base: "appd8iDhr82Cxr61E", table: "Projetos",      file: "portfolio-projetos.json" },
   { base: "appd8iDhr82Cxr61E", table: "Imagens",       file: "portfolio-imagens.json" },
   { base: "appTgGC0ngoExovqb", table: "Fotogramas",    file: "arquivo-fotogramas.json" },

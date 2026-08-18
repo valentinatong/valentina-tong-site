@@ -1,11 +1,11 @@
 {
-  "syncedAt": "2026-08-17T20:24:25.804Z",
+  "syncedAt": "2026-08-18T07:08:30.951Z",
   "tables": [
     {
       "base": "appd8iDhr82Cxr61E",
       "table": "Projetos",
       "file": "portfolio-projetos.json",
-      "records": 13
+      "records": 14
     },
     {
       "base": "appd8iDhr82Cxr61E",

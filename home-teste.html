@@ -57,7 +57,7 @@
 </style>
 </head>
 <body>
-  <img class="vt-photo" src="assets/home/home-01.jpg" alt="" />
+  <img class="vt-photo" id="heroPhoto" src="assets/home/home-01.jpg" alt="" />
   <div class="vt-veil"></div>
 
   <nav class="vt-center" aria-label="Menu principal">
@@ -66,5 +66,13 @@
     <a href="curadoria.html">Curadoria</a>
     <a href="bio.html">Bio</a>
   </nav>
+
+  <script>
+  // foto de capa vem da base "Home" (tabela "Capa", linha marcada "Ativa") no Airtable —
+  // trocar lá muda a foto aqui sozinho, sem deploy. Se a busca falhar, fica a foto local acima.
+  fetch("/api/home").then(r=>r.ok?r.json():null).then(d=>{
+    if(d && d.foto) document.getElementById("heroPhoto").src = d.foto;
+  }).catch(()=>{});
+  </script>
 </body>
 </html>

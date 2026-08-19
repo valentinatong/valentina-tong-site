@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Valentina Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBFAF7;   /* fundo bege claro */
+    --ink:#201D19;     /* quase-preto */
+    --stone:#86806F;   /* cinza-pedra (menu em repouso, como nas outras páginas) */
+    --oxide:#9A4A2C;   /* terracota (hover) */
+    --header-h:64px;
+    --title-font:"Fraunces", Georgia, serif;   /* mesma fonte de título das outras páginas */
+    --mono-font:"Space Mono", ui-monospace, monospace;  /* mesma fonte de menu das outras páginas */
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--title-font);
+    overflow:hidden;                 /* nada de scroll de página */
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- Cabeçalho fixo ---------- */
+  .vt-header{
+    position:fixed; top:0; left:0; right:0;
+    height:var(--header-h);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(20px,4vw,40px);
+    z-index:10;
+    background:var(--paper);
+  }
+  .vt-title{
+    font-family:var(--title-font);
+    font-weight:600;
+    font-size:21px;
+    letter-spacing:.01em;
+    color:var(--ink);
+  }
+  .vt-nav{ display:flex; gap:clamp(20px,3vw,32px); }
+  .vt-nav a{
+    font-family:var(--mono-font);
+    font-weight:400;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink);
+    transition:color .2s ease;
+  }
+  .vt-nav a:hover{ color:var(--oxide); }
+
+  /* ---------- Palco da grade (resto da tela) ---------- */
+  .vt-stage{
+    position:fixed;
+    top:var(--header-h); left:0; right:0; bottom:0;
+    overflow:hidden;
+    background:var(--paper);
+    cursor:crosshair;
+    touch-action:none;               /* pinça controla zoom, não scroll do navegador */
+  }
+  .vt-centerer{
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+  }
+  .vt-grid{
+    display:grid;
+    grid-template-columns:repeat(14, 130px);
+    gap:40px;
+    will-change:transform;
+  }
+  .vt-cell{ width:130px; height:130px; overflow:hidden; }
+  .vt-cell img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  @media (prefers-reduced-motion: reduce){
+    .vt-nav a{ transition:none; }
+  }
+</style>
+</head>
+<body>
+  <header class="vt-header">
+    <a class="vt-title" href="index.html">VALENTINA TONG</a>
+    <nav class="vt-nav" aria-label="Menu principal">
+      <a href="projeto.html?p=pedras-marcadas">Projetos</a>
+      <a href="arquivo.html">Arquivo</a>
+      <a href="curadoria.html">Curadoria</a>
+      <a href="bio.html">Bio</a>
+      <a href="#" id="langToggle" class="lang-toggle">EN</a>
+    </nav>
+  </header>
+
+  <main class="vt-stage" id="stage" aria-label="Grade de fotografias">
+    <div class="vt-centerer">
+      <div class="vt-grid" id="grid"></div>
+    </div>
+  </main>
+
+  <script>
+  (function(){
+    "use strict";
+
+    // ---------- Parâmetros exatos do protótipo v7 ----------
+    var COLS = 14, ROWS = 8, CELL = 130, GAP = 40;
+    var GRID_W = COLS * CELL + (COLS - 1) * GAP;   // 2340
+    var GRID_H = ROWS * CELL + (ROWS - 1) * GAP;   // 1320
+
+    var MAX_PAN_X = 340;      // alcance do deslocamento lateral (horizontal)
+    var MAX_PAN_Y = 210;      // alcance do deslocamento lateral (vertical)
+
+    var AUTO_AMP    = 0.32;   // amplitude da "respiração"
+    var AUTO_PERIOD = 26000;  // ciclo ~26s
+    var AUTO_BASE   = 0.62;   // escala central da respiração
+
+    // Zoom máximo de aproximação. Spec pediu 1.8; o arquivo v7 usava 1.0.
+    // Troque só este número se quiser o comportamento original do protótipo.
+    var INTERACTIVE_MAX = 1.8;
+
+    var ZOOM_SENSITIVITY = 0.0012;  // sensibilidade baixa (gesto intencional)
+    var MAX_WHEEL_STEP   = 60;      // limita picos bruscos de scroll/pinça
+    var LERP_PAN   = 0.09;          // lateral: um pouco mais responsivo
+    var LERP_SCALE = 0.045;         // zoom: mais lento/suave
+
+    function clamp(v, min, max){ return Math.min(max, Math.max(min, v)); }
+
+    // ---------- Monta as células ciclando as imagens disponíveis ----------
+    var TOTAL = 74; // assets/home/home-01.jpg ... home-74.jpg (sem duplicatas)
+    var PHOTOS = [];
+    for (var k = 1; k <= TOTAL; k++){
+      PHOTOS.push("assets/home/home-" + (k < 10 ? "0" + k : k) + ".jpg");
+    }
+
+    var grid = document.getElementById("grid");
+    var stage = document.getElementById("stage");
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < COLS * ROWS; i++){
+      var cell = document.createElement("div");
+      cell.className = "vt-cell";
+      var img = document.createElement("img");
+      img.src = PHOTOS[i % PHOTOS.length];
+      img.alt = "";
+      img.loading = "eager";
+      img.decoding = "async";
+      cell.appendChild(img);
+      frag.appendChild(cell);
+    }
+    grid.appendChild(frag);
+
+    // ---------- Estado ----------
+    var mouse = { x: 0, y: 0 };
+    var hovering = false;
+    var stageW = window.innerWidth;
+    var stageH = window.innerHeight;
+    var minScale = 0.4;
+    var targetScale = AUTO_BASE;
+    var cur = { x: 0, y: 0, s: AUTO_BASE };
+    var start = null;
+
+    function measure(){
+      var rect = stage.getBoundingClientRect();
+      stageW = rect.width;
+      stageH = rect.height;
+      // limite mínimo dinâmico: a grade sempre cobre a janela inteira
+      minScale = Math.max(stageW / GRID_W, stageH / GRID_H);
+      targetScale = Math.max(targetScale, minScale);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+
+    // ---------- Loop de animação (câmera persegue o alvo com atraso) ----------
+    function tick(t){
+      if (start === null) start = t;
+      var elapsed = t - start;
+
+      var targetS, targetX, targetY;
+      if (hovering){
+        targetS = clamp(targetScale, minScale, INTERACTIVE_MAX);
+        var maxPanX = Math.max(0, (GRID_W * cur.s - stageW) / 2);
+        var maxPanY = Math.max(0, (GRID_H * cur.s - stageH) / 2);
+        targetX = clamp(-mouse.x * MAX_PAN_X, -maxPanX, maxPanX);
+        targetY = clamp(-mouse.y * MAX_PAN_Y, -maxPanY, maxPanY);
+      } else {
+        var auto = AUTO_BASE + Math.sin((elapsed / AUTO_PERIOD) * Math.PI * 2) * AUTO_AMP;
+        targetS = clamp(auto, minScale, INTERACTIVE_MAX);
+        targetX = 0;
+        targetY = 0;
+      }
+
+      cur.x += (targetX - cur.x) * LERP_PAN;
+      cur.y += (targetY - cur.y) * LERP_PAN;
+      cur.s += (targetS - cur.s) * LERP_SCALE;
+
+      grid.style.transform = "translate(" + cur.x + "px," + cur.y + "px) scale(" + cur.s + ")";
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // ---------- Interação ----------
+    stage.addEventListener("mousemove", function(e){
+      var rect = stage.getBoundingClientRect();
+      mouse.x = (e.clientX - rect.left) / rect.width - 0.5;
+      mouse.y = (e.clientY - rect.top) / rect.height - 0.5;
+    });
+    stage.addEventListener("mouseenter", function(){
+      hovering = true;
+      targetScale = cur.s; // handoff suave: assume o controle a partir do zoom atual
+    });
+    stage.addEventListener("mouseleave", function(){
+      hovering = false;    // volta a respirar sozinha
+    });
+    stage.addEventListener("wheel", function(e){
+      e.preventDefault();
+      var rawDelta = e.deltaY + e.deltaX;
+      var delta = clamp(rawDelta, -MAX_WHEEL_STEP, MAX_WHEEL_STEP);
+      targetScale = clamp(targetScale - delta * ZOOM_SENSITIVITY, minScale, INTERACTIVE_MAX);
+    }, { passive: false });
+  })();
+  </script>
+  <script>
+  // botão EN/PT — troca o parâmetro ?lang= na URL. Ainda não traduz o conteúdo desta
+  // página (só projeto.html lê o Airtable bilíngue por enquanto), mas já fica no lugar.
+  (function(){
+    var url = new URL(location.href);
+    var isEN = url.searchParams.get("lang") === "en";
+    var el = document.getElementById("langToggle");
+    if(!el) return;
+    el.textContent = isEN ? "PT" : "EN";
+    el.addEventListener("click", function(e){
+      e.preventDefault();
+      var u = new URL(location.href);
+      u.searchParams.set("lang", isEN ? "pt" : "en");
+      location.href = u.toString();
+    });
+  })();
+  </script>
+</body>
+</html>

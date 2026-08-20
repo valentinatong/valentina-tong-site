@@ -25,6 +25,7 @@ const TARGETS = [
   { base: "appd8iDhr82Cxr61E", table: "Imagens",       file: "portfolio-imagens.json" },
   { base: "appTgGC0ngoExovqb", table: "Fotogramas",    file: "arquivo-fotogramas.json" },
   { base: "appTgGC0ngoExovqb", table: "Configurações", file: "arquivo-configuracoes.json" },
+  { base: "appTgGC0ngoExovqb", table: "Configuração de Campos", file: "arquivo-configuracao-campos.json" },
   { base: "apph3pc09ROncZLnU", table: "Configurações", file: "curadoria-configuracoes.json" },
 ];
 

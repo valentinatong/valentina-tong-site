@@ -128,22 +128,23 @@
   };
   (async function(){
   // ---- data layer — vem do Airtable (base Arquivo, tabela Fotogramas,
-  // só os marcados "Publicado no site"). Editar lá reflete aqui sozinho. ----
-  const FIELDS = [["Projeto","projeto"],["Estado","estado"],["Município","municipio"],["Local","local"],["Ano","ano"],["Geologia","geologia"],["Contexto","contexto"],["Publicação","publicacao"],["Exposição","exposicao"]];
-  const FIELD_LABEL = Object.fromEntries(FIELDS.map(([label,key])=>[key,label]));
-
+  // só os marcados "Publicado no site"). Editar lá reflete aqui sozinho. Os
+  // campos que aparecem na ficha (rótulo, ordem, liga/desliga) vêm da tabela
+  // "Configuração de Campos" da mesma base — sem lista fixa aqui no código. ----
   let ITEMS = [];
+  let CAMPOS = []; // [{campo, rotulo, ordem}, ...] — vem do /api/arquivo-fotos
   try {
     const r = await fetch("/api/arquivo-fotos");
-    if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; }
+    if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; CAMPOS = d.campos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
   ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
+  const ROTULO_POR_CAMPO = Object.fromEntries(CAMPOS.map(c=>[c.campo, c.rotulo]));
 
   let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
-  let active = null; // filtro ativo: {field, value} ou null (todas)
+  let active = null; // filtro ativo: {field, value} ou null (todas) — field="projeto" (pílulas de série) ou o nome de um Campo da ficha
   const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
 
-  function fieldVal(it,f){ return it[f]; }
+  function fieldVal(it,f){ return f==="projeto" ? it.projeto : (it.valores || {})[f]; }
   function matches(it){ if(!active) return true; const v=fieldVal(it,active.field); if(!v || (Array.isArray(v)&&!v.length)) return false;
     if(Array.isArray(v)) return v.includes(active.value); return v===active.value; }
 
@@ -166,7 +167,7 @@
   function renderChip(){ let el=document.getElementById("facetchip");
     if(active && active.field!=="projeto"){
       if(!el){ el=document.createElement("button"); el.id="facetchip"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
-      el.innerHTML=`${FIELD_LABEL[active.field].toUpperCase()}: ${active.value} &nbsp;✕`; el.onclick=()=> setFilter("projeto", null);
+      el.innerHTML=`${(ROTULO_POR_CAMPO[active.field]||active.field).toUpperCase()}: ${active.value} &nbsp;✕`; el.onclick=()=> setFilter("projeto", null);
     } else if(el){ el.remove(); } }
 
   function renderGrid(){
@@ -181,14 +182,14 @@
   }
   function renderFicha(){
     if(!current){ fichaEl.innerHTML = `<div class="statement">${window.__arquivo.statementHTML}</div>`; return; }
-    const rows = FIELDS.map(([label,key])=>{
-      const val = current[key];
+    const rows = CAMPOS.map(({campo, rotulo})=>{
+      const val = (current.valores || {})[campo];
       const empty = Array.isArray(val) ? !val.length : (val==null || val==="");
-      if(empty) return `<dt>${label}</dt><dd class="dim">-</dd>`;
+      if(empty) return `<dt>${rotulo}</dt><dd class="dim">-</dd>`;
       const vals = Array.isArray(val) ? val : [val];
-      const tags = vals.map(v=>{ const on=active&&active.field===key&&active.value===v;
-        return `<a class="tag${on?" on":""}" data-field="${key}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
-      return `<dt>${label}</dt><dd>${tags}</dd>`;
+      const tags = vals.map(v=>{ const on=active&&active.field===campo&&active.value===v;
+        return `<a class="tag${on?" on":""}" data-field="${campo}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
+      return `<dt>${rotulo}</dt><dd>${tags}</dd>`;
     }).join("");
     const subject = encodeURIComponent(`Pedido de acesso à imagem ${current.code}`);
     const bodym = encodeURIComponent(`Olá Valentina,\n\nGostaria de solicitar acesso à imagem ${current.code} (${current.projeto}) do Arquivo Viagem Geológica.\n\n`);

@@ -1,9 +1,33 @@
 // Função serverless (Vercel) — lista os fotogramas do Arquivo (base Arquivo,
 // tabela Fotogramas) marcados "Publicado no site". Editar lá reflete no site
 // sozinho, sem redeploy.
+//
+// Os campos que aparecem na ficha (dt/dd embaixo da foto) vêm da tabela
+// "Configuração de Campos" da mesma base — cada linha tem o nome da coluna em
+// Fotogramas ("Campo"), o texto exibido no site ("Rótulo"), se está ligado
+// ("Ativo") e a ordem. Editar essa tabela muda a ficha sem precisar de deploy.
+// Campo bilíngue: se existir "<Campo>_PT" no registro, usa esse valor (fallback
+// pro nome puro se não for bilíngue).
 
 const BASE = "appTgGC0ngoExovqb"; // base "Arquivo" (não é segredo)
+const CAMPOS_TABLE = "Configuração de Campos";
 const API = "https://api.airtable.com/v0";
+
+async function fetchAll(H, table, formula) {
+  let all = [];
+  let offset = "";
+  do {
+    let url = `${API}/${BASE}/${encodeURIComponent(table)}?pageSize=100`;
+    if (formula) url += `&filterByFormula=${encodeURIComponent(formula)}`;
+    if (offset) url += `&offset=${offset}`;
+    const r = await fetch(url, { headers: H });
+    if (!r.ok) throw new Error(`${table} -> HTTP ${r.status}`);
+    const data = await r.json();
+    all = all.concat(data.records || []);
+    offset = data.offset || "";
+  } while (offset);
+  return all;
+}
 
 module.exports = async (req, res) => {
   try {
@@ -11,41 +35,40 @@ module.exports = async (req, res) => {
     if (!token) { res.status(500).json({ error: "AIRTABLE_TOKEN ausente nas variáveis de ambiente" }); return; }
     const H = { Authorization: `Bearer ${token}` };
 
-    let all = [];
-    let offset = "";
-    do {
-      const formula = encodeURIComponent("{Publicado no site}=1");
-      let url = `${API}/${BASE}/Fotogramas?filterByFormula=${formula}&pageSize=100`;
-      if (offset) url += `&offset=${offset}`;
-      const r = await fetch(url, { headers: H });
-      if (!r.ok) { res.status(502).json({ error: "Airtable Fotogramas", status: r.status }); return; }
-      const data = await r.json();
-      all = all.concat(data.records || []);
-      offset = data.offset || "";
-    } while (offset);
+    const [configRecs, fotoRecs] = await Promise.all([
+      fetchAll(H, CAMPOS_TABLE, "{Ativo}=1").catch(() => []),
+      fetchAll(H, "Fotogramas", "{Publicado no site}=1"),
+    ]);
 
-    const fotos = all.map(rec => {
+    const campos = configRecs
+      .map(r => ({
+        campo: r.fields["Campo"] || "",
+        rotulo: r.fields["Rótulo"] || r.fields["Campo"] || "",
+        ordem: r.fields["Ordem"] || 0,
+      }))
+      .filter(c => c.campo)
+      .sort((a, b) => a.ordem - b.ordem);
+
+    const fotos = fotoRecs.map(rec => {
       const f = rec.fields;
       const foto = (f["Foto"] || [])[0];
       if (!foto) return null;
+      const valores = {};
+      campos.forEach(c => {
+        const v = f[c.campo + "_PT"] !== undefined ? f[c.campo + "_PT"] : f[c.campo];
+        valores[c.campo] = v === undefined ? "" : v;
+      });
       return {
         code: f["Nome do arquivo"] || "",
-        projeto: f["Série"] || "",
-        estado: f["Estado"] || "",
-        municipio: f["Município"] || "",
-        local: f["Local"] || "",
-        ano: f["Ano"] || "",
-        geologia: f["Geologia_PT"] || [],
-        contexto: f["Contexto_PT"] || [],
-        publicacao: f["Publicação"] || [],
-        exposicao: f["Exposição"] || [],
+        projeto: f["Série"] || "", // usado pelas pílulas de série, separado da ficha
+        valores,
         thumb: (foto.thumbnails && foto.thumbnails.large) ? foto.thumbnails.large.url : foto.url,
         web: foto.url,
       };
     }).filter(Boolean);
 
     res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
-    res.status(200).json({ fotos });
+    res.status(200).json({ campos, fotos });
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }

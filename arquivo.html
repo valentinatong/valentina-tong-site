@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#1a1815;          /* warm near-black (archive is dark mode) */
-    --panel:#211e1a;
+    --bg:#080d63;          /* mesmo azul configurado no Airtable — evita o flash cinza→azul na primeira pintura */
+    --panel:#080d63;
     --line:#332f29;
     --paper:#EDEAE2;
     --tag-bg:#EDEAE2;      /* cor de fundo das tags/pills selecionadas — vem do Airtable */
@@ -89,6 +89,17 @@
 
   @media (max-width:900px){ .wrap{ grid-template-columns:1fr; } .ficha{ position:static; height:auto; border-left:none; border-top:1px solid var(--line); } }
 </style>
+  <script>
+  // aplica a última cor conhecida (guardada no navegador) antes mesmo da primeira
+  // pintura da página — evita o flash da cor padrão até a busca no Airtable terminar
+  try {
+    var cachedBg = localStorage.getItem("arquivoCorFundo");
+    var cachedTag = localStorage.getItem("arquivoCorTag");
+    var root = document.documentElement.style;
+    if (cachedBg) { root.setProperty("--bg", cachedBg); root.setProperty("--panel", cachedBg); }
+    if (cachedTag) root.setProperty("--tag-bg", cachedTag);
+  } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -276,11 +287,16 @@
   fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
-    if(d.corFundo){ const c="#"+d.corFundo.trim().replace(/^#/,""); root.setProperty("--bg", c); root.setProperty("--panel", c); }
+    if(d.corFundo){
+      const c="#"+d.corFundo.trim().replace(/^#/,"");
+      root.setProperty("--bg", c); root.setProperty("--panel", c);
+      try { localStorage.setItem("arquivoCorFundo", c); } catch(e){}
+    }
     if(d.corTag){
       const tagBg = "#"+d.corTag.trim().replace(/^#/,"");
       root.setProperty("--tag-bg", tagBg);
       root.setProperty("--tag-fg", readableTextColor(tagBg));
+      try { localStorage.setItem("arquivoCorTag", tagBg); } catch(e){}
     }
     if(d.textoAbertura){
       window.__arquivoStatementReady(statementToHTML(d.textoAbertura));

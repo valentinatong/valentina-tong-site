@@ -107,7 +107,7 @@
   </header>
 
   <div class="filters" id="filters">
-    <span class="lab">SÉRIE</span>
+    <span class="lab" id="filterLabel">PROJETO</span>
     <!-- pills injected -->
     <a class="mapbtn" href="mapa.html" id="mapLink">◍ MAPA</a>
     <a class="mapbtn" href="#" id="aboutBtn">SOBRE</a>
@@ -125,6 +125,18 @@
   window.__arquivoStatementReady = function(html){
     window.__arquivo.statementHTML = html;
     if (window.__arquivo.renderFicha) window.__arquivo.renderFicha();
+  };
+  // rótulos do filtro de projeto (label "PROJETO" e o botão "TODOS") — configuráveis
+  // no Airtable (tabela Configurações, base Arquivo); podem chegar antes ou depois
+  // das pílulas serem montadas, então guarda o valor e aplica nos dois casos.
+  window.__arquivoRotulos = { filtro: "PROJETO", todos: "TODOS" };
+  window.__arquivoRotulosReady = function(filtro, todos){
+    if (filtro) window.__arquivoRotulos.filtro = filtro;
+    if (todos) window.__arquivoRotulos.todos = todos;
+    const lab = document.getElementById("filterLabel");
+    if (lab) lab.textContent = window.__arquivoRotulos.filtro.toUpperCase();
+    const todosPill = document.querySelector('#filters .pill[data-p="TODAS"]');
+    if (todosPill) todosPill.textContent = window.__arquivoRotulos.todos.toUpperCase();
   };
   (async function(){
   // ---- data layer — vem do Airtable (base Arquivo, tabela Fotogramas,
@@ -151,9 +163,12 @@
   // pills de série (facet Projeto)
   const projects = ["TODAS", ...[...new Set(ITEMS.map(i=>i.projeto).filter(Boolean))].sort()];
   const mapBtn = filtersEl.querySelector(".mapbtn");
-  projects.forEach(p=>{ const b=document.createElement("button"); b.className="pill"; b.textContent=p.toUpperCase(); b.dataset.p=p;
+  projects.forEach(p=>{ const b=document.createElement("button"); b.className="pill";
+    b.textContent = p==="TODAS" ? window.__arquivoRotulos.todos.toUpperCase() : p.toUpperCase();
+    b.dataset.p=p;
     b.onclick=()=> setFilter("projeto", p==="TODAS"?null:p);
     filtersEl.insertBefore(b, mapBtn); });
+  document.getElementById("filterLabel").textContent = window.__arquivoRotulos.filtro.toUpperCase();
 
   function setFilter(field, value){
     if(field==="projeto" && value===null) active=null;
@@ -269,6 +284,9 @@
     }
     if(d.textoAbertura){
       window.__arquivoStatementReady(statementToHTML(d.textoAbertura));
+    }
+    if(d.rotuloFiltro || d.rotuloTodos){
+      window.__arquivoRotulosReady(d.rotuloFiltro, d.rotuloTodos);
     }
   }).catch(()=>{});
   </script>

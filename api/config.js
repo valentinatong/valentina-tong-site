@@ -25,10 +25,12 @@ module.exports = async (req, res) => {
     const corFundo = rec ? (rec.fields["Cor de fundo"] || "") : "";
     const corTag = rec ? (rec.fields["Cor da tag"] || "") : "";
     const textoAbertura = rec ? (rec.fields["Texto de abertura"] || "") : "";
+    const rotuloFiltro = rec ? (rec.fields["Rótulo Filtro"] || "") : "";
+    const rotuloTodos = rec ? (rec.fields["Rótulo Todos"] || "") : "";
 
     // cache curto de CDN: edições aparecem em ~2 min, sem redeploy
     res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
-    res.status(200).json({ corFundo, corTag, textoAbertura });
+    res.status(200).json({ corFundo, corTag, textoAbertura, rotuloFiltro, rotuloTodos });
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }

@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
       });
       return {
         code: f["Nome do arquivo"] || "",
-        projeto: f["Série"] || "", // usado pelas pílulas de série, separado da ficha
+        projeto: f["Projeto"] || "", // usado pelas pílulas de série, separado da ficha
         valores,
         thumb: (foto.thumbnails && foto.thumbnails.large) ? foto.thumbnails.large.url : foto.url,
         web: foto.url,

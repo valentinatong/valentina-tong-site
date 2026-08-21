@@ -252,6 +252,10 @@
   // e os campos/tags da ficha já vêm traduzidos do Airtable quando lang=en.
   (function(){
     var isEN = window.__arquivoLang === "en";
+    var mapLink = document.getElementById("mapLink");
+    if(mapLink) mapLink.textContent = (isEN ? "◍ MAP" : "◍ MAPA");
+    var aboutBtn = document.getElementById("aboutBtn");
+    if(aboutBtn) aboutBtn.textContent = (isEN ? "ABOUT" : "SOBRE");
     var el = document.getElementById("langToggle");
     if(!el) return;
     el.textContent = isEN ? "PT" : "EN";

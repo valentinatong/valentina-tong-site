@@ -23,11 +23,6 @@ async function fetchAll(H, table) {
   return all;
 }
 
-function primeiroAno(s) {
-  const m = String(s || "").match(/\d{4}/);
-  return m ? parseInt(m[0], 10) : 0;
-}
-
 module.exports = async (req, res) => {
   try {
     const token = process.env.AIRTABLE_TOKEN;
@@ -77,7 +72,6 @@ module.exports = async (req, res) => {
         ...textoProjeto(proj),
         local: it["Local"] || "",
         ano: it["Ano"] || "",
-        anoOrdenacao: primeiroAno(it["Ano"]),
         ordemProjeto: proj["Ordem"] || 0,
         ordemItin: it["Ordem"] || 0,
         imgs: imgsDeFotos(fotos),
@@ -92,7 +86,6 @@ module.exports = async (req, res) => {
         ...textoProjeto(proj),
         local: proj["Local"] || "",
         ano: proj["Ano"] || "",
-        anoOrdenacao: primeiroAno(proj["Ano"]),
         ordemProjeto: proj["Ordem"] || 0,
         ordemItin: 0,
         imgs: imgsDeFotos(proj["Fotos"]),
@@ -100,7 +93,7 @@ module.exports = async (req, res) => {
     });
 
     const itens = linhasItin.concat(linhasProjeto)
-      .sort((a, b) => b.anoOrdenacao - a.anoOrdenacao || a.ordemProjeto - b.ordemProjeto || a.ordemItin - b.ordemItin);
+      .sort((a, b) => a.ordemProjeto - b.ordemProjeto || a.ordemItin - b.ordemItin);
 
     res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
     res.status(200).json({ itens });

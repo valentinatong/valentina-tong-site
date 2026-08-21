@@ -15,6 +15,9 @@
     --title-font:"Fraunces", Georgia, serif;
     --body-font:"Newsreader", Georgia, serif;
     --mono-font:"Space Mono", ui-monospace, monospace;
+    --opening-font:var(--body-font);   /* texto de apresentação — configurável por projeto no Airtable */
+    --opening-size:13.5px;
+    --opening-color:var(--ink);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -37,7 +40,7 @@
   .rail-left .title{ position:absolute; top:50%; transform:translateY(-50%); left:0; width:100%; padding:0 26px;
     font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
   .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
-  .rail-left .opening p{ font-family:var(--body-font); font-style:italic; font-size:13.5px; line-height:1.5; color:var(--ink); margin:0 0 .7em; }
+  .rail-left .opening p{ font-family:var(--opening-font); font-style:normal; font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
   .rail-left .opening .award{ font-style:normal; font-family:var(--mono-font); font-size:10px; letter-spacing:.04em; color:var(--stone); }
 
   .rail-right{ position:fixed; right:0; top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
@@ -120,6 +123,7 @@
           title: d.nome,
           date: d.ano,
           opening: (abertura || "").split(/\n+/).map(s=>s.trim()).filter(Boolean),
+          fonteTipo: d.fonteTipo || "", fonteTamanho: d.fonteTamanho || "", fonteCor: d.fonteCor || "",
           pages: d.imagens.map(i => ({
             src: i.url,
             cap: (lang==="en" ? (i.legendaEN || i.legendaPT) : i.legendaPT),
@@ -145,6 +149,13 @@
       const r=(n>>16)&255, g=(n>>8)&255, b=n&255;
       const luminance = (0.299*r + 0.587*g + 0.114*b) / 255;
       document.documentElement.style.setProperty("--ink", luminance > 0.55 ? "#201D19" : "#F2F0EC");
+    }
+    // texto de apresentação — tipo/tamanho/cor de fonte configuráveis por projeto no Airtable
+    {
+      const FONTE_MAP = { "Newsreader": "var(--body-font)", "Fraunces": "var(--title-font)", "Space Mono": "var(--mono-font)" };
+      if (P.fonteTipo && FONTE_MAP[P.fonteTipo]) document.documentElement.style.setProperty("--opening-font", FONTE_MAP[P.fonteTipo]);
+      if (P.fonteTamanho) document.documentElement.style.setProperty("--opening-size", P.fonteTamanho + "px");
+      if (P.fonteCor) document.documentElement.style.setProperty("--opening-color", "#" + P.fonteCor.trim().replace(/^#/, ""));
     }
     document.title = P.title + " — Valentina Tong";
 

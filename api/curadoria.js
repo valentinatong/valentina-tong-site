@@ -1,10 +1,11 @@
 // Função serverless (Vercel) — monta a lista da Curadoria a partir da base Curadoria.
-// Cada Projeto vira UMA linha na lista (título aparece uma vez só). Se o projeto tiver
-// Itinerâncias vinculadas (trabalho itinerante, tipo uma exposição com várias sedes),
-// elas entram como um array "sedes" dentro do item — o site mostra um link "Itinerâncias"
-// abaixo do título, e só abre a lista de sedes quando a pessoa clica nele. Projeto sem
-// Itinerância usa os campos Local/Ano/Fotos dele mesmo direto (ocorrência única). Editar
-// no Airtable reflete no site sozinho, sem redeploy.
+// Cada Projeto vira UMA linha na lista (título aparece uma vez só). Os campos Local/Ano/
+// Fotos do PRÓPRIO Projeto sempre aparecem direto na linha de abertura (foto principal,
+// local, ano), independente de ele ter Itinerâncias ou não. Se além disso o projeto tiver
+// Itinerâncias vinculadas (trabalho que passou por várias sedes), elas entram à parte
+// como um array "sedes" — o site mostra um link "Itinerâncias" abaixo do texto de
+// apresentação, e só abre a lista de sedes quando a pessoa clica nele. Editar no Airtable
+// reflete no site sozinho, sem redeploy.
 
 const BASE = "apph3pc09ROncZLnU"; // base "Curadoria" (não é segredo)
 const API = "https://api.airtable.com/v0";
@@ -74,20 +75,18 @@ module.exports = async (req, res) => {
         desc: desc || "", ordem: proj["Ordem"] || 0,
       };
 
+      // linha de abertura: sempre os campos do próprio Projeto, tenha ele sedes ou não
+      item.local = proj["Local"] || "";
+      item.ano = proj["Ano"] || "";
+      item.imgs = imgsDeFotos(proj["Fotos"]);
+
+      // sedes (Itinerâncias): à parte, só aparecem ao clicar no link dedicado
       const itins = itinsByProj[rec.id];
-      if (itins && itins.length) {
-        item.sedes = itins.map(itinRec => {
-          const it = itinRec.fields;
-          const fotos = (galByItin[itinRec.id] || []).map(g => (g["Foto"] || [])[0]);
-          return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDeFotos(fotos) };
-        });
-        item.local = ""; item.ano = ""; item.imgs = [];
-      } else {
-        item.sedes = null;
-        item.local = proj["Local"] || "";
-        item.ano = proj["Ano"] || "";
-        item.imgs = imgsDeFotos(proj["Fotos"]);
-      }
+      item.sedes = (itins && itins.length) ? itins.map(itinRec => {
+        const it = itinRec.fields;
+        const fotos = (galByItin[itinRec.id] || []).map(g => (g["Foto"] || [])[0]);
+        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDeFotos(fotos) };
+      }) : null;
       return item;
     }).sort((a, b) => a.ordem - b.ordem);
 

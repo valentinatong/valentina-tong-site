@@ -115,13 +115,13 @@
       // clicar no título abre o painel (texto de apresentação); o link de Itinerâncias
       // fica DENTRO desse painel, logo abaixo do texto — só aparece a lista de sedes
       // quando clica nele, com seu próprio "+" separado do título
-      const expandable = !!it.desc || isItinerante;
+      const expandable = !!it.desc || isItinerante || (it.imgs && it.imgs.length > 1);
       const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
 
-      const firstThumb = (!isItinerante && it.imgs && it.imgs.length) ? `<img src="${it.imgs[0].thumb}" alt="${it.titulo}">` : "";
-      const gallery = (!isItinerante && it.imgs && it.imgs.length) ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
+      const firstThumb = (it.imgs && it.imgs.length) ? `<img src="${it.imgs[0].thumb}" alt="${it.titulo}">` : "";
+      const gallery = (it.imgs && it.imgs.length) ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
       const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
-      const vy = isItinerante ? "" : `<div class="vy">${it.local} — ${it.ano}</div>`;
+      const vy = (it.local || it.ano) ? `<div class="vy">${it.local} — ${it.ano}</div>` : "";
       const itinToggle = isItinerante
         ? `<a class="itin-toggle"><span class="plus">+</span>${ROTULO_ITIN} (${it.sedes.length})</a>` : "";
 

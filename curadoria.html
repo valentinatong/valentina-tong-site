@@ -42,7 +42,7 @@
   .thumb.empty{ width:150px; height:82px; }
 
   .panel{ overflow:hidden; max-height:0; transition:max-height .32s ease; }
-  .item.open .panel{ max-height:560px; }
+  .item.open .panel{ max-height:3000px; }
   .panel-inner{ padding:2px 0 30px; }
   .desc{ font-family:var(--body-font); font-size:15.5px; line-height:1.6; color:var(--ink); max-width:64ch; margin:0 0 18px; }
   .gallery{ display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin; }
@@ -52,7 +52,7 @@
   /* link "Itinerâncias (N)" abaixo do título — abre/fecha a lista de sedes,
      independente do clique no título (que abre o texto de apresentação) */
   .itin-toggle{ font-family:var(--mono-font); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--stone); cursor:pointer; display:flex; align-items:center; gap:6px; }
+    color:var(--stone); cursor:pointer; display:flex; align-items:center; gap:6px; margin-top:6px; }
   .itin-toggle:hover{ color:var(--oxide); }
   .itin-toggle .plus{ font-size:12px; transition:transform .2s; }
   .itin-wrap.open .itin-toggle .plus{ transform:rotate(45deg); }
@@ -112,9 +112,10 @@
     const list=document.getElementById("list");
     ITEMS.forEach(it=>{
       const isItinerante = Array.isArray(it.sedes) && it.sedes.length > 0;
-      // "expandable" controla só o clique/hover/"+" do TÍTULO (abre a descrição) — o
-      // link de Itinerâncias é um gatilho separado, com seu próprio "+", tratado à parte
-      const expandable = !!it.desc;
+      // clicar no título abre o painel (texto de apresentação); o link de Itinerâncias
+      // fica DENTRO desse painel, logo abaixo do texto — só aparece a lista de sedes
+      // quando clica nele, com seu próprio "+" separado do título
+      const expandable = !!it.desc || isItinerante;
       const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
 
       const firstThumb = (!isItinerante && it.imgs && it.imgs.length) ? `<img src="${it.imgs[0].thumb}" alt="${it.titulo}">` : "";
@@ -142,15 +143,17 @@
         `<div class="row">
           <div class="title-col">
             <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.titulo}</span></div>
-            ${itinToggle}
           </div>
           <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div>${vy}</div>
           <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
         </div>
-        <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>
-        ${isItinerante?`<div class="itin-wrap"><div class="itin-list"><div class="itin-list-inner">${itinListHTML}</div></div></div>`:""}`;
+        <div class="panel"><div class="panel-inner">
+          ${desc}${gallery}
+          ${itinToggle}
+          ${isItinerante?`<div class="itin-wrap"><div class="itin-list"><div class="itin-list-inner">${itinListHTML}</div></div></div>`:""}
+        </div></div>`;
 
-      if(desc){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
+      if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
       const itinToggleEl = el.querySelector(".itin-toggle");
       if(itinToggleEl){
         itinToggleEl.addEventListener("click", e=>{

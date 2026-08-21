@@ -35,6 +35,9 @@ module.exports = async (req, res) => {
     if (!token) { res.status(500).json({ error: "AIRTABLE_TOKEN ausente nas variáveis de ambiente" }); return; }
     const H = { Authorization: `Bearer ${token}` };
 
+    const url = new URL(req.url, "http://x");
+    const isEN = (url.searchParams.get("lang") || "").toLowerCase() === "en";
+
     const [configRecs, fotoRecs] = await Promise.all([
       fetchAll(H, CAMPOS_TABLE, "{Ativo}=1").catch(() => []),
       fetchAll(H, "Fotogramas", "{Publicado no site}=1"),
@@ -43,7 +46,7 @@ module.exports = async (req, res) => {
     const campos = configRecs
       .map(r => ({
         campo: r.fields["Campo"] || "",
-        rotulo: r.fields["Rótulo"] || r.fields["Campo"] || "",
+        rotulo: (isEN && r.fields["Rótulo_EN"]) || r.fields["Rótulo"] || r.fields["Campo"] || "",
         ordem: r.fields["Ordem"] || 0,
       }))
       .filter(c => c.campo)
@@ -55,7 +58,13 @@ module.exports = async (req, res) => {
       if (!foto) return null;
       const valores = {};
       campos.forEach(c => {
-        const v = f[c.campo + "_PT"] !== undefined ? f[c.campo + "_PT"] : f[c.campo];
+        const en = f[c.campo + "_EN"];
+        const pt = f[c.campo + "_PT"];
+        const hasEN = Array.isArray(en) ? en.length : (en !== undefined && en !== "");
+        let v;
+        if (isEN && hasEN) v = en;
+        else if (pt !== undefined) v = pt;
+        else v = f[c.campo];
         valores[c.campo] = v === undefined ? "" : v;
       });
       return {

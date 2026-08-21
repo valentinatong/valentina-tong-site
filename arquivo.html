@@ -132,6 +132,7 @@
   <script>
   // estado compartilhado entre os dois blocos de script abaixo (um busca as fotos,
   // outro busca o texto de abertura — podem terminar em qualquer ordem)
+  window.__arquivoLang = new URL(location.href).searchParams.get("lang") === "en" ? "en" : "pt";
   window.__arquivo = { statementHTML: "", renderFicha: null };
   window.__arquivoStatementReady = function(html){
     window.__arquivo.statementHTML = html;
@@ -157,7 +158,7 @@
   let ITEMS = [];
   let CAMPOS = []; // [{campo, rotulo, ordem}, ...] — vem do /api/arquivo-fotos
   try {
-    const r = await fetch("/api/arquivo-fotos");
+    const r = await fetch("/api/arquivo-fotos?lang=" + window.__arquivoLang);
     if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; CAMPOS = d.campos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
   ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
@@ -247,11 +248,10 @@
   })();
   </script>
   <script>
-  // botão EN/PT — troca o parâmetro ?lang= na URL. Ainda não traduz o conteúdo desta
-  // página (só projeto.html lê o Airtable bilíngue por enquanto), mas já fica no lugar.
+  // botão EN/PT — troca o parâmetro ?lang= na URL. O texto de abertura, os rótulos
+  // e os campos/tags da ficha já vêm traduzidos do Airtable quando lang=en.
   (function(){
-    var url = new URL(location.href);
-    var isEN = url.searchParams.get("lang") === "en";
+    var isEN = window.__arquivoLang === "en";
     var el = document.getElementById("langToggle");
     if(!el) return;
     el.textContent = isEN ? "PT" : "EN";
@@ -277,14 +277,17 @@
   }
   // statement de abertura — some assim que a pessoa clica em qualquer foto (renderFicha
   // troca sozinho quando `current` deixa de ser null). Texto de reserva caso o Airtable falhe.
-  const STATEMENT_FALLBACK = "Este arquivo reúne uma seleção de fotografias produzidas desde 2014 em câmera de médio formato e filme 120, a partir de um acervo de mais de 2 mil fotogramas. São imagens de formações geológicas, sítios arqueológicos, áreas de extração mineral e paisagens transformadas pela natureza, pela arquitetura e pela construção do território.\n\nAs fotografias foram produzidas no curso de diferentes pesquisas e projetos, e são aqui reunidas como um campo aberto para novas relações, contextos e pesquisas. A organização deste arquivo é um esforço contínuo e autônomo de preservação e compartilhamento da minha prática. Para solicitar imagens em alta resolução, obter autorização para uso ou mais informações, entre em contato. Valentina Tong, 2026";
+  const IS_EN = window.__arquivoLang === "en";
+  const STATEMENT_FALLBACK_PT = "Este arquivo reúne uma seleção de fotografias produzidas desde 2014 em câmera de médio formato e filme 120, a partir de um acervo de mais de 2 mil fotogramas. São imagens de formações geológicas, sítios arqueológicos, áreas de extração mineral e paisagens transformadas pela natureza, pela arquitetura e pela construção do território.\n\nAs fotografias foram produzidas no curso de diferentes pesquisas e projetos, e são aqui reunidas como um campo aberto para novas relações, contextos e pesquisas. A organização deste arquivo é um esforço contínuo e autônomo de preservação e compartilhamento da minha prática. Para solicitar imagens em alta resolução, obter autorização para uso ou mais informações, entre em contato. Valentina Tong, 2026";
+  const STATEMENT_FALLBACK_EN = "This archive brings together a selection of photographs produced since 2014 with a medium-format camera and 120 film, from a collection of more than 2,000 frames. They are images of geological formations, archaeological sites, mineral extraction areas, and landscapes transformed by nature, architecture, and the construction of territory.\n\nThe photographs were produced over the course of different research projects and are brought together here as an open field for new relationships, contexts, and research. The organization of this archive is an ongoing, independent effort to preserve and share my practice. To request high-resolution images, obtain permission for use, or for further information, please get in touch. Valentina Tong, 2026";
   function statementToHTML(s){
     const esc = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-    return "<h3>Sobre o arquivo</h3>" + esc.split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+    const titulo = IS_EN ? "About the archive" : "Sobre o arquivo";
+    return `<h3>${titulo}</h3>` + esc.split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<p>${p}</p>`).join("");
   }
-  window.__arquivoStatementReady(statementToHTML(STATEMENT_FALLBACK));
+  window.__arquivoStatementReady(statementToHTML(IS_EN ? STATEMENT_FALLBACK_EN : STATEMENT_FALLBACK_PT));
 
-  fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
+  fetch("/api/config?base=arquivo&lang=" + window.__arquivoLang).then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
     if(d.corFundo){
@@ -298,11 +301,14 @@
       root.setProperty("--tag-fg", readableTextColor(tagBg));
       try { localStorage.setItem("arquivoCorTag", tagBg); } catch(e){}
     }
-    if(d.textoAbertura){
-      window.__arquivoStatementReady(statementToHTML(d.textoAbertura));
+    const texto = IS_EN ? (d.textoAberturaEN || d.textoAbertura) : d.textoAbertura;
+    if(texto){
+      window.__arquivoStatementReady(statementToHTML(texto));
     }
-    if(d.rotuloFiltro || d.rotuloTodos){
-      window.__arquivoRotulosReady(d.rotuloFiltro, d.rotuloTodos);
+    const filtro = IS_EN ? (d.rotuloFiltroEN || d.rotuloFiltro) : d.rotuloFiltro;
+    const todos = IS_EN ? (d.rotuloTodosEN || d.rotuloTodos) : d.rotuloTodos;
+    if(filtro || todos){
+      window.__arquivoRotulosReady(filtro, todos);
     }
   }).catch(()=>{});
   </script>

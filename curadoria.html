@@ -71,38 +71,38 @@
   <main class="list" id="list"></main>
 
   <script>
-  // ---- camada de dados (uma linha por item de curadoria) ----
-  const ITEMS = [
-    { title:"Claudia Andujar", tipo:"Publicação", papel:"Contribuição de texto", local:"Coleção Photo Poche, Actes Sud, Arles, França", year:"2025", y:2025, imgs:["08"] },
-    { title:"Claudia Andujar: The Yanomami Struggle", tipo:"Exposição", papel:"Curadora assistente", local:"Kyotographie, Quioto, Japão", year:"2024", y:2024, imgs:["01"] },
-    { title:"Claudia Andujar y La lucha Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"Museo de Arte Miguel Urrutia, Bogotá, Colômbia", year:"2024", y:2024, imgs:["02"] },
-    { title:"La Lucha Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"Museo Amparo, Puebla, México", year:"2023–2024", y:2023.5, imgs:["03"] },
-    { title:"Indigenous Rights, Art and Environmental Justice", tipo:"Programa público", papel:"Mediação", local:"The Shed, Nova Iorque, EUA", year:"2023", y:2023, imgs:["04"] },
-    { title:"A World History of Women Photographers", tipo:"Publicação", papel:"Contribuição de texto", local:"Thames & Hudson, Londres, Inglaterra", year:"2022", y:2022, imgs:["09"] },
-    { title:"Representações e Narrativas Visuais Indígenas", tipo:"Seminário", papel:"Fala pública", local:"Instituto Moreira Salles, Rio de Janeiro, Brasil", year:"2019", y:2019, imgs:["10"] },
-    { title:"Claudia Andujar: A luta Yanomami", tipo:"Exposição", papel:"Curadora assistente", local:"IMS Paulista, São Paulo, Brasil", year:"2018–2019", y:2018.5,
-      desc:"Exposição retrospectiva dedicada à obra de Claudia Andujar, reunindo mais de 200 fotografias, desenhos, documentos e filmes sobre sua trajetória junto ao povo Yanomami. A itinerância internacional foi organizada pelo Instituto Moreira Salles em parceria com instituições anfitriãs. Atuei na adaptação da exposição para cada instituição e no desenho expográfico.", imgs:[] },
-    { title:"Vitrines e Fachadas: Dois Ensaios Paulistanos de Dulce Soares", tipo:"Exposição", papel:"Curadora", local:"Instituto Moreira Salles, São Paulo, Brasil", year:"2016", y:2016, imgs:[] },
-    { title:"Vitrines e Fachadas: Dois Ensaios Paulistanos de Dulce Soares", tipo:"Encarte de exposição", papel:"Edição e texto", local:"Instituto Moreira Salles, São Paulo, Brasil", year:"2016", y:2016.01, imgs:["07"] },
-  ];
+  // ---- camada de dados — vem do Airtable (base Curadoria: Projetos → Itinerâncias →
+  // Galeria). Cada Itinerância (sede/edição) vira uma linha na lista. Editar lá reflete
+  // aqui sozinho, sem redeploy. ----
+  (async function(){
+    const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+    let ITEMS = [];
+    try {
+      const r = await fetch("/api/curadoria?lang=" + lang);
+      if (r.ok) { const d = await r.json(); ITEMS = (d.itens || []).map(it => ({
+        title: it.titulo, tipo: it.tipo, papel: it.papel, local: it.local, year: it.ano,
+        desc: it.desc, imgs: it.imgs,
+      })); }
+    } catch (e) { /* sem fallback estático — se a busca falhar, a lista fica vazia */ }
 
-  const list=document.getElementById("list");
-  ITEMS.forEach(it=>{
-    const expandable = (it.imgs && it.imgs.length) || it.desc;
-    const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
-    const firstThumb = it.imgs && it.imgs.length ? `<img src="assets/curadoria/thumb/${it.imgs[0]}.jpg" alt="${it.title}">` : "";
-    const gallery = it.imgs && it.imgs.length ? `<div class="gallery">${it.imgs.map(n=>`<img src="assets/curadoria/web/${n}.jpg" alt="${it.title}">`).join("")}</div>` : "";
-    const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
-    el.innerHTML =
-      `<div class="row">
-        <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.title}</span></div>
-        <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div><div class="vy">${it.local} — ${it.year}</div></div>
-        <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
-      </div>
-      <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>`;
-    if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
-    list.appendChild(el);
-  });
+    const list=document.getElementById("list");
+    ITEMS.forEach(it=>{
+      const expandable = (it.imgs && it.imgs.length) || it.desc;
+      const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
+      const firstThumb = it.imgs && it.imgs.length ? `<img src="${it.imgs[0].thumb}" alt="${it.title}">` : "";
+      const gallery = it.imgs && it.imgs.length ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.title}">`).join("")}</div>` : "";
+      const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
+      el.innerHTML =
+        `<div class="row">
+          <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.title}</span></div>
+          <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div><div class="vy">${it.local} — ${it.year}</div></div>
+          <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
+        </div>
+        <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>`;
+      if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
+      list.appendChild(el);
+    });
+  })();
   </script>
   <script>
   // botão EN/PT — troca o parâmetro ?lang= na URL. Ainda não traduz o conteúdo desta

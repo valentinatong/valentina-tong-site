@@ -29,7 +29,6 @@ const TARGETS = [
   { base: "apph3pc09ROncZLnU", table: "Configurações", file: "curadoria-configuracoes.json" },
   { base: "apph3pc09ROncZLnU", table: "Projetos",      file: "curadoria-projetos.json" },
   { base: "apph3pc09ROncZLnU", table: "Itinerâncias",  file: "curadoria-itinerancias.json" },
-  { base: "apph3pc09ROncZLnU", table: "Galeria",       file: "curadoria-galeria.json" },
 ];
 
 async function fetchAllRecords(base, table) {

@@ -1,11 +1,12 @@
-// Função serverless (Vercel) — monta a lista da Curadoria a partir da base Curadoria.
-// Cada Projeto vira UMA linha na lista (título aparece uma vez só). Os campos Local/Ano/
-// Fotos do PRÓPRIO Projeto sempre aparecem direto na linha de abertura (foto principal,
-// local, ano), independente de ele ter Itinerâncias ou não. Se além disso o projeto tiver
-// Itinerâncias vinculadas (trabalho que passou por várias sedes), elas entram à parte
-// como um array "sedes" — o site mostra um link "Itinerâncias" abaixo do texto de
-// apresentação, e só abre a lista de sedes quando a pessoa clica nele. Editar no Airtable
-// reflete no site sozinho, sem redeploy.
+// Função serverless (Vercel) — monta a lista da Curadoria a partir da base Curadoria
+// (só 2 tabelas: Projetos e Itinerâncias, cada uma com seu próprio campo de anexo
+// múltiplo "Fotos" — sem tabela de Galeria separada). Cada Projeto vira UMA linha na
+// lista (título aparece uma vez só). Os campos Local/Ano/Fotos do PRÓPRIO Projeto sempre
+// aparecem direto na linha de abertura (foto principal, local, ano), independente de ele
+// ter Itinerâncias ou não. Se além disso o projeto tiver Itinerâncias vinculadas (trabalho
+// que passou por várias sedes), elas entram à parte como um array "sedes" — o site mostra
+// um link "Itinerâncias" abaixo do texto de apresentação, e só abre a lista de sedes
+// quando a pessoa clica nele. Editar no Airtable reflete no site sozinho, sem redeploy.
 
 const BASE = "apph3pc09ROncZLnU"; // base "Curadoria" (não é segredo)
 const API = "https://api.airtable.com/v0";
@@ -34,19 +35,10 @@ module.exports = async (req, res) => {
     const url = new URL(req.url, "http://x");
     const isEN = (url.searchParams.get("lang") || "").toLowerCase() === "en";
 
-    const [projRecs, itinRecs, galRecs] = await Promise.all([
+    const [projRecs, itinRecs] = await Promise.all([
       fetchAll(H, "Projetos"),
       fetchAll(H, "Itinerâncias"),
-      fetchAll(H, "Galeria"),
     ]);
-
-    const galByItin = {};
-    galRecs.forEach(r => {
-      const itinId = (r.fields["Itinerância"] || [])[0];
-      if (!itinId) return;
-      (galByItin[itinId] = galByItin[itinId] || []).push(r.fields);
-    });
-    Object.values(galByItin).forEach(list => list.sort((a, b) => (a["Ordem"] || 0) - (b["Ordem"] || 0)));
 
     const itinsByProj = {};
     itinRecs.forEach(rec => {
@@ -84,8 +76,7 @@ module.exports = async (req, res) => {
       const itins = itinsByProj[rec.id];
       item.sedes = (itins && itins.length) ? itins.map(itinRec => {
         const it = itinRec.fields;
-        const fotos = (galByItin[itinRec.id] || []).map(g => (g["Foto"] || [])[0]);
-        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDeFotos(fotos) };
+        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDeFotos(it["Fotos"]) };
       }) : null;
       return item;
     }).sort((a, b) => a.ordem - b.ordem);

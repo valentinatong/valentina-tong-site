@@ -30,6 +30,7 @@
   .item:last-child{ border-bottom:1px solid var(--line); }
   .row{ display:grid; grid-template-columns: 1.5fr 1.25fr 150px; gap:28px; align-items:center; padding:22px 0; }
   .item.expandable .row{ cursor:pointer; }
+  .title-col{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
   .title{ font-family:var(--title-font); font-weight:500; font-size:19px; line-height:1.2; display:flex; gap:10px; align-items:baseline; }
   .item.expandable:hover .title{ color:var(--oxide); }
   .title .plus{ font-family:var(--mono-font); font-size:14px; color:var(--stone-dim); flex:0 0 auto; transition:transform .2s; }
@@ -48,10 +49,34 @@
   .gallery img{ height:240px; width:auto; object-fit:contain; display:block; background:#f3f2ef; }
   .gallery::-webkit-scrollbar{ height:6px; } .gallery::-webkit-scrollbar-thumb{ background:var(--line); }
 
+  /* link "Itinerâncias (N)" abaixo do título — abre/fecha a lista de sedes,
+     independente do clique no título (que abre o texto de apresentação) */
+  .itin-toggle{ font-family:var(--mono-font); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--stone); cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .itin-toggle:hover{ color:var(--oxide); }
+  .itin-toggle .plus{ font-size:12px; transition:transform .2s; }
+  .itin-wrap.open .itin-toggle .plus{ transform:rotate(45deg); }
+
+  .itin-list{ overflow:hidden; max-height:0; transition:max-height .35s ease; }
+  .itin-wrap.open .itin-list{ max-height:2000px; }
+  .itin-list-inner{ padding:4px 0 22px; }
+  .itin{ border-top:1px solid var(--line); }
+  .itin-row{ display:grid; grid-template-columns: 1.5fr 1.25fr 150px; gap:28px; align-items:center; padding:14px 0; padding-left:24px; }
+  .itin.clickable .itin-row{ cursor:pointer; }
+  .itin.clickable:hover .itin-row .itin-vy{ color:var(--oxide); }
+  .itin-vy{ font-family:var(--body-font); font-style:italic; font-size:14.5px; color:var(--stone); }
+  .itin-thumb{ justify-self:end; }
+  .itin-thumb img{ height:64px; width:auto; max-width:130px; object-fit:contain; display:block; }
+  .itin-panel{ overflow:hidden; max-height:0; transition:max-height .3s ease; }
+  .itin.open .itin-panel{ max-height:280px; }
+  .itin-panel-inner{ padding:2px 0 18px 24px; }
+  .itin-panel-inner .gallery img{ height:180px; }
+
   @media (max-width:800px){
     .top{ flex-direction:column; gap:14px; padding:20px 22px; }
-    .row{ grid-template-columns:1fr; gap:10px; }
+    .row, .itin-row{ grid-template-columns:1fr; gap:10px; }
     .thumb{ justify-self:start; } .thumb img{ height:120px; }
+    .itin-thumb{ justify-self:start; }
   }
 </style>
 </head>
@@ -72,34 +97,70 @@
 
   <script>
   // ---- camada de dados — vem do Airtable (base Curadoria: Projetos → Itinerâncias →
-  // Galeria). Cada Itinerância (sede/edição) vira uma linha na lista. Editar lá reflete
-  // aqui sozinho, sem redeploy. ----
+  // Galeria). Cada Projeto vira UMA linha. Se tiver sedes (trabalho itinerante), elas só
+  // aparecem quando clica no link "Itinerâncias" abaixo do título — não abrem sozinhas.
+  // Editar no Airtable reflete aqui sozinho, sem redeploy. ----
   (async function(){
     const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
+    const ROTULO_ITIN = lang === "en" ? "Itineraries" : "Itinerâncias";
     let ITEMS = [];
     try {
       const r = await fetch("/api/curadoria?lang=" + lang);
-      if (r.ok) { const d = await r.json(); ITEMS = (d.itens || []).map(it => ({
-        title: it.titulo, tipo: it.tipo, papel: it.papel, local: it.local, year: it.ano,
-        desc: it.desc, imgs: it.imgs,
-      })); }
+      if (r.ok) { const d = await r.json(); ITEMS = d.itens || []; }
     } catch (e) { /* sem fallback estático — se a busca falhar, a lista fica vazia */ }
 
     const list=document.getElementById("list");
     ITEMS.forEach(it=>{
-      const expandable = (it.imgs && it.imgs.length) || it.desc;
+      const isItinerante = Array.isArray(it.sedes) && it.sedes.length > 0;
+      // "expandable" controla só o clique/hover/"+" do TÍTULO (abre a descrição) — o
+      // link de Itinerâncias é um gatilho separado, com seu próprio "+", tratado à parte
+      const expandable = !!it.desc;
       const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
-      const firstThumb = it.imgs && it.imgs.length ? `<img src="${it.imgs[0].thumb}" alt="${it.title}">` : "";
-      const gallery = it.imgs && it.imgs.length ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.title}">`).join("")}</div>` : "";
+
+      const firstThumb = (!isItinerante && it.imgs && it.imgs.length) ? `<img src="${it.imgs[0].thumb}" alt="${it.titulo}">` : "";
+      const gallery = (!isItinerante && it.imgs && it.imgs.length) ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
       const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
+      const vy = isItinerante ? "" : `<div class="vy">${it.local} — ${it.ano}</div>`;
+      const itinToggle = isItinerante
+        ? `<a class="itin-toggle"><span class="plus">+</span>${ROTULO_ITIN} (${it.sedes.length})</a>` : "";
+
+      const itinListHTML = isItinerante ? it.sedes.map(sede=>{
+        const sedeThumb = sede.imgs && sede.imgs.length ? `<img src="${sede.imgs[0].thumb}" alt="${it.titulo}">` : "";
+        const sedeGallery = sede.imgs && sede.imgs.length ? `<div class="gallery">${sede.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
+        const clickable = sede.imgs && sede.imgs.length;
+        return `<div class="itin${clickable?' clickable':''}">
+          <div class="itin-row">
+            <div class="itin-vy">${sede.local} — ${sede.ano}</div>
+            <div></div>
+            <div class="itin-thumb">${sedeThumb}</div>
+          </div>
+          <div class="itin-panel"><div class="itin-panel-inner">${sedeGallery}</div></div>
+        </div>`;
+      }).join("") : "";
+
       el.innerHTML =
         `<div class="row">
-          <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.title}</span></div>
-          <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div><div class="vy">${it.local} — ${it.year}</div></div>
+          <div class="title-col">
+            <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.titulo}</span></div>
+            ${itinToggle}
+          </div>
+          <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div>${vy}</div>
           <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
         </div>
-        <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>`;
-      if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
+        <div class="panel"><div class="panel-inner">${desc}${gallery}</div></div>
+        ${isItinerante?`<div class="itin-wrap"><div class="itin-list"><div class="itin-list-inner">${itinListHTML}</div></div></div>`:""}`;
+
+      if(desc){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
+      const itinToggleEl = el.querySelector(".itin-toggle");
+      if(itinToggleEl){
+        itinToggleEl.addEventListener("click", e=>{
+          e.stopPropagation();
+          el.querySelector(".itin-wrap").classList.toggle("open");
+        });
+      }
+      el.querySelectorAll(".itin.clickable .itin-row").forEach(row=>{
+        row.addEventListener("click", ()=> row.closest(".itin").classList.toggle("open"));
+      });
       list.appendChild(el);
     });
   })();

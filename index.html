@@ -57,6 +57,13 @@
 </style>
 </head>
 <body>
+  <script>
+  // usa a última foto conhecida (guardada no navegador) antes mesmo da primeira
+  // pintura — evita mostrar a foto padrão local por um instante enquanto a busca
+  // no Airtable não termina
+  var cachedHero = null;
+  try { cachedHero = localStorage.getItem("homeHeroFoto"); } catch (e) {}
+  </script>
   <img class="vt-photo" id="heroPhoto" src="assets/home/home-01.jpg" alt="" />
   <div class="vt-veil"></div>
 
@@ -70,8 +77,12 @@
   <script>
   // foto de capa vem da base "Home" (tabela "Capa", linha marcada "Ativa") no Airtable —
   // trocar lá muda a foto aqui sozinho, sem deploy. Se a busca falhar, fica a foto local acima.
-  fetch("/api/home").then(r=>r.ok?r.json():null).then(d=>{
-    if(d && d.foto) document.getElementById("heroPhoto").src = d.foto;
+  if (cachedHero) document.getElementById("heroPhoto").src = cachedHero;
+  fetch("/api/home?_=" + Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+    if(d && d.foto){
+      document.getElementById("heroPhoto").src = d.foto;
+      try { localStorage.setItem("homeHeroFoto", d.foto); } catch (e) {}
+    }
   }).catch(()=>{});
   </script>
   <script src="assets/no-drag.js"></script>

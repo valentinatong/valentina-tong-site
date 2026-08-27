@@ -1,6 +1,10 @@
 .DS_Store
 **/.DS_Store
 
+# tokens/segredos locais — nunca commitar
+.env
+.env.*
+
 # pastas-fonte pesadas (não fazem parte do site publicado)
 /Arquivo/
 /Curadoria/

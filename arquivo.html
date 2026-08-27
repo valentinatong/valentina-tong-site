@@ -166,6 +166,12 @@
 
   let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
   let active = null; // filtro ativo: {field, value} ou null (todas) — field="projeto" (pílulas de série) ou o nome de um Campo da ficha
+  // deep link vindo do mapa (mapa.html?municipio=X) — só filtra se "Município" for
+  // um campo ativo na ficha (Configuração de Campos); senão o parâmetro é ignorado
+  const qMunicipio = new URL(location.href).searchParams.get("municipio");
+  if (qMunicipio && CAMPOS.some(c => c.campo === "Município")) {
+    active = { field: "Município", value: qMunicipio };
+  }
   const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
 
   function fieldVal(it,f){ return f==="projeto" ? it.projeto : (it.valores || {})[f]; }
@@ -207,6 +213,12 @@
     });
     if(!grid.children.length) grid.innerHTML=`<p style="color:var(--stone-dim);font-family:var(--mono-font);font-size:12px;padding:10px">Nenhuma imagem com esse critério ainda.</p>`;
   }
+  function mapHref(it){
+    if (it && it.municipio && it.estado) {
+      return `mapa.html?municipio=${encodeURIComponent(it.municipio)}&estado=${encodeURIComponent(it.estado)}`;
+    }
+    return "mapa.html";
+  }
   function renderFicha(){
     if(!current){ fichaEl.innerHTML = `<div class="statement">${window.__arquivo.statementHTML}</div>`; return; }
     const rows = CAMPOS.map(({campo, rotulo})=>{
@@ -225,7 +237,7 @@
       `<div class="code">${current.code}</div>`+
       `<dl>${rows}</dl>`+
       `<div class="divider"></div>`+
-      `<dl><dt>Localização</dt><dd><a class="maplink" href="mapa.html">Ver no mapa →</a></dd></dl>`+
+      `<dl><dt>Localização</dt><dd><a class="maplink" href="${mapHref(current)}">Ver no mapa →</a></dd></dl>`+
       `<div class="divider"></div>`+
       `<a class="req" href="mailto:tongvalentina@gmail.com?subject=${subject}&body=${bodym}">SOLICITAR ACESSO À IMAGEM</a>`+
       `<div class="req-note">Imagens em alta resolução mediante pedido por e-mail.</div>`+
@@ -244,7 +256,7 @@
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
   window.__arquivo.renderFicha = renderFicha;
-  syncPills(); renderGrid(); renderFicha();
+  syncPills(); renderChip(); renderGrid(); renderFicha();
   })();
   </script>
   <script>

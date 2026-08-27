@@ -30,6 +30,8 @@ module.exports = async (req, res) => {
     const rotuloFiltroEN = rec ? (rec.fields["Rótulo Filtro_EN"] || "") : "";
     const rotuloTodos = rec ? (rec.fields["Rótulo TODOS"] || "") : "";
     const rotuloTodosEN = rec ? (rec.fields["Rótulo Todos_EN"] || "") : "";
+    const textoAberturaMapa = rec ? (rec.fields["Texto de abertura do Mapa"] || "") : "";
+    const textoAberturaMapaEN = rec ? (rec.fields["Texto de abertura do Mapa_EN"] || "") : "";
 
     // cache curto de CDN: edições aparecem em ~2 min, sem redeploy
     res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
@@ -38,6 +40,7 @@ module.exports = async (req, res) => {
       textoAbertura, textoAberturaEN,
       rotuloFiltro, rotuloFiltroEN,
       rotuloTodos, rotuloTodosEN,
+      textoAberturaMapa, textoAberturaMapaEN,
     });
   } catch (e) {
     res.status(500).json({ error: String(e) });

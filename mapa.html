@@ -178,12 +178,14 @@
     const locaisArr = [...LOCAIS.values()];
 
     // agrupamento por projeto — "-" (sem projeto específico) vira "Outros Registros"
-    const porProjeto = new Map(); // rotulo -> Set(chaveLocal)
+    const porProjeto = new Map(); // rotulo -> Set(chaveLocal), usado pro filtro/fitBounds
+    const contagemProjeto = new Map(); // rotulo -> número de fotos, usado só pro número exibido
     locaisArr.forEach(l => {
       l.fotos.forEach(f => {
         const rotulo = (!f.projeto || f.projeto === "-") ? OUTROS_REGISTROS : f.projeto;
         if (!porProjeto.has(rotulo)) porProjeto.set(rotulo, new Set());
         porProjeto.get(rotulo).add(chave(l.estado, l.municipio));
+        contagemProjeto.set(rotulo, (contagemProjeto.get(rotulo) || 0) + 1);
       });
     });
 
@@ -228,7 +230,7 @@
     });
     ordemProjetos.forEach(rotulo => {
       const r = document.createElement("div"); r.className = "r"; r.dataset.rotulo = rotulo;
-      r.innerHTML = `<span class="nm">${rotulo}</span><span class="ct">${porProjeto.get(rotulo).size}</span>`;
+      r.innerHTML = `<span class="nm">${rotulo}</span><span class="ct">${contagemProjeto.get(rotulo)}</span>`;
       r.onclick = () => setProjeto(rotulo);
       legEl.appendChild(r);
     });

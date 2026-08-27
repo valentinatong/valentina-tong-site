@@ -180,12 +180,15 @@
     // agrupamento por projeto — "-" (sem projeto específico) vira "Outros Registros"
     const porProjeto = new Map(); // rotulo -> Set(chaveLocal), usado pro filtro/fitBounds
     const contagemProjeto = new Map(); // rotulo -> número de fotos, usado só pro número exibido
+    const fotosPorProjeto = new Map(); // rotulo -> [fotos], usado pro painel de resultados
     locaisArr.forEach(l => {
       l.fotos.forEach(f => {
         const rotulo = (!f.projeto || f.projeto === "-") ? OUTROS_REGISTROS : f.projeto;
         if (!porProjeto.has(rotulo)) porProjeto.set(rotulo, new Set());
         porProjeto.get(rotulo).add(chave(l.estado, l.municipio));
         contagemProjeto.set(rotulo, (contagemProjeto.get(rotulo) || 0) + 1);
+        if (!fotosPorProjeto.has(rotulo)) fotosPorProjeto.set(rotulo, []);
+        fotosPorProjeto.get(rotulo).push(f);
       });
     });
 
@@ -217,8 +220,14 @@
         const chaves = [...(porProjeto.get(activeProjeto) || [])];
         const pontos = chaves.map(k => markers.get(k).getLatLng()).filter(Boolean);
         if (pontos.length) map.fitBounds(L.latLngBounds(pontos), { padding: [40, 40], maxZoom: 10 });
+        const fotos = fotosPorProjeto.get(activeProjeto) || [];
+        const thumbs = fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.municipio}, ${f.estado} — ${f.code}">`).join("");
+        results.innerHTML = `<p class="loc">${activeProjeto}</p>` +
+          `<div class="sub">${fotos.length} ${fotos.length > 1 ? "registros" : "registro"}</div>` +
+          `<div class="grid">${thumbs}</div>`;
       } else {
         map.setView(BRASIL_CENTRO, BRASIL_ZOOM);
+        results.innerHTML = `<p class="hint">Selecione um ponto no mapa. Use a roda do mouse para dar zoom e arraste para navegar.</p>`;
       }
     }
 

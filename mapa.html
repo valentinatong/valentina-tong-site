@@ -237,7 +237,7 @@
     function selectLocal(k, center){
       const l = LOCAIS.get(k);
       if (!l) return;
-      const thumbs = l.fotos.slice(0, 9).map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.code}">`).join("");
+      const thumbs = l.fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.code}">`).join("");
       const href = `arquivo.html?municipio=${encodeURIComponent(l.municipio)}`;
       results.innerHTML = `<p class="loc">${l.municipio}, ${l.estado}</p>` +
         `<div class="sub">${l.fotos.length} ${l.fotos.length > 1 ? "registros" : "registro"}</div>` +

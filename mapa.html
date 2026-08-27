@@ -259,7 +259,8 @@
     results.addEventListener("click", e => {
       const img = e.target.closest(".grid img");
       if (!img || !img.dataset.chave) return;
-      selectLocal(img.dataset.chave, true);
+      const l = LOCAIS.get(img.dataset.chave);
+      if (l) map.setView([l.lat, l.lon], 13); // só aponta o pino, sem trocar o painel
     });
 
     const qs = new URL(location.href).searchParams;

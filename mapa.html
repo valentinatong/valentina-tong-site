@@ -254,7 +254,7 @@
         `<div class="sub">${l.fotos.length} ${l.fotos.length > 1 ? "registros" : "registro"}</div>` +
         `<div class="grid">${thumbs}</div>` +
         `<div class="links"><a href="${href}">Ver no Arquivo →</a></div>`;
-      if (center) map.setView([l.lat, l.lon], 9);
+      if (center) map.setView([l.lat, l.lon], 13);
     }
     results.addEventListener("click", e => {
       const img = e.target.closest(".grid img");

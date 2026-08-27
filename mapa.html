@@ -44,7 +44,7 @@
   .results .loc{ font-family:var(--title-font); font-weight:600; font-size:16px; margin:0 0 4px; }
   .results .sub{ font-family:var(--mono-font); font-size:10px; letter-spacing:.14em; color:var(--stone); text-transform:uppercase; margin-bottom:14px; }
   .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-  .grid img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:#ddd; }
+  .grid img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:#ddd; cursor:pointer; }
   .results .links{ display:flex; flex-direction:column; gap:7px; margin-top:14px; }
   .results .links a{ font-family:var(--mono-font); font-size:11px; letter-spacing:.08em; color:var(--stone); }
   .results .links a:hover{ color:var(--oxide); }
@@ -221,7 +221,7 @@
         const pontos = chaves.map(k => markers.get(k).getLatLng()).filter(Boolean);
         if (pontos.length) map.fitBounds(L.latLngBounds(pontos), { padding: [40, 40], maxZoom: 10 });
         const fotos = fotosPorProjeto.get(activeProjeto) || [];
-        const thumbs = fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.municipio}, ${f.estado} — ${f.code}">`).join("");
+        const thumbs = fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.municipio}, ${f.estado} — ${f.code}" data-chave="${chave(f.estado, f.municipio)}">`).join("");
         results.innerHTML = `<p class="loc">${activeProjeto}</p>` +
           `<div class="sub">${fotos.length} ${fotos.length > 1 ? "registros" : "registro"}</div>` +
           `<div class="grid">${thumbs}</div>`;
@@ -248,7 +248,7 @@
     function selectLocal(k, center){
       const l = LOCAIS.get(k);
       if (!l) return;
-      const thumbs = l.fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.code}">`).join("");
+      const thumbs = l.fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.code}" data-chave="${k}">`).join("");
       const href = `arquivo.html?municipio=${encodeURIComponent(l.municipio)}`;
       results.innerHTML = `<p class="loc">${l.municipio}, ${l.estado}</p>` +
         `<div class="sub">${l.fotos.length} ${l.fotos.length > 1 ? "registros" : "registro"}</div>` +
@@ -256,6 +256,11 @@
         `<div class="links"><a href="${href}">Ver no Arquivo →</a></div>`;
       if (center) map.setView([l.lat, l.lon], 9);
     }
+    results.addEventListener("click", e => {
+      const img = e.target.closest(".grid img");
+      if (!img || !img.dataset.chave) return;
+      selectLocal(img.dataset.chave, true);
+    });
 
     const qs = new URL(location.href).searchParams;
     const qMunicipio = qs.get("municipio"), qEstado = qs.get("estado");

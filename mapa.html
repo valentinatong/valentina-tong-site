@@ -99,7 +99,7 @@
       <div class="rule"></div>
       <div class="total" id="total"></div>
       <div class="rule"></div>
-      <div class="results" id="results"><p class="hint">Selecione um ponto no mapa. Use Cmd/Ctrl + roda do mouse para dar zoom, ou os botões ao lado, e arraste para navegar.</p></div>
+      <div class="results" id="results"><p class="hint">Selecione um ponto no mapa. Use a roda do mouse para dar zoom e arraste para navegar.</p></div>
     </aside>
 
     <div class="mapbox" id="mapbox">
@@ -126,17 +126,7 @@
   }
   function chave(estado, municipio){ return norm(municipio) + "|" + norm(estado); }
 
-  const map = L.map("map", { zoomControl:false, scrollWheelZoom:false }).setView(BRASIL_CENTRO, BRASIL_ZOOM);
-
-  // rolar normal (roda do mouse ou trackpad) sempre rola a página — só dá zoom
-  // no mapa com Cmd (Mac) ou Ctrl (Windows/Linux) segurado, pra não travar o
-  // scroll da página quando o cursor passa em cima do mapa
-  document.getElementById("map").addEventListener("wheel", e => {
-    if (!e.metaKey && !e.ctrlKey) return; // sem modificador: deixa a página rolar normal
-    e.preventDefault();
-    const delta = e.deltaY < 0 ? 1 : -1;
-    map.setZoomAround(map.mouseEventToContainerPoint(e), map.getZoom() + delta);
-  }, { passive:false });
+  const map = L.map("map", { zoomControl:false }).setView(BRASIL_CENTRO, BRASIL_ZOOM);
   map.attributionControl.setPosition("bottomleft");
 
   const LAYERS = {
@@ -237,7 +227,7 @@
           `<div class="grid">${thumbs}</div>`;
       } else {
         map.setView(BRASIL_CENTRO, BRASIL_ZOOM);
-        results.innerHTML = `<p class="hint">Selecione um ponto no mapa. Use Cmd/Ctrl + roda do mouse para dar zoom, ou os botões ao lado, e arraste para navegar.</p>`;
+        results.innerHTML = `<p class="hint">Selecione um ponto no mapa. Use a roda do mouse para dar zoom e arraste para navegar.</p>`;
       }
     }
 

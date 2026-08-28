@@ -200,45 +200,74 @@
       return Array.isArray(v) ? v.includes(chosen) : String(v)===String(chosen);
     });
   }
+  // "it" bate com os filtros ativos das categorias ANTES de "uptoIdx" na ordem de
+  // CATEGORIES (Projeto, Estado, Município, Local, Ano, Geologia, Contexto) — é o
+  // que faz a cascata andar só pra frente: Estado restringe Município/Local, mas
+  // Município/Local nunca restringem Estado ou Projeto de volta (senão o próprio
+  // select de Projeto ficaria preso depois que o Estado fosse preenchido sozinho).
+  function matchesUpTo(it, uptoIdx){
+    for(let i=0;i<uptoIdx;i++){
+      const field = CATEGORIES[i].field;
+      const chosen = active[field];
+      if(!chosen) continue;
+      const v = fieldVal(it, field);
+      if(!v || (Array.isArray(v) && !v.length)) return false;
+      if(!(Array.isArray(v) ? v.includes(chosen) : String(v)===String(chosen))) return false;
+    }
+    return true;
+  }
+  function optionsFor(idx){
+    const field = CATEGORIES[idx].field;
+    return [...new Set(ITEMS.filter(it=>matchesUpTo(it, idx)).flatMap(it=>{
+      const v=fieldVal(it,field); return Array.isArray(v)?v:(v?[v]:[]);
+    }))].sort((a,b)=> String(a).localeCompare(String(b), undefined, {numeric:true, sensitivity:"base"}));
+  }
 
   const mapBtn = filtersEl.querySelector(".mapbtn");
   const selects = {};
   CATEGORIES.forEach(cat=>{
-    const values = [...new Set(ITEMS.flatMap(it=>{ const v=fieldVal(it,cat.field); return Array.isArray(v)?v:(v?[v]:[]); }))]
-      .sort((a,b)=> String(a).localeCompare(String(b), undefined, {numeric:true, sensitivity:"base"}));
-    const label = lang==="en" ? cat.labelEN : cat.labelPT;
     const sel = document.createElement("select"); sel.className="filtsel"; sel.dataset.field=cat.field;
-    sel.innerHTML = `<option value="">${label}</option>` +
-      values.map(v=>`<option value="${String(v).replace(/"/g,"&quot;")}">${v}</option>`).join("");
-    sel.value = active[cat.field] || "";
     sel.onchange = ()=> setFilter(cat.field, sel.value || null);
     filtersEl.insertBefore(sel, mapBtn);
     selects[cat.field] = sel;
   });
 
-  function setFilter(field, value, opts){
-    field = normField(field);
-    if((opts && opts.toggle) && active[field]===value) value = null;
-    active[field] = value || null;
-    if(selects[field]) selects[field].value = value || "";
-    renderClear(); renderGrid(); renderFicha();
-  }
-  function syncSelects(){ CATEGORIES.forEach(c=>{ if(selects[c.field]) selects[c.field].value = active[c.field] || ""; });
-    Object.values(selects).forEach(sel=> sel.classList.toggle("on", !!sel.value)); }
-  function renderClear(){
-    syncSelects();
+  // recalcula, em cascata (Projeto → Estado → Município → Local → ...), as opções
+  // de cada select a partir dos OUTROS filtros já ativos — ex.: escolher um projeto
+  // que só existe num estado já restringe (e preenche sozinho, se sobrar só um) o
+  // select de Estado; escolher um estado restringe Município e Local, evitando
+  // listas enormes. Se um valor já escolhido deixa de ser possível, ele é limpo.
+  function refreshFilters(){
+    CATEGORIES.forEach((cat, idx)=>{
+      const options = optionsFor(idx);
+      if(active[cat.field] && !options.some(v=>String(v)===String(active[cat.field]))) active[cat.field] = null;
+      if(!active[cat.field] && options.length===1) active[cat.field] = String(options[0]);
+      const label = lang==="en" ? cat.labelEN : cat.labelPT;
+      const sel = selects[cat.field];
+      sel.innerHTML = `<option value="">${label}</option>` +
+        options.map(v=>`<option value="${String(v).replace(/"/g,"&quot;")}">${v}</option>`).join("");
+      sel.value = active[cat.field] || "";
+      sel.classList.toggle("on", !!active[cat.field]);
+    });
     let el=document.getElementById("clearFilters");
     const hasActive = CATEGORIES.some(c=>active[c.field]);
     if(hasActive){
       if(!el){ el=document.createElement("button"); el.id="clearFilters"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
       el.textContent = (lang==="en" ? "CLEAR FILTERS" : "LIMPAR FILTROS") + " ✕";
-      el.onclick = ()=>{ CATEGORIES.forEach(c=>{ active[c.field]=null; }); renderClear(); renderGrid(); renderFicha(); };
+      el.onclick = ()=>{ CATEGORIES.forEach(c=>{ active[c.field]=null; }); refreshFilters(); renderGrid(); renderFicha(); };
     } else if(el){ el.remove(); }
+  }
+
+  function setFilter(field, value, opts){
+    field = normField(field);
+    if((opts && opts.toggle) && active[field]===value) value = null;
+    active[field] = value || null;
+    refreshFilters(); renderGrid(); renderFicha();
   }
 
   function renderGrid(){
     grid.innerHTML="";
-    ITEMS.filter(matches).forEach(it=>{
+    ITEMS.filter(it=>matches(it)).forEach(it=>{
       const fig=document.createElement("figure"); fig.className="cell"+(current && it.code===current.code?" sel":"");
       fig.innerHTML=`<div class="imgbox"><img src="${it.thumb}" loading="lazy" alt="${it.code}"></div><figcaption>${it.code}</figcaption>`;
       fig.onclick=()=>{ current=it; renderGrid(); renderFicha(); };
@@ -259,7 +288,7 @@
       const empty = Array.isArray(val) ? !val.length : (val==null || val==="");
       if(empty) return `<dt>${rotulo}</dt><dd class="dim">-</dd>`;
       const vals = Array.isArray(val) ? val : [val];
-      const tags = vals.map(v=>{ const on=active[normField(campo)]===v;
+      const tags = vals.map(v=>{ const av=active[normField(campo)]; const on=av!=null && String(av)===String(v);
         return `<a class="tag${on?" on":""}" data-field="${campo}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
       return `<dt>${rotulo}</dt><dd>${tags}</dd>`;
     }).join("");
@@ -289,7 +318,7 @@
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value, {toggle:true}); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
   window.__arquivo.renderFicha = renderFicha;
-  renderClear(); renderGrid(); renderFicha();
+  refreshFilters(); renderGrid(); renderFicha();
   })();
   </script>
   <script>

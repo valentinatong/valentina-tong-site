@@ -254,8 +254,15 @@
     if(hasActive){
       if(!el){ el=document.createElement("button"); el.id="clearFilters"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
       el.textContent = (lang==="en" ? "CLEAR FILTERS" : "LIMPAR FILTROS") + " ✕";
-      el.onclick = ()=>{ CATEGORIES.forEach(c=>{ active[c.field]=null; }); refreshFilters(); renderGrid(); renderFicha(); };
+      el.onclick = ()=>{ CATEGORIES.forEach(c=>{ active[c.field]=null; }); refreshFilters(); pickFirstMatch(); renderGrid(); renderFicha(); };
     } else if(el){ el.remove(); }
+  }
+
+  // depois de mexer num filtro, a ficha passa a mostrar a primeira foto do
+  // resultado — sem isso ela continuava mostrando a última foto clicada,
+  // mesmo que essa foto nem batesse mais com os filtros escolhidos.
+  function pickFirstMatch(){
+    current = ITEMS.filter(it=>matches(it))[0] || null;
   }
 
   function setFilter(field, value, opts){
@@ -267,7 +274,7 @@
     // combinação antiga que não faz mais sentido pro novo valor escolhido.
     const idx = CATEGORIES.findIndex(c=>c.field===field);
     for(let i=idx+1;i<CATEGORIES.length;i++) active[CATEGORIES[i].field] = null;
-    refreshFilters(); renderGrid(); renderFicha();
+    refreshFilters(); pickFirstMatch(); renderGrid(); renderFicha();
   }
 
   function renderGrid(){
@@ -323,7 +330,9 @@
   fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value, {toggle:true}); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
   window.__arquivo.renderFicha = renderFicha;
-  refreshFilters(); renderGrid(); renderFicha();
+  refreshFilters();
+  if (qMunicipio) pickFirstMatch(); // chegou por deep link já filtrado — mostra a primeira foto em vez do statement
+  renderGrid(); renderFicha();
   })();
   </script>
   <script>

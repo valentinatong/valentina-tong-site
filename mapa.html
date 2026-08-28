@@ -208,7 +208,7 @@
         const alvo = { pitch: next === "relevo3d" ? 55 : 0, duration: 400 };
         // relevo de 30m é imperceptível na visão do Brasil inteiro — se estiver
         // muito distante ao ativar o Relevo 3D, aproxima um pouco pra ele aparecer
-        if (next === "relevo3d" && map.getZoom() < 7) alvo.zoom = 7;
+        if (next === "relevo3d" && map.getZoom() < 9) alvo.zoom = 9;
         map.easeTo(alvo);
       }, 300);
     });

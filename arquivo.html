@@ -46,6 +46,15 @@
   .pill:hover{ color:var(--paper); border-color:var(--stone-dim); }
   .pill.on{ color:var(--tag-fg, var(--bg)); background:var(--tag-bg); border-color:var(--tag-bg); }
   .pill.facet{ color:var(--oxide); border-color:var(--oxide); background:transparent; }
+  .filtsel{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone);
+    border:1px solid var(--line); border-radius:999px; padding:6px 26px 6px 15px; cursor:pointer;
+    background-color:transparent; -webkit-appearance:none; appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%238f887a' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 12px center; background-size:9px 6px; max-width:180px; }
+  .filtsel:hover{ color:var(--paper); border-color:var(--stone-dim); }
+  .filtsel:focus{ outline:none; border-color:var(--oxide); }
+  .filtsel.on{ color:var(--tag-fg, var(--bg)); background-color:var(--tag-bg); border-color:var(--tag-bg); }
+  .filtsel option{ background:var(--panel); color:var(--paper); }
   .filters .mapbtn{ font-family:var(--mono-font); font-size:11px; letter-spacing:.12em; color:var(--stone);
     border:1px solid var(--line); border-radius:999px; padding:6px 15px; }
   .filters .mapbtn:hover{ color:var(--oxide); border-color:var(--oxide); }
@@ -118,8 +127,7 @@
   </header>
 
   <div class="filters" id="filters">
-    <span class="lab" id="filterLabel">PROJETO</span>
-    <!-- pills injected -->
+    <!-- selects injected -->
     <a class="mapbtn" href="mapa.html" id="mapLink">◍ MAPA</a>
     <a class="mapbtn" href="#" id="aboutBtn">SOBRE</a>
   </div>
@@ -138,18 +146,6 @@
     window.__arquivo.statementHTML = html;
     if (window.__arquivo.renderFicha) window.__arquivo.renderFicha();
   };
-  // rótulos do filtro de projeto (label "PROJETO" e o botão "TODOS") — configuráveis
-  // no Airtable (tabela Configurações, base Arquivo); podem chegar antes ou depois
-  // das pílulas serem montadas, então guarda o valor e aplica nos dois casos.
-  window.__arquivoRotulos = { filtro: "PROJETO", todos: "TODOS" };
-  window.__arquivoRotulosReady = function(filtro, todos){
-    if (filtro) window.__arquivoRotulos.filtro = filtro;
-    if (todos) window.__arquivoRotulos.todos = todos;
-    const lab = document.getElementById("filterLabel");
-    if (lab) lab.textContent = window.__arquivoRotulos.filtro.toUpperCase();
-    const todosPill = document.querySelector('#filters .pill[data-p="TODAS"]');
-    if (todosPill) todosPill.textContent = window.__arquivoRotulos.todos.toUpperCase();
-  };
   (async function(){
   // ---- data layer — vem do Airtable (base Arquivo, tabela Fotogramas,
   // só os marcados "Publicado no site"). Editar lá reflete aqui sozinho. Os
@@ -162,46 +158,83 @@
     if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; CAMPOS = d.campos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
   ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
-  const ROTULO_POR_CAMPO = Object.fromEntries(CAMPOS.map(c=>[c.campo, c.rotulo]));
+
+  const lang = window.__arquivoLang;
+  // as 7 categorias do filtro superior — Estado/Município já vêm como campos de
+  // primeiro nível de cada foto; os demais vêm do mapa "valores" (Configuração de
+  // Campos no Airtable). As opções de cada select são os valores distintos que já
+  // aparecem nas fotos publicadas — não é uma lista fixa mantida à parte.
+  const CATEGORIES = [
+    { field: "projeto",   labelPT: "PROJETO",    labelEN: "PROJECT" },
+    { field: "estado",    labelPT: "ESTADO",     labelEN: "STATE" },
+    { field: "municipio", labelPT: "MUNICÍPIO",  labelEN: "MUNICIPALITY" },
+    { field: "Local",     labelPT: "LOCAL",      labelEN: "LOCATION" },
+    { field: "Ano",       labelPT: "ANO",        labelEN: "YEAR" },
+    { field: "Geologia",  labelPT: "GEOLOGIA",   labelEN: "GEOLOGY" },
+    { field: "Contexto",  labelPT: "CONTEXTO",   labelEN: "CONTEXT" },
+  ];
+  // tags da ficha para Estado/Município usam o nome de campo do Airtable
+  // ("Estado"/"Município"); normaliza pros mesmos campos usados nos selects
+  // acima, senão os dois viram filtros desencontrados.
+  function normField(f){ return f==="Estado" ? "estado" : f==="Município" ? "municipio" : f; }
 
   let current = null; // nenhuma foto selecionada de início — ficha mostra o statement
-  let active = null; // filtro ativo: {field, value} ou null (todas) — field="projeto" (pílulas de série) ou o nome de um Campo da ficha
-  // deep link vindo do mapa (mapa.html?municipio=X) — só filtra se "Município" for
-  // um campo ativo na ficha (Configuração de Campos); senão o parâmetro é ignorado
+  let active = {}; // filtros ativos por categoria: { [field]: value|null, ... } — combinam com E lógico
+  // deep link vindo do mapa (mapa.html?municipio=X)
   const qMunicipio = new URL(location.href).searchParams.get("municipio");
-  if (qMunicipio && CAMPOS.some(c => c.campo === "Município")) {
-    active = { field: "Município", value: qMunicipio };
-  }
+  if (qMunicipio) active.municipio = qMunicipio;
   const grid=document.getElementById("grid"), fichaEl=document.getElementById("ficha"), filtersEl=document.getElementById("filters");
 
-  function fieldVal(it,f){ return f==="projeto" ? it.projeto : (it.valores || {})[f]; }
-  function matches(it){ if(!active) return true; const v=fieldVal(it,active.field); if(!v || (Array.isArray(v)&&!v.length)) return false;
-    if(Array.isArray(v)) return v.includes(active.value); return v===active.value; }
-
-  // pills de série (facet Projeto)
-  const projects = ["TODAS", ...[...new Set(ITEMS.map(i=>i.projeto).filter(Boolean))].sort()];
-  const mapBtn = filtersEl.querySelector(".mapbtn");
-  projects.forEach(p=>{ const b=document.createElement("button"); b.className="pill";
-    b.textContent = p==="TODAS" ? window.__arquivoRotulos.todos.toUpperCase() : p.toUpperCase();
-    b.dataset.p=p;
-    b.onclick=()=> setFilter("projeto", p==="TODAS"?null:p);
-    filtersEl.insertBefore(b, mapBtn); });
-  document.getElementById("filterLabel").textContent = window.__arquivoRotulos.filtro.toUpperCase();
-
-  function setFilter(field, value){
-    if(field==="projeto" && value===null) active=null;
-    else if(active && active.field===field && active.value===value) active=null;   // clicar de novo desliga
-    else active={field, value};
-    syncPills(); renderChip(); renderGrid(); renderFicha();
+  function fieldVal(it,f){
+    if(f==="projeto") return it.projeto;
+    if(f==="estado") return it.estado;
+    if(f==="municipio") return it.municipio;
+    return (it.valores || {})[f];
   }
-  function syncPills(){ filtersEl.querySelectorAll(".pill:not(.facet)").forEach(x=>{
-    const on = !active ? x.dataset.p==="TODAS" : (active.field==="projeto" ? x.dataset.p===active.value : false);
-    x.classList.toggle("on", on); }); }
-  function renderChip(){ let el=document.getElementById("facetchip");
-    if(active && active.field!=="projeto"){
-      if(!el){ el=document.createElement("button"); el.id="facetchip"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
-      el.innerHTML=`${(ROTULO_POR_CAMPO[active.field]||active.field).toUpperCase()}: ${active.value} &nbsp;✕`; el.onclick=()=> setFilter("projeto", null);
-    } else if(el){ el.remove(); } }
+  function matches(it){
+    return CATEGORIES.every(({field})=>{
+      const chosen = active[field];
+      if(!chosen) return true;
+      const v = fieldVal(it, field);
+      if(!v || (Array.isArray(v) && !v.length)) return false;
+      return Array.isArray(v) ? v.includes(chosen) : String(v)===String(chosen);
+    });
+  }
+
+  const mapBtn = filtersEl.querySelector(".mapbtn");
+  const selects = {};
+  CATEGORIES.forEach(cat=>{
+    const values = [...new Set(ITEMS.flatMap(it=>{ const v=fieldVal(it,cat.field); return Array.isArray(v)?v:(v?[v]:[]); }))]
+      .sort((a,b)=> String(a).localeCompare(String(b), undefined, {numeric:true, sensitivity:"base"}));
+    const label = lang==="en" ? cat.labelEN : cat.labelPT;
+    const sel = document.createElement("select"); sel.className="filtsel"; sel.dataset.field=cat.field;
+    sel.innerHTML = `<option value="">${label}</option>` +
+      values.map(v=>`<option value="${String(v).replace(/"/g,"&quot;")}">${v}</option>`).join("");
+    sel.value = active[cat.field] || "";
+    sel.onchange = ()=> setFilter(cat.field, sel.value || null);
+    filtersEl.insertBefore(sel, mapBtn);
+    selects[cat.field] = sel;
+  });
+
+  function setFilter(field, value, opts){
+    field = normField(field);
+    if((opts && opts.toggle) && active[field]===value) value = null;
+    active[field] = value || null;
+    if(selects[field]) selects[field].value = value || "";
+    renderClear(); renderGrid(); renderFicha();
+  }
+  function syncSelects(){ CATEGORIES.forEach(c=>{ if(selects[c.field]) selects[c.field].value = active[c.field] || ""; });
+    Object.values(selects).forEach(sel=> sel.classList.toggle("on", !!sel.value)); }
+  function renderClear(){
+    syncSelects();
+    let el=document.getElementById("clearFilters");
+    const hasActive = CATEGORIES.some(c=>active[c.field]);
+    if(hasActive){
+      if(!el){ el=document.createElement("button"); el.id="clearFilters"; el.className="pill facet"; filtersEl.insertBefore(el, mapBtn); }
+      el.textContent = (lang==="en" ? "CLEAR FILTERS" : "LIMPAR FILTROS") + " ✕";
+      el.onclick = ()=>{ CATEGORIES.forEach(c=>{ active[c.field]=null; }); renderClear(); renderGrid(); renderFicha(); };
+    } else if(el){ el.remove(); }
+  }
 
   function renderGrid(){
     grid.innerHTML="";
@@ -226,7 +259,7 @@
       const empty = Array.isArray(val) ? !val.length : (val==null || val==="");
       if(empty) return `<dt>${rotulo}</dt><dd class="dim">-</dd>`;
       const vals = Array.isArray(val) ? val : [val];
-      const tags = vals.map(v=>{ const on=active&&active.field===campo&&active.value===v;
+      const tags = vals.map(v=>{ const on=active[normField(campo)]===v;
         return `<a class="tag${on?" on":""}" data-field="${campo}" data-value="${String(v).replace(/"/g,"&quot;")}">${v}</a>`; }).join(", ");
       return `<dt>${rotulo}</dt><dd>${tags}</dd>`;
     }).join("");
@@ -253,10 +286,10 @@
     hi.onload = ()=> { if(current && current.code===previewImg.alt) previewImg.src = current.web; };
     hi.src = current.web;
   }
-  fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value); } });
+  fichaEl.addEventListener("click", e=>{ const t=e.target.closest(".tag"); if(t){ e.preventDefault(); setFilter(t.dataset.field, t.dataset.value, {toggle:true}); } });
   document.getElementById("aboutBtn").addEventListener("click", e=>{ e.preventDefault(); current=null; renderGrid(); renderFicha(); });
   window.__arquivo.renderFicha = renderFicha;
-  syncPills(); renderChip(); renderGrid(); renderFicha();
+  renderClear(); renderGrid(); renderFicha();
   })();
   </script>
   <script>
@@ -320,11 +353,6 @@
     const texto = IS_EN ? (d.textoAberturaEN || d.textoAbertura) : d.textoAbertura;
     if(texto){
       window.__arquivoStatementReady(statementToHTML(texto));
-    }
-    const filtro = IS_EN ? (d.rotuloFiltroEN || d.rotuloFiltro) : d.rotuloFiltro;
-    const todos = IS_EN ? (d.rotuloTodosEN || d.rotuloTodos) : d.rotuloTodos;
-    if(filtro || todos){
-      window.__arquivoRotulosReady(filtro, todos);
     }
   }).catch(()=>{});
   </script>

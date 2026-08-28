@@ -262,6 +262,11 @@
     field = normField(field);
     if((opts && opts.toggle) && active[field]===value) value = null;
     active[field] = value || null;
+    // trocar um filtro limpa os que vêm depois dele na hierarquia (Projeto →
+    // Estado → Município → Local → Ano → Geologia → Contexto) — senão sobra
+    // combinação antiga que não faz mais sentido pro novo valor escolhido.
+    const idx = CATEGORIES.findIndex(c=>c.field===field);
+    for(let i=idx+1;i<CATEGORIES.length;i++) active[CATEGORIES[i].field] = null;
     refreshFilters(); renderGrid(); renderFicha();
   }
 

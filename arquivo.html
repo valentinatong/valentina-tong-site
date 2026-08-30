@@ -154,7 +154,7 @@
   let ITEMS = [];
   let CAMPOS = []; // [{campo, rotulo, ordem}, ...] — vem do /api/arquivo-fotos
   try {
-    const r = await fetch("/api/arquivo-fotos?lang=" + window.__arquivoLang);
+    const r = await fetch("/api/arquivo-fotos" + (window.__arquivoLang === "en" ? "?lang=en" : ""));
     if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; CAMPOS = d.campos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
   ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
@@ -379,7 +379,7 @@
   }
   window.__arquivoStatementReady(statementToHTML(IS_EN ? STATEMENT_FALLBACK_EN : STATEMENT_FALLBACK_PT));
 
-  fetch("/api/config?base=arquivo&lang=" + window.__arquivoLang).then(r=>r.ok?r.json():null).then(d=>{
+  fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
     if(d.corFundo){

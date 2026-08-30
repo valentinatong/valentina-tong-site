@@ -78,7 +78,7 @@
   // foto de capa vem da base "Home" (tabela "Capa", linha marcada "Ativa") no Airtable —
   // trocar lá muda a foto aqui sozinho, sem deploy. Se a busca falhar, fica a foto local acima.
   if (cachedHero) document.getElementById("heroPhoto").src = cachedHero;
-  fetch("/api/home?_=" + Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+  fetch("/api/home").then(r=>r.ok?r.json():null).then(d=>{
     if(d && d.foto){
       document.getElementById("heroPhoto").src = d.foto;
       try { localStorage.setItem("homeHeroFoto", d.foto); } catch (e) {}

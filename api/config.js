@@ -6,6 +6,7 @@ const BASES = {
   curadoria: "apph3pc09ROncZLnU",
 };
 const API = "https://api.airtable.com/v0";
+const { CACHE_CONTROL } = require("./_cache");
 
 module.exports = async (req, res) => {
   try {
@@ -33,8 +34,7 @@ module.exports = async (req, res) => {
     const textoAberturaMapa = rec ? (rec.fields["Texto de abertura do Mapa"] || "") : "";
     const textoAberturaMapaEN = rec ? (rec.fields["Texto de abertura do Mapa_EN"] || "") : "";
 
-    // cache curto de CDN: edições aparecem em ~2 min, sem redeploy
-    res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=600");
+    res.setHeader("Cache-Control", CACHE_CONTROL);
     res.status(200).json({
       corFundo, corTag,
       textoAbertura, textoAberturaEN,

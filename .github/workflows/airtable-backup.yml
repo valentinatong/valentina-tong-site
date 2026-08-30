@@ -2,7 +2,7 @@ name: Backup Airtable
 
 on:
   schedule:
-    - cron: "17 6 * * *"   # ~03:17 no horário de Brasília (BRT = UTC-3)
+    - cron: "17 6 * * 1"   # toda segunda, ~03:17 no horário de Brasília (BRT = UTC-3)
   workflow_dispatch: {}
 
 permissions:

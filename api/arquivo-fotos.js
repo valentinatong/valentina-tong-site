@@ -18,7 +18,7 @@
 const BASE = "appTgGC0ngoExovqb"; // base "Arquivo" (não é segredo)
 const CAMPOS_TABLE = "Configuração de Campos";
 const API = "https://api.airtable.com/v0";
-const { CACHE_CONTROL } = require("./_cache");
+const { cacheControlFor } = require("./_cache");
 
 function norm(s) {
   return String(s || "")
@@ -102,7 +102,7 @@ module.exports = async (req, res) => {
       };
     }).filter(Boolean);
 
-    res.setHeader("Cache-Control", CACHE_CONTROL);
+    res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({ campos, fotos });
   } catch (e) {
     res.status(500).json({ error: String(e) });

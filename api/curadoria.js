@@ -10,7 +10,7 @@
 
 const BASE = "apph3pc09ROncZLnU"; // base "Curadoria" (não é segredo)
 const API = "https://api.airtable.com/v0";
-const { CACHE_CONTROL } = require("./_cache");
+const { cacheControlFor } = require("./_cache");
 
 async function fetchAll(H, table) {
   let all = [];
@@ -82,7 +82,7 @@ module.exports = async (req, res) => {
       return item;
     }).sort((a, b) => a.ordem - b.ordem);
 
-    res.setHeader("Cache-Control", CACHE_CONTROL);
+    res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({ itens });
   } catch (e) {
     res.status(500).json({ error: String(e) });

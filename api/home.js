@@ -5,7 +5,7 @@
 const BASE = "appxMeAg3XIYX3nbB"; // base "Home" (não é segredo)
 const TABLE = "tblp7CJrU7goelmtF"; // tabela "Capa"
 const API = "https://api.airtable.com/v0";
-const { CACHE_CONTROL } = require("./_cache");
+const { cacheControlFor } = require("./_cache");
 
 module.exports = async (req, res) => {
   try {
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     const rec = (data.records || [])[0];
     const foto = rec ? (rec.fields["Foto"] || [])[0] : null;
 
-    res.setHeader("Cache-Control", CACHE_CONTROL);
+    res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({ foto: foto ? foto.url : null });
   } catch (e) {
     res.status(500).json({ error: String(e) });

@@ -4,7 +4,7 @@
 
 const BASE = "appd8iDhr82Cxr61E"; // base "Portfólio" (não é segredo)
 const API = "https://api.airtable.com/v0";
-const { CACHE_CONTROL } = require("./_cache");
+const { cacheControlFor } = require("./_cache");
 
 function slugify(s) {
   return (s || "")
@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
       };
     }).filter(x => x.url);
 
-    res.setHeader("Cache-Control", CACHE_CONTROL);
+    res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({
       slug, nome,
       ano: proj.fields["Ano"] || "",

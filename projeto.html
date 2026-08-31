@@ -106,8 +106,9 @@
   let P = null;
 
   // fonte dinâmica: Airtable (via função serverless /api/projeto). Se falhar, cai no estático.
+  var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
   try {
-    const r = await fetch(`/api/projeto?slug=${encodeURIComponent(slug)}`);
+    const r = await fetch(vtP(`/api/projeto?slug=${encodeURIComponent(slug)}`));
     if (r.ok) {
       const d = await r.json();
       if (d && d.imagens && d.imagens.length) {
@@ -174,8 +175,9 @@
       const cur=tl.querySelector("a.current"); if(cur) tl.scrollLeft=cur.offsetLeft-(tl.clientWidth/2)+(cur.clientWidth/2);
     }
     let timelineLoaded = false;
+    var vtP2 = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
     try {
-      const tr = await fetch("/api/projetos");
+      const tr = await fetch(vtP2("/api/projetos"));
       if (tr.ok) {
         const td = await tr.json();
         if (td && td.projetos && td.projetos.length) {

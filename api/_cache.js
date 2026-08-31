@@ -5,12 +5,15 @@
 // espelhar fotos no Cloudflare R2 no manual do projeto).
 const CACHE_CONTROL = "s-maxage=3600, stale-while-revalidate=1200";
 
-// Modo preview: visitar /api/preview-on liga um cookie que faz os endpoints
-// abaixo devolverem sempre dado fresco do Airtable (sem cache de CDN) só pra
-// quem tem o cookie — útil durante edição ativa do site, sem afetar o cache
-// de 1h de todo mundo. Ver api/preview-on.js e api/preview-off.js.
+// Modo preview: visitar /api/preview-on liga um cookie (lido pelo JS de cada
+// página, não pelo servidor — o cache da CDN é por URL, não varia por
+// cookie). Enquanto o cookie estiver ligado, o próprio JS do site acrescenta
+// "&_preview=<timestamp>" nas chamadas à API, gerando uma URL única a cada
+// vez — isso garante um cache-miss de verdade, e aqui a gente devolve
+// no-store pra essa resposta nunca ser cacheada. Sem afetar o cache de 1h de
+// quem mais visita o site. Ver api/preview-on.js e api/preview-off.js.
 function isPreview(req) {
-  return /(?:^|;\s*)vt_preview=1(?:;|$)/.test(req.headers.cookie || "");
+  return new URL(req.url, "http://x").searchParams.has("_preview");
 }
 
 function cacheControlFor(req) {

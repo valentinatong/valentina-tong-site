@@ -218,8 +218,9 @@
     document.getElementById("zreset").onclick = () => map.jumpTo({ center: BR_LNGLAT, zoom: BRASIL_ZOOM, pitch: currentBasemap === "relevo3d" ? 55 : 0, bearing: 0 });
 
     let ITEMS = [];
+    var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
     try {
-      const r = await fetch("/api/arquivo-fotos");
+      const r = await fetch(vtP("/api/arquivo-fotos"));
       if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; }
     } catch (e) { /* mapa fica vazio se a busca falhar */ }
 
@@ -331,7 +332,8 @@
     }
   })();
 
-  fetch("/api/config?base=arquivo").then(r => r.ok ? r.json() : null).then(d => {
+  var vtP2 = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
+  fetch(vtP2("/api/config?base=arquivo")).then(r => r.ok ? r.json() : null).then(d => {
     if (d && d.textoAberturaMapa) document.getElementById("desc").textContent = d.textoAberturaMapa;
   }).catch(() => {});
   </script>

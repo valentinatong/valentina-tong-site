@@ -154,7 +154,8 @@
   let ITEMS = [];
   let CAMPOS = []; // [{campo, rotulo, ordem}, ...] — vem do /api/arquivo-fotos
   try {
-    const r = await fetch("/api/arquivo-fotos" + (window.__arquivoLang === "en" ? "?lang=en" : ""));
+    var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
+    const r = await fetch(vtP("/api/arquivo-fotos" + (window.__arquivoLang === "en" ? "?lang=en" : "")));
     if (r.ok) { const d = await r.json(); ITEMS = d.fotos || []; CAMPOS = d.campos || []; }
   } catch (e) { /* sem fallback estático aqui — se a busca falhar, a grade fica vazia */ }
   ITEMS.sort((a,b)=> a.code.localeCompare(b.code, undefined, {numeric:true, sensitivity:"base"}));
@@ -379,7 +380,8 @@
   }
   window.__arquivoStatementReady(statementToHTML(IS_EN ? STATEMENT_FALLBACK_EN : STATEMENT_FALLBACK_PT));
 
-  fetch("/api/config?base=arquivo").then(r=>r.ok?r.json():null).then(d=>{
+  var vtP2 = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
+  fetch(vtP2("/api/config?base=arquivo")).then(r=>r.ok?r.json():null).then(d=>{
     if(!d) return;
     const root = document.documentElement.style;
     if(d.corFundo){

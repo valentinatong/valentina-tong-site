@@ -104,8 +104,9 @@
     const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
     const ROTULO_ITIN = lang === "en" ? "Itineraries" : "Itinerâncias";
     let ITEMS = [];
+    var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
     try {
-      const r = await fetch("/api/curadoria?lang=" + lang);
+      const r = await fetch(vtP("/api/curadoria?lang=" + lang));
       if (r.ok) { const d = await r.json(); ITEMS = d.itens || []; }
     } catch (e) { /* sem fallback estático — se a busca falhar, a lista fica vazia */ }
 
@@ -187,7 +188,8 @@
   </script>
   <script>
   // cor de fundo vem do Airtable (tabela Configurações da base Curadoria, campo "Cor de fundo")
-  fetch("/api/config?base=curadoria").then(r=>r.ok?r.json():null).then(d=>{
+  var vtP2 = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
+  fetch(vtP2("/api/config?base=curadoria")).then(r=>r.ok?r.json():null).then(d=>{
     if(d && d.corFundo) document.documentElement.style.setProperty("--bg", "#"+d.corFundo.trim().replace(/^#/,""));
   }).catch(()=>{});
   </script>

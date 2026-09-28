@@ -26,13 +26,16 @@ module.exports = async (req, res) => {
 
     const records = (data.records || []).filter(rec => rec.fields["Nome"]);
 
-    // capa: anexo "capa" do projeto; se vazio, a primeira imagem (menor Ordem) da
+    // capa: anexo da coluna de capa do projeto; se vazio, a primeira imagem (menor Ordem) da
     // tabela Imagens. Só consulta Imagens se algum projeto estiver sem capa, e para
     // de paginar assim que todos os que faltam foram achados (normalmente 1 página)
     // — cada página é 1 chamada à API do Airtable, que tem limite mensal no plano grátis.
     const capaDe = {};
+    // aceita qualquer coluna de anexo com "capa" no nome ("capa", "Capa", "Foto de capa"...)
+    const campoCapa = f => Object.keys(f).find(k => /capa/i.test(k) && Array.isArray(f[k]) && f[k][0] && f[k][0].url);
     records.forEach(rec => {
-      const a = (rec.fields["capa"] || [])[0];
+      const k = campoCapa(rec.fields);
+      const a = k && rec.fields[k][0];
       if (a) capaDe[rec.id] = a.url;
     });
     const faltam = new Set(records.filter(rec => !capaDe[rec.id]).map(rec => rec.id));

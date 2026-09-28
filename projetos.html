@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Projetos — Valentina Tong</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg-neutral:#e9e6df;          /* fundo quando nenhum projeto está em foco */
+    --bg:var(--bg-neutral);
+    --ink:#201D19; --stone:#86806F; --oxide:#9A4A2C;
+    --title-font:"Fraunces", Georgia, serif;
+    --body-font:"Newsreader", Georgia, serif;
+    --mono-font:"Space Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--body-font);
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    transition:background-color .45s ease, color .45s ease;
+  }
+
+  /* menu (mesmo do resto do site) */
+  .pillars{ position:fixed; top:16px; right:26px; z-index:41; display:flex; gap:22px;
+    font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
+  .pillars a{ color:inherit; opacity:.55; text-decoration:none; transition:opacity .2s; }
+  .pillars a:hover{ opacity:1; }
+  .pillars a.on{ opacity:1; border-bottom:1px solid currentColor; padding-bottom:3px; }
+
+  /* índice */
+  .index{ list-style:none; margin:0; padding:15vh 0 12vh 8vw; }
+  .index a{ display:grid; grid-template-columns:78px auto; align-items:baseline;
+    width:max-content; padding:3px 0; color:inherit; text-decoration:none; transition:opacity .3s; }
+  .index:hover a{ opacity:.28; }
+  .index a:hover, .index a:focus-visible{ opacity:1; outline:none; }
+  .index .yr{ font-family:var(--mono-font); font-size:11px; letter-spacing:.08em; }
+  .index .nm{ font-family:var(--title-font); font-weight:400; letter-spacing:-.01em;
+    font-size:clamp(26px, 3.2vw, 48px); line-height:1.12; white-space:nowrap; }
+
+  /* capa do projeto em foco */
+  .cover{ position:fixed; right:4vw; top:50%; width:40vw; height:62vh; transform:translateY(-50%);
+    pointer-events:none; opacity:0; transition:opacity .35s; }
+  .cover.on{ opacity:1; }
+  .cover img{ width:100%; height:100%; object-fit:contain; display:block; }
+
+  /* telas estreitas: sem capa flutuante, lista quebra linha (versão mobile completa virá depois) */
+  @media (max-width:760px){
+    .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; }
+    .index{ padding:110px 16px 60px; }
+    .index a{ width:auto; grid-template-columns:56px 1fr; }
+    .index .nm{ white-space:normal; font-size:28px; }
+    .cover{ display:none; }
+  }
+</style>
+</head>
+<body>
+  <nav class="pillars" aria-label="Pilares">
+    <a href="index.html">HOME</a>
+    <a href="projetos.html" class="on">PROJETOS</a>
+    <a href="arquivo.html">ATLAS FOTOGRÁFICO</a>
+    <a href="curadoria.html">CURADORIA</a>
+    <a href="bio.html">BIO</a>
+    <a href="?lang=en" id="langToggle">EN</a>
+  </nav>
+
+  <main>
+    <ul class="index" id="index" aria-label="Projetos"></ul>
+    <div class="cover" id="cover" aria-hidden="true"><img alt="" /></div>
+  </main>
+
+<script>
+(async function () {
+  const list  = document.getElementById('index');
+  const cover = document.getElementById('cover');
+  const img   = cover.querySelector('img');
+  const lang  = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'pt';
+
+  // Texto claro ou escuro, o que tiver mais contraste com a cor de fundo.
+  function inkFor(hex) {
+    const n = parseInt(String(hex).replace('#', ''), 16);
+    const lin = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+    const L = .2126 * lin(n >> 16 & 255) + .7152 * lin(n >> 8 & 255) + .0722 * lin(n & 255);
+    const light = (0.885 + .05) / (L + .05);   // contraste com #f4f1ea
+    const dark  = (L + .05) / (0.0118 + .05);  // contraste com #1f1b17
+    return light > dark ? '#f4f1ea' : '#1f1b17';
+  }
+
+  // Lista de projetos. Se /api/projetos já trouxer corFundo e capa, usa direto;
+  // senão busca cada projeto (fallback).
+  var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
+  const { projetos } = await fetch(vtP('/api/projetos')).then(r => r.json());
+  projetos.sort((a, b) => a.ordem - b.ordem);
+  await Promise.all(projetos.map(async p => {
+    if (p.corFundo && p.capa) return;
+    const d = await fetch(vtP('/api/projeto?slug=' + encodeURIComponent(p.slug))).then(r => r.json());
+    const full = d.projeto || d;
+    p.corFundo = p.corFundo || full.corFundo;
+    p.capa = p.capa || (full.capa && full.capa.url) || (full.imagens && full.imagens[0] && full.imagens[0].url);
+  }));
+
+  list.innerHTML = projetos.map((p, i) => `
+    <li><a href="projeto.html?p=${p.slug}${lang === 'en' ? '&lang=en' : ''}" data-i="${i}">
+      <span class="yr">${p.ano}</span><span class="nm">${p.nome}</span>
+    </a></li>`).join('');
+
+  // pré-carrega as capas
+  projetos.forEach(p => { if (p.capa) new Image().src = p.capa; });
+
+  const root = document.documentElement.style;
+  function focus(p) {
+    const bg = '#' + String(p.corFundo || 'e9e6df').replace('#', '');
+    root.setProperty('--bg', bg);
+    root.setProperty('--ink', inkFor(bg));
+    if (p.capa) { img.src = p.capa; cover.classList.add('on'); }
+  }
+  function reset() {
+    root.setProperty('--bg', 'var(--bg-neutral)');
+    root.setProperty('--ink', '#201D19');
+    cover.classList.remove('on');
+  }
+
+  list.querySelectorAll('a').forEach(a => {
+    const p = projetos[a.dataset.i];
+    a.addEventListener('mouseenter', () => focus(p));
+    a.addEventListener('focus', () => focus(p));
+  });
+  list.addEventListener('mouseleave', reset);
+  list.addEventListener('focusout', e => { if (!list.contains(e.relatedTarget)) reset(); });
+})();
+</script>
+<script src="assets/no-drag.js"></script>
+</body>
+</html>

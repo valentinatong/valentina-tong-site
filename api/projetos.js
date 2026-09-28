@@ -1,6 +1,7 @@
 // Função serverless (Vercel) — lista todos os projetos do Portfólio no Airtable,
-// pra montar a timeline de projeto.html. Adicionar/remover/reordenar lá reflete
-// no site sozinho, sem redeploy.
+// pra montar a timeline de projeto.html e o índice de projetos.html (com cor de
+// fundo e capa de cada um, numa requisição só). Adicionar/remover/reordenar lá
+// reflete no site sozinho, sem redeploy.
 
 const BASE = "appd8iDhr82Cxr61E"; // base "Portfólio" (não é segredo)
 const API = "https://api.airtable.com/v0";
@@ -23,16 +24,54 @@ module.exports = async (req, res) => {
     if (!r.ok) { res.status(502).json({ error: "Airtable Projetos", status: r.status }); return; }
     const data = await r.json();
 
-    const projetos = (data.records || []).map(rec => {
+    const records = (data.records || []).filter(rec => rec.fields["Nome"]);
+
+    // capa: anexo "capa" do projeto; se vazio, a primeira imagem (menor Ordem) da
+    // tabela Imagens. Só consulta Imagens se algum projeto estiver sem capa, e para
+    // de paginar assim que todos os que faltam foram achados (normalmente 1 página)
+    // — cada página é 1 chamada à API do Airtable, que tem limite mensal no plano grátis.
+    const capaDe = {};
+    records.forEach(rec => {
+      const a = (rec.fields["capa"] || [])[0];
+      if (a) capaDe[rec.id] = a.url;
+    });
+    const faltam = new Set(records.filter(rec => !capaDe[rec.id]).map(rec => rec.id));
+    if (faltam.size) {
+      const nomes = records.filter(rec => faltam.has(rec.id))
+        .map(rec => `ARRAYJOIN({Projeto})='${String(rec.fields["Nome"]).replace(/'/g, "\\'")}'`);
+      const formula = nomes.length === 1 ? nomes[0] : `OR(${nomes.join(",")})`;
+      let offset = "";
+      for (let pagina = 0; pagina < 5 && faltam.size; pagina++) {
+        const iu = `${API}/${BASE}/Imagens?filterByFormula=${encodeURIComponent(formula)}`
+          + `&sort%5B0%5D%5Bfield%5D=Ordem&fields%5B%5D=Projeto&fields%5B%5D=Foto`
+          + (offset ? `&offset=${encodeURIComponent(offset)}` : "");
+        const ir = await fetch(iu, { headers: H });
+        if (!ir.ok) break;
+        const imgData = await ir.json();
+        (imgData.records || []).forEach(img => {
+          const foto = (img.fields["Foto"] || [])[0];
+          if (!foto) return;
+          (img.fields["Projeto"] || []).forEach(pid => {
+            if (faltam.has(pid)) { capaDe[pid] = foto.url; faltam.delete(pid); }
+          });
+        });
+        offset = imgData.offset;
+        if (!offset) break;
+      }
+    }
+
+    const projetos = records.map(rec => {
       const f = rec.fields;
-      const nome = f["Nome"] || "";
+      const nome = f["Nome"];
       return {
         nome,
         slug: slugify(nome),
         ano: f["Ano"] || "",
         ordem: f["Ordem"] || 0,
+        corFundo: f["Cor de fundo"] || "",
+        capa: capaDe[rec.id] || null,
       };
-    }).filter(p => p.nome);
+    });
 
     res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({ projetos });

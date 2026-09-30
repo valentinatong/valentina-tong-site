@@ -25,58 +25,62 @@
   nav.main{ display:flex; gap:26px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
   nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--ink); } nav.main a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
 
-  .list{ padding:0 40px 12vh; }
-  .item{ border-top:1px solid var(--line); }
-  .item:last-child{ border-bottom:1px solid var(--line); }
-  .row{ display:grid; grid-template-columns: 1.5fr 1.25fr 150px; gap:28px; align-items:center; padding:22px 0; }
-  .item.expandable .row{ cursor:pointer; }
-  .title-col{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
-  .title{ font-family:var(--title-font); font-weight:500; font-size:19px; line-height:1.2; display:flex; gap:10px; align-items:baseline; }
-  .item.expandable:hover .title{ color:var(--oxide); }
-  .title .plus{ font-family:var(--mono-font); font-size:14px; color:var(--stone-dim); flex:0 0 auto; transition:transform .2s; }
-  .item.open .title .plus{ transform:rotate(45deg); color:var(--oxide); }
-  .meta .tr{ font-family:var(--mono-font); font-size:11px; letter-spacing:.06em; color:var(--stone); text-transform:uppercase; }
-  .meta .vy{ font-family:var(--body-font); font-style:italic; font-size:14.5px; color:var(--stone); margin-top:5px; }
-  .thumb{ justify-self:end; }
-  .thumb img{ height:82px; width:auto; max-width:150px; object-fit:contain; display:block; }
-  .thumb.empty{ width:150px; height:82px; }
+  /* lista de curadoria — grade de 3 colunas: título+texto | tipo+locais | miniatura.
+     Nomes com prefixo cz- para não colidir com classes globais (ex.: .panel). */
+  .cz-list{ padding:0 40px 12vh; }
+  .cz-item{ border-top:1px solid var(--line); cursor:pointer; }
+  .cz-item.open{ cursor:default; }
+  .cz-item:last-child{ border-bottom:1px solid var(--line); }
+  .cz-row{ display:grid; grid-template-columns:48% 1fr 96px; gap:32px; align-items:start; padding:22px 0 24px; }
+  .cz-title{ font:500 18px/24px var(--title-font); display:flex; gap:10px; align-items:baseline; cursor:pointer; }
+  .cz-plus{ font:12px var(--mono-font); color:var(--stone); width:10px; flex:0 0 10px; transition:transform .3s; }
+  .cz-item.open .cz-plus{ transform:rotate(45deg); color:var(--oxide); }
+  .cz-item.open .cz-title{ color:var(--oxide); }
+  .cz-tr{ font:italic 15px/24px var(--body-font); color:var(--stone); margin:0 0 4px; }
+  .cz-v{ display:grid; grid-template-columns:50px 1fr; gap:8px; padding:2px 0; }
+  .cz-v .y{ font:11px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
+  .cz-v .l{ font:14px/21px var(--body-font); }
+  .cz-sedes .cz-v{ border-top:1px solid rgba(32,29,25,.07); }
+  .cz-thumb{ justify-self:end; width:96px; height:64px; margin-top:4px; }
+  .cz-thumb img{ width:96px; height:64px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
+  .cz-item.open .cz-thumb img{ opacity:0; }
 
-  .panel{ overflow:hidden; max-height:0; transition:max-height .32s ease; }
-  .item.open .panel{ max-height:3000px; }
-  .panel-inner{ padding:2px 0 30px; }
-  .desc{ font-family:var(--body-font); font-size:15.5px; line-height:1.6; color:var(--ink); max-width:64ch; margin:0 0 18px; }
-  .gallery{ display:flex; gap:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin; }
-  .gallery img{ height:240px; width:auto; object-fit:contain; display:block; background:#f3f2ef; }
-  .gallery::-webkit-scrollbar{ height:6px; } .gallery::-webkit-scrollbar-thumb{ background:var(--line); }
+  /* partes que abrem — transição de altura via grid-template-rows */
+  .cz-fold{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+  .cz-item.open .cz-fold{ grid-template-rows:1fr; }
+  .cz-fold > div{ overflow:hidden; min-height:0; }
+  .cz-desc{ margin:14px 0 0; padding-left:20px; font:15.5px/1.6 var(--body-font); max-width:64ch; }
+  .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px 20px; scrollbar-width:thin; }
+  .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
+  .cz-strip::-webkit-scrollbar{ height:6px; } .cz-strip::-webkit-scrollbar-thumb{ background:var(--line); }
 
-  /* link "Itinerâncias (N)" abaixo do título — abre/fecha a lista de sedes,
-     independente do clique no título (que abre o texto de apresentação) */
-  .itin-toggle{ font-family:var(--mono-font); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--stone); cursor:pointer; display:flex; align-items:center; gap:6px; margin-top:6px; }
-  .itin-toggle:hover{ color:var(--oxide); }
-  .itin-toggle .plus{ font-size:12px; transition:transform .2s; }
-  .itin-wrap.open .itin-toggle .plus{ transform:rotate(45deg); }
+  /* imagem ampliada ao passar o mouse na fileira */
+  .cz-zoom{ position:fixed; z-index:60; margin:0; left:0; top:0; pointer-events:none; opacity:0; transition:opacity .2s;
+    background:#fff; padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
+  .cz-zoom.on{ opacity:1; }
+  .cz-zoom img{ display:block; max-height:62vh; max-width:56vw; }
+  .cz-zoom figcaption{ padding:10px 12px 0; font:10px/1.5 var(--mono-font); letter-spacing:.1em; text-transform:uppercase; color:var(--stone); max-width:56vw; }
+  .cz-zoom figcaption b{ display:block; font:italic 400 14px/1.4 var(--body-font); letter-spacing:0; text-transform:none; color:var(--ink); }
+  /* imagem com link (campo Link da Galeria): o zoom aceita o mouse e a legenda vira link */
+  .cz-zoom.on.link{ pointer-events:auto; }
+  .cz-zoom figcaption a{ display:block; color:inherit; }
+  .cz-zoom figcaption a:hover, .cz-zoom figcaption a:hover b{ color:var(--oxide); }
+  .cz-zoom figcaption a:hover b{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  /* flechinha de link externo — inline-block para não herdar o sublinhado */
+  .cz-ext{ display:inline-block; margin-left:5px; font:12px/1 var(--mono-font); font-style:normal; color:var(--stone); }
+  .cz-zoom figcaption a:hover .cz-ext{ color:var(--oxide); }
 
-  .itin-list{ overflow:hidden; max-height:0; transition:max-height .35s ease; }
-  .itin-wrap.open .itin-list{ max-height:2000px; }
-  .itin-list-inner{ padding:4px 0 22px; }
-  .itin{ border-top:1px solid var(--line); }
-  .itin-row{ display:grid; grid-template-columns: 1.5fr 1.25fr 150px; gap:28px; align-items:center; padding:14px 0; padding-left:24px; }
-  .itin.clickable .itin-row{ cursor:pointer; }
-  .itin.clickable:hover .itin-row .itin-vy{ color:var(--oxide); }
-  .itin-vy{ font-family:var(--body-font); font-style:normal; font-weight:600; font-size:15px; color:var(--ink); }
-  .itin-thumb{ justify-self:end; }
-  .itin-thumb img{ height:64px; width:auto; max-width:130px; object-fit:contain; display:block; }
-  .itin-panel{ overflow:hidden; max-height:0; transition:max-height .3s ease; }
-  .itin.open .itin-panel{ max-height:280px; }
-  .itin-panel-inner{ padding:2px 0 18px 24px; }
-  .itin-panel-inner .gallery img{ height:180px; }
+  @media (max-width:760px){
+    .cz-list{ padding:0 22px 12vh; }
+    .cz-row{ grid-template-columns:1fr; gap:10px; }
+    .cz-thumb{ display:none; }
+    .cz-row > div:nth-child(2){ padding-left:20px; }
+    .cz-strip img{ cursor:default; }
+    .cz-zoom{ display:none; }
+  }
 
   @media (max-width:800px){
     .top{ flex-direction:column; gap:14px; padding:20px 22px; }
-    .row, .itin-row{ grid-template-columns:1fr; gap:10px; }
-    .thumb{ justify-self:start; } .thumb img{ height:120px; }
-    .itin-thumb{ justify-self:start; }
   }
 </style>
 </head>
@@ -93,16 +97,15 @@
     </nav>
   </header>
 
-  <main class="list" id="list"></main>
+  <main class="cz-list" id="list"></main>
 
   <script>
-  // ---- camada de dados — vem do Airtable (base Curadoria: Projetos → Itinerâncias →
-  // Galeria). Cada Projeto vira UMA linha. Se tiver sedes (trabalho itinerante), elas só
-  // aparecem quando clica no link "Itinerâncias" abaixo do título — não abrem sozinhas.
+  // ---- camada de dados — vem do Airtable (base Curadoria: Projetos → Itinerâncias).
+  // Cada Projeto vira UMA linha: título | tipo · papel + "ano | local" | miniatura.
+  // Ao abrir, aparecem o texto, as sedes (itinerâncias) e a fileira de imagens.
   // Editar no Airtable reflete aqui sozinho, sem redeploy. ----
   (async function(){
     const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "pt";
-    const ROTULO_ITIN = lang === "en" ? "Itineraries" : "Itinerâncias";
     let ITEMS = [];
     var vtP = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
     try {
@@ -110,63 +113,127 @@
       if (r.ok) { const d = await r.json(); ITEMS = d.itens || []; }
     } catch (e) { /* sem fallback estático — se a busca falhar, a lista fica vazia */ }
 
-    const list=document.getElementById("list");
-    ITEMS.forEach(it=>{
-      const isItinerante = Array.isArray(it.sedes) && it.sedes.length > 0;
-      // clicar no título abre o painel (texto de apresentação); o link de Itinerâncias
-      // fica DENTRO desse painel, logo abaixo do texto — só aparece a lista de sedes
-      // quando clica nele, com seu próprio "+" separado do título
-      const expandable = !!it.desc || isItinerante || (it.imgs && it.imgs.length > 1);
-      const el=document.createElement("article"); el.className="item"+(expandable?" expandable":"");
+    const esc = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    const venue = (ano, local) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${esc(local)}</span></div>`;
+    const lugar = (local, ano) => [local, ano].filter(Boolean).join(" — ");
+    const list = document.getElementById("list");
 
-      const firstThumb = (it.imgs && it.imgs.length) ? `<img src="${it.imgs[0].thumb}" alt="${it.titulo}">` : "";
-      const gallery = (it.imgs && it.imgs.length) ? `<div class="gallery">${it.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
-      const desc = it.desc ? `<p class="desc">${it.desc}</p>` : "";
-      const vy = (it.local || it.ano) ? `<div class="vy">${it.local} — ${it.ano}</div>` : "";
-      const itinToggle = isItinerante
-        ? `<a class="itin-toggle"><span class="plus">+</span>${ROTULO_ITIN} (${it.sedes.length})</a>` : "";
-
-      const itinListHTML = isItinerante ? it.sedes.map(sede=>{
-        const sedeThumb = sede.imgs && sede.imgs.length ? `<img src="${sede.imgs[0].thumb}" alt="${it.titulo}">` : "";
-        const sedeGallery = sede.imgs && sede.imgs.length ? `<div class="gallery">${sede.imgs.map(im=>`<img src="${im.web}" alt="${it.titulo}">`).join("")}</div>` : "";
-        const clickable = sede.imgs && sede.imgs.length;
-        return `<div class="itin${clickable?' clickable':''}">
-          <div class="itin-row">
-            <div class="itin-vy">${sede.local} — ${sede.ano}</div>
-            <div></div>
-            <div class="itin-thumb">${sedeThumb}</div>
+    list.innerHTML = ITEMS.map(c => {
+      const sedes = c.sedes || [];
+      // imagens do projeto seguidas das imagens das sedes; legenda da imagem (se houver)
+      // substitui "local — ano"
+      const imgs = [
+        ...(c.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(c.local, c.ano) })),
+        ...sedes.flatMap(s => (s.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(s.local, s.ano) })))
+      ];
+      const tr = [c.tipo, c.papel].filter(Boolean).map(esc).join(" · ");
+      return `<article class="cz-item">
+        <div class="cz-row">
+          <div>
+            <div class="cz-title"><span class="cz-plus">+</span><span>${esc(c.titulo)}</span></div>
+            ${c.desc ? `<div class="cz-fold"><div><p class="cz-desc">${esc(c.desc)}</p></div></div>` : ""}
           </div>
-          <div class="itin-panel"><div class="itin-panel-inner">${sedeGallery}</div></div>
-        </div>`;
-      }).join("") : "";
-
-      el.innerHTML =
-        `<div class="row">
-          <div class="title-col">
-            <div class="title">${expandable?'<span class="plus">+</span>':''}<span>${it.titulo}</span></div>
+          <div>
+            ${tr ? `<div class="cz-tr">${tr}</div>` : ""}
+            ${(c.local || c.ano) ? venue(c.ano, c.local) : ""}
+            ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local)).join("")}</div></div>` : ""}
           </div>
-          <div class="meta"><div class="tr">${it.tipo} · ${it.papel}</div>${vy}</div>
-          <div class="thumb ${firstThumb?'':'empty'}">${firstThumb}</div>
+          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${esc(c.titulo)}">` : ""}</div>
         </div>
-        <div class="panel"><div class="panel-inner">
-          ${desc}${gallery}
-          ${itinToggle}
-          ${isItinerante?`<div class="itin-wrap"><div class="itin-list"><div class="itin-list-inner">${itinListHTML}</div></div></div>`:""}
-        </div></div>`;
+        ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g =>
+          `<img src="${esc(g.thumb)}" data-web="${esc(g.web)}" data-cap="${esc(g.cap)}" data-t="${esc(c.titulo)}"${g.link ? ` data-link="${esc(g.link)}"` : ""} alt="${esc(c.titulo)}" loading="lazy">`
+        ).join("")}</div></div></div>` : ""}
+      </article>`;
+    }).join("");
 
-      if(expandable){ el.querySelector(".row").addEventListener("click", ()=> el.classList.toggle("open")); }
-      const itinToggleEl = el.querySelector(".itin-toggle");
-      if(itinToggleEl){
-        itinToggleEl.addEventListener("click", e=>{
-          e.stopPropagation();
-          el.querySelector(".itin-wrap").classList.toggle("open");
-        });
-      }
-      el.querySelectorAll(".itin.clickable .itin-row").forEach(row=>{
-        row.addEventListener("click", ()=> row.closest(".itin").classList.toggle("open"));
-      });
-      list.appendChild(el);
+    // fechado: clicar em qualquer lugar abre; aberto: só o título fecha. Um aberto por vez.
+    list.querySelectorAll(".cz-item").forEach(a => a.addEventListener("click", e => {
+      const open = a.classList.contains("open");
+      if (open && !e.target.closest(".cz-title")) return;
+      hide();
+      list.querySelectorAll(".cz-item.open").forEach(x => x.classList.remove("open"));
+      if (!open) a.classList.add("open");
+    }));
+
+    // hover numa imagem da fileira: versão maior flutuando sobre a página (só desktop)
+    const canHover = matchMedia("(hover: hover) and (min-width: 761px)");
+    const z = document.createElement("figure");
+    z.className = "cz-zoom";
+    z.innerHTML = '<img alt=""><figcaption></figcaption>';
+    document.body.appendChild(z);
+    const zi = z.querySelector("img"), zc = z.querySelector("figcaption");
+    let current = null, hideTimer = null, ready = false;
+    const place = () => {
+      if (!current || !ready || !canHover.matches) return;
+      const r = current.getBoundingClientRect(), w = z.offsetWidth, h = z.offsetHeight;
+      const x = Math.max(16, Math.min(innerWidth - w - 16, r.left + r.width / 2 - w / 2));
+      const y = Math.max(70, Math.min(innerHeight - h - 16, r.top + r.height / 2 - h / 2));
+      z.style.left = x + "px"; z.style.top = y + "px"; z.classList.add("on");
+    };
+    const hide = () => { clearTimeout(hideTimer); current = null; ready = false; z.classList.remove("on"); };
+    // pequeno atraso para dar tempo de o mouse passar da miniatura para o zoom
+    const hideSoon = () => { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 120); };
+    const isStripImg = t => t && t.tagName === "IMG" && t.parentElement.classList.contains("cz-strip");
+    // legenda e posição só mudam quando a imagem grande terminou de carregar, para nunca
+    // aparecer a legenda de uma foto com a imagem de outra (ou a caixa vazia)
+    const apply = () => {
+      const t = current;
+      // com link: a legenda abre o site em outra aba (o zoom passa a aceitar o mouse)
+      const texto = `<b>${esc(t.dataset.t)}${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}</b>${esc(t.dataset.cap)}`;
+      zc.innerHTML = t.dataset.link
+        ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;
+      z.classList.toggle("link", !!t.dataset.link);
+      ready = true;
+      place();
+    };
+    zi.onload = () => { if (current && zi.getAttribute("src") === current.dataset.web) apply(); };
+    const show = t => {
+      clearTimeout(hideTimer);
+      current = t;
+      // pré-carrega a vizinha da direita, para as setas ficarem rápidas
+      const nb = t.nextElementSibling;
+      if (nb && nb.dataset.web) new Image().src = nb.dataset.web;
+      if (zi.getAttribute("src") !== t.dataset.web) { ready = false; zi.src = t.dataset.web; }
+      else if (zi.complete) apply();
+    };
+    // navegando pelas setas: ignora os eventos de mouse "falsos" que o navegador dispara
+    // quando a fileira rola sob o cursor parado; volta ao normal quando o mouse se mexe
+    let keyNav = false;
+    addEventListener("mousemove", () => { keyNav = false; }, { passive: true });
+
+    list.addEventListener("mouseover", e => {
+      if (keyNav || !canHover.matches || !isStripImg(e.target)) return;
+      show(e.target);
     });
+    list.addEventListener("mouseout", e => {
+      if (!keyNav && e.target === current && !z.contains(e.relatedTarget)) hideSoon();
+    });
+    z.addEventListener("mouseenter", () => clearTimeout(hideTimer));
+    z.addEventListener("mouseleave", e => { if (!keyNav && e.relatedTarget !== current) hideSoon(); });
+
+    // setas ← → percorrem as imagens do item aberto (Esc fecha o zoom)
+    addEventListener("keydown", e => {
+      if (e.key === "Escape") { hide(); return; }
+      if ((e.key !== "ArrowRight" && e.key !== "ArrowLeft") || e.metaKey || e.ctrlKey || e.altKey) return;
+      const strip = list.querySelector(".cz-item.open .cz-strip");
+      if (!strip) return;
+      const imgs = [...strip.children];
+      const i = imgs.indexOf(current);
+      const next = i === -1 ? imgs[e.key === "ArrowRight" ? 0 : imgs.length - 1]
+        : imgs[Math.max(0, Math.min(imgs.length - 1, i + (e.key === "ArrowRight" ? 1 : -1)))];
+      e.preventDefault();
+      keyNav = true;
+      next.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      if (canHover.matches) show(next); else current = next;
+    });
+    // celular (sem zoom): tocar numa imagem com link abre o site
+    list.addEventListener("click", e => {
+      const t = e.target;
+      if (!canHover.matches && t.tagName === "IMG" && t.dataset.link) open(t.dataset.link, "_blank", "noopener");
+    });
+    // rolar a página ou a fileira desloca a miniatura: com o mouse, fecha o zoom;
+    // pelas setas, o zoom acompanha a miniatura enquanto a fileira rola
+    addEventListener("scroll", () => { if (keyNav) place(); else hide(); }, { passive: true, capture: true });
   })();
   </script>
   <script>

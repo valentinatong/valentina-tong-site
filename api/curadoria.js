@@ -1,12 +1,15 @@
 // Função serverless (Vercel) — monta a lista da Curadoria a partir da base Curadoria
-// (só 2 tabelas: Projetos e Itinerâncias, cada uma com seu próprio campo de anexo
-// múltiplo "Fotos" — sem tabela de Galeria separada). Cada Projeto vira UMA linha na
-// lista (título aparece uma vez só). Os campos Local/Ano/Fotos do PRÓPRIO Projeto sempre
-// aparecem direto na linha de abertura (foto principal, local, ano), independente de ele
-// ter Itinerâncias ou não. Se além disso o projeto tiver Itinerâncias vinculadas (trabalho
-// que passou por várias sedes), elas entram à parte como um array "sedes" — o site mostra
-// um link "Itinerâncias" abaixo do texto de apresentação, e só abre a lista de sedes
-// quando a pessoa clica nele. Editar no Airtable reflete no site sozinho, sem redeploy.
+// (tabelas Projetos, Itinerâncias e Galeria). Cada Projeto vira UMA linha na lista.
+// Os campos Local/Ano do PRÓPRIO Projeto aparecem na linha de abertura; as Itinerâncias
+// vinculadas (sedes) entram à parte como o array "sedes".
+//
+// Imagens: cada linha da tabela Galeria é UMA imagem, com sua legenda (Legenda_PT /
+// Legenda_EN) e um Link opcional (a legenda do zoom vira link), vinculada a um
+// Projeto ou a uma Itinerância, e ordenada por "Ordem".
+// Se um projeto/sede tiver linhas na Galeria, elas substituem o campo "Fotos" dele;
+// se não tiver (ou a tabela ainda não existir), continua valendo o "Fotos" antigo.
+// Os nomes das colunas da Galeria são lidos sem ligar para maiúsculas/acentos.
+// Editar no Airtable reflete no site sozinho, sem redeploy.
 
 const BASE = "apph3pc09ROncZLnU"; // base "Curadoria" (não é segredo)
 const API = "https://api.airtable.com/v0";
@@ -27,6 +30,14 @@ async function fetchAll(H, table) {
   return all;
 }
 
+// lê um campo pelo nome sem ligar para maiúsculas, acentos, espaços ou "_"
+const norm = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\s_]+/g, "").toLowerCase();
+function campo(fields, ...nomes) {
+  const alvos = nomes.map(norm);
+  for (const k of Object.keys(fields)) if (alvos.includes(norm(k))) return fields[k];
+  return undefined;
+}
+
 module.exports = async (req, res) => {
   try {
     const token = process.env.AIRTABLE_TOKEN;
@@ -36,10 +47,33 @@ module.exports = async (req, res) => {
     const url = new URL(req.url, "http://x");
     const isEN = (url.searchParams.get("lang") || "").toLowerCase() === "en";
 
-    const [projRecs, itinRecs] = await Promise.all([
+    const [projRecs, itinRecs, galRecs] = await Promise.all([
       fetchAll(H, "Projetos"),
       fetchAll(H, "Itinerâncias"),
+      // tabela opcional: se ainda não existir, segue só com o campo "Fotos"
+      fetchAll(H, "Galeria").catch(() => []),
     ]);
+
+    // Galeria → imagens agrupadas pelo id do Projeto ou da Itinerância vinculada
+    const galByRec = {};
+    galRecs
+      .map(rec => rec.fields)
+      .sort((a, b) => (campo(a, "Ordem") || 0) - (campo(b, "Ordem") || 0))
+      .forEach(g => {
+        const foto = (campo(g, "Imagem", "Foto", "Fotos") || [])[0];
+        if (!foto) return;
+        const legPT = campo(g, "Legenda_PT", "Legenda") || "";
+        const legEN = campo(g, "Legenda_EN") || "";
+        const img = { ...imgDeFoto(foto), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
+                      link: String(campo(g, "Link", "URL", "Site") || "").trim() };
+        // vinculada a uma Itinerância → vai para a sede; senão, para o Projeto
+        const itin = (campo(g, "Itinerância", "Itinerâncias", "Sede") || [])[0];
+        const proj = (campo(g, "Projeto", "Projetos") || [])[0];
+        const alvo = itin || proj;
+        if (alvo) (galByRec[alvo] = galByRec[alvo] || []).push(img);
+      });
+    // imagens de um registro: as da Galeria, se houver; senão o campo "Fotos" antigo
+    const imgsDe = (recId, fotos) => galByRec[recId] || imgsDeFotos(fotos);
 
     const itinsByProj = {};
     itinRecs.forEach(rec => {
@@ -49,11 +83,14 @@ module.exports = async (req, res) => {
     });
     Object.values(itinsByProj).forEach(list => list.sort((a, b) => (a.fields["Ordem"] || 0) - (b.fields["Ordem"] || 0)));
 
-    function imgsDeFotos(fotos) {
-      return (fotos || []).filter(Boolean).map(f => ({
+    function imgDeFoto(f) {
+      return {
         thumb: (f.thumbnails && f.thumbnails.large) ? f.thumbnails.large.url : f.url,
         web: f.url,
-      }));
+      };
+    }
+    function imgsDeFotos(fotos) {
+      return (fotos || []).filter(Boolean).map(imgDeFoto);
     }
 
     const itens = projRecs.map(rec => {
@@ -71,13 +108,13 @@ module.exports = async (req, res) => {
       // linha de abertura: sempre os campos do próprio Projeto, tenha ele sedes ou não
       item.local = proj["Local"] || "";
       item.ano = proj["Ano"] || "";
-      item.imgs = imgsDeFotos(proj["Fotos"]);
+      item.imgs = imgsDe(rec.id, proj["Fotos"]);
 
-      // sedes (Itinerâncias): à parte, só aparecem ao clicar no link dedicado
+      // sedes (Itinerâncias): à parte, aparecem quando o item abre
       const itins = itinsByProj[rec.id];
       item.sedes = (itins && itins.length) ? itins.map(itinRec => {
         const it = itinRec.fields;
-        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDeFotos(it["Fotos"]) };
+        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDe(itinRec.id, it["Fotos"]) };
       }) : null;
       return item;
     }).sort((a, b) => a.ordem - b.ordem);

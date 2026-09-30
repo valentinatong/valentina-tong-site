@@ -6,7 +6,7 @@
 <title>Curadoria, Pesquisa e Edição — Valentina Tong</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --bg:#ffffff; --ink:#201D19; --stone:#86806F; --stone-dim:#a49d8f; --oxide:#9A4A2C;
@@ -63,6 +63,7 @@
   /* imagem com link (campo Link da Galeria): o zoom aceita o mouse e a legenda vira link */
   .cz-zoom.on.link{ pointer-events:auto; }
   .cz-zoom figcaption a{ display:block; color:inherit; }
+  .cz-zoom figcaption strong{ font-weight:600; }
   .cz-zoom figcaption a:hover{ color:var(--oxide); }
   .cz-zoom figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
   /* flechinha de link externo — inline-block para não herdar o sublinhado */
@@ -113,6 +114,12 @@
     } catch (e) { /* sem fallback estático — se a busca falhar, a lista fica vazia */ }
 
     const esc = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
+    // texto formatado do Airtable (markdown): **negrito**, _itálico_ ou *itálico*, quebras de linha
+    const md = s => esc(s)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/(^|[^\w])_(.+?)_(?!\w)/g, "$1<em>$2</em>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>")
+      .replace(/\n/g, "<br>");
     const venue = (ano, local) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${esc(local)}</span></div>`;
     const lugar = (local, ano) => [local, ano].filter(Boolean).join(" — ");
     const list = document.getElementById("list");
@@ -179,7 +186,7 @@
       const t = current;
       // com link: a legenda abre o site em outra aba (o zoom passa a aceitar o mouse)
       // legenda: só o campo Legenda da Galerias (sem ele, "local — ano")
-      const texto = `<span class="cz-cap">${esc(t.dataset.cap)}</span>${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}`;
+      const texto = `<span class="cz-cap">${md(t.dataset.cap)}</span>${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}`;
       zc.innerHTML = t.dataset.link
         ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;
       z.classList.toggle("link", !!t.dataset.link);

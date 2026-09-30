@@ -59,15 +59,14 @@
     background:#fff; padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
   .cz-zoom.on{ opacity:1; }
   .cz-zoom img{ display:block; max-height:62vh; max-width:56vw; }
-  .cz-zoom figcaption{ padding:10px 12px 0; font:10px/1.5 var(--mono-font); letter-spacing:.1em; text-transform:uppercase; color:var(--stone); max-width:56vw; }
-  .cz-zoom figcaption b{ display:block; font:italic 400 14px/1.4 var(--body-font); letter-spacing:0; text-transform:none; color:var(--ink); }
+  .cz-zoom figcaption{ padding:10px 12px 0; font:10px/1.5 var(--mono-font); letter-spacing:.1em; text-transform:uppercase; color:var(--ink); max-width:56vw; }
   /* imagem com link (campo Link da Galeria): o zoom aceita o mouse e a legenda vira link */
   .cz-zoom.on.link{ pointer-events:auto; }
   .cz-zoom figcaption a{ display:block; color:inherit; }
-  .cz-zoom figcaption a:hover, .cz-zoom figcaption a:hover b{ color:var(--oxide); }
-  .cz-zoom figcaption a:hover b{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cz-zoom figcaption a:hover{ color:var(--oxide); }
+  .cz-zoom figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
   /* flechinha de link externo — inline-block para não herdar o sublinhado */
-  .cz-ext{ display:inline-block; margin-left:5px; font:12px/1 var(--mono-font); font-style:normal; color:var(--stone); }
+  .cz-ext{ display:inline-block; margin-left:5px; font:12px/1 var(--mono-font); }
   .cz-zoom figcaption a:hover .cz-ext{ color:var(--oxide); }
 
   @media (max-width:760px){
@@ -141,7 +140,7 @@
           <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${esc(c.titulo)}">` : ""}</div>
         </div>
         ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g =>
-          `<img src="${esc(g.thumb)}" data-web="${esc(g.web)}" data-cap="${esc(g.cap)}" data-t="${esc(c.titulo)}"${g.link ? ` data-link="${esc(g.link)}"` : ""} alt="${esc(c.titulo)}" loading="lazy">`
+          `<img src="${esc(g.thumb)}" data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""} alt="${esc(c.titulo)}" loading="lazy">`
         ).join("")}</div></div></div>` : ""}
       </article>`;
     }).join("");
@@ -179,7 +178,8 @@
     const apply = () => {
       const t = current;
       // com link: a legenda abre o site em outra aba (o zoom passa a aceitar o mouse)
-      const texto = `<b>${esc(t.dataset.t)}${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}</b>${esc(t.dataset.cap)}`;
+      // legenda: só o campo Legenda da Galerias (sem ele, "local — ano")
+      const texto = `<span class="cz-cap">${esc(t.dataset.cap)}</span>${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}`;
       zc.innerHTML = t.dataset.link
         ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;
       z.classList.toggle("link", !!t.dataset.link);

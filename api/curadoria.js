@@ -3,7 +3,7 @@
 // Os campos Local/Ano do PRÓPRIO Projeto aparecem na linha de abertura; as Itinerâncias
 // vinculadas (sedes) entram à parte como o array "sedes".
 //
-// Imagens: cada linha da tabela Galeria é UMA imagem, com sua legenda (Legenda_PT /
+// Imagens: cada linha da tabela Galerias é UMA imagem, com sua legenda (Legenda_PT /
 // Legenda_EN) e um Link opcional (a legenda do zoom vira link), vinculada a um
 // Projeto ou a uma Itinerância, e ordenada por "Ordem".
 // Se um projeto/sede tiver linhas na Galeria, elas substituem o campo "Fotos" dele;
@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
       fetchAll(H, "Projetos"),
       fetchAll(H, "Itinerâncias"),
       // tabela opcional: se ainda não existir, segue só com o campo "Fotos"
-      fetchAll(H, "Galeria").catch(e => { galErro = String(e); return []; }),
+      fetchAll(H, "Galerias").catch(e => { galErro = String(e); return []; }),
     ]);
 
     // Galeria → imagens agrupadas pelo id do Projeto ou da Itinerância vinculada

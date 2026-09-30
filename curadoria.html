@@ -67,6 +67,10 @@
   .cz-zoom.on{ opacity:1; }
   .cz-zoom img{ display:block; max-height:62vh; max-width:56vw; }
   .cz-zi{ position:relative; }
+  /* véu branco sobre a página enquanto o zoom está aberto; a fileira fica acima dele */
+  .cz-veil{ position:fixed; inset:0; z-index:55; background:rgba(255,255,255,.72); pointer-events:none; opacity:0; transition:opacity .2s; }
+  body.cz-zooming .cz-veil{ opacity:1; }
+  body.cz-zooming .cz-item.open .cz-strip{ position:relative; z-index:56; }
   .cz-zoom .cz-play{ display:none; transform:scale(1.35); }
   .cz-zoom.video .cz-play{ display:block; }
   .cz-zoom.on.video{ pointer-events:auto; }
@@ -203,14 +207,27 @@
     document.body.appendChild(z);
     const zi = z.querySelector("img"), zc = z.querySelector("figcaption");
     let current = null, hideTimer = null, ready = false;
+    const veil = document.createElement("div");
+    veil.className = "cz-veil";
+    document.body.appendChild(veil);
+    const setOn = on => { z.classList.toggle("on", on); document.body.classList.toggle("cz-zooming", on); };
+    // o zoom fica ACIMA da fileira, com a base alinhada ao topo das miniaturas, para a
+    // fileira continuar visível; a imagem encolhe para caber no espaço. Se quase não
+    // houver espaço acima (fileira no alto da tela), vai para baixo da fileira.
+    const GAP = 12, TOPO = 70, MIN = 220;
     const place = () => {
       if (!current || !ready || !canHover.matches) return;
-      const r = current.getBoundingClientRect(), w = z.offsetWidth, h = z.offsetHeight;
+      const r = current.getBoundingClientRect();
+      const legenda = zc.offsetHeight + 10; // legenda + respiro inferior do zoom
+      const acima = r.top - GAP - TOPO - legenda, abaixo = innerHeight - r.bottom - GAP - 16 - legenda;
+      const emCima = acima >= MIN || acima >= abaixo;
+      zi.style.maxHeight = Math.max(120, Math.min(innerHeight * .62, emCima ? acima : abaixo)) + "px";
+      const w = z.offsetWidth, h = z.offsetHeight;
       const x = Math.max(16, Math.min(innerWidth - w - 16, r.left + r.width / 2 - w / 2));
-      const y = Math.max(70, Math.min(innerHeight - h - 16, r.top + r.height / 2 - h / 2));
-      z.style.left = x + "px"; z.style.top = y + "px"; z.classList.add("on");
+      const y = emCima ? r.top - GAP - h : r.bottom + GAP;
+      z.style.left = x + "px"; z.style.top = y + "px"; setOn(true);
     };
-    const hide = () => { clearTimeout(hideTimer); current = null; ready = false; z.classList.remove("on"); };
+    const hide = () => { clearTimeout(hideTimer); current = null; ready = false; setOn(false); };
     // pequeno atraso para dar tempo de o mouse passar da miniatura para o zoom
     const hideSoon = () => { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 120); };
     // item da fileira sob o evento: a <img> de uma foto ou o <span> de um vídeo

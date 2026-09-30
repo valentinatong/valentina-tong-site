@@ -128,6 +128,11 @@ module.exports = async (req, res) => {
       erro: galErro, linhas: galRecs.length, ignoradas: galIgnoradas,
       colunas: [...new Set(galRecs.flatMap(r => Object.keys(r.fields)))],
     };
+    if (isPreview(req) && galErro) {
+      // lista as tabelas da base (precisa do escopo schema.bases:read no token)
+      const m = await fetch(`${API}/meta/bases/${BASE}/tables`, { headers: H });
+      out.galeria.tabelas = m.ok ? (await m.json()).tables.map(t => t.name) : `meta HTTP ${m.status}`;
+    }
     res.status(200).json(out);
   } catch (e) {
     res.status(500).json({ error: String(e) });

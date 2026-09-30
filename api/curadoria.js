@@ -4,7 +4,8 @@
 // vinculadas (sedes) entram à parte como o array "sedes".
 //
 // Imagens: cada linha da tabela Galerias é UMA imagem, com sua legenda (Legenda_PT /
-// Legenda_EN) e um Link opcional (a legenda do zoom vira link), vinculada a um
+// Legenda_EN), um Link opcional (a legenda do zoom vira link) e um Vídeo opcional
+// (link do YouTube, toca num player na própria página), vinculada a um
 // Projeto ou a uma Itinerância, e ordenada por "Ordem".
 // Se um projeto/sede tiver linhas na Galeria, elas substituem o campo "Fotos" dele;
 // se não tiver (ou a tabela ainda não existir), continua valendo o "Fotos" antigo.
@@ -28,6 +29,12 @@ async function fetchAll(H, table) {
     offset = data.offset || "";
   } while (offset);
   return all;
+}
+
+// id de um link do YouTube (youtu.be/ID, watch?v=ID, shorts/ID, embed/ID, live/ID)
+function youtubeId(u) {
+  const m = String(u || "").match(/(?:youtu\.be\/|[?&]v=|\/(?:shorts|embed|live)\/)([\w-]{11})/);
+  return m ? m[1] : null;
 }
 
 // lê um campo pelo nome sem ligar para maiúsculas, acentos, espaços ou "_"
@@ -62,10 +69,14 @@ module.exports = async (req, res) => {
       .sort((a, b) => (campo(a, "Ordem") || 0) - (campo(b, "Ordem") || 0))
       .forEach(g => {
         const foto = (campo(g, "Imagem", "Foto", "Fotos") || [])[0];
-        if (!foto) { galIgnoradas.push("sem imagem"); return; }
+        // vídeo do YouTube: sem Imagem, usa a miniatura do próprio YouTube
+        const video = youtubeId(campo(g, "Vídeo", "Video"));
+        if (!foto && !video) { galIgnoradas.push("sem imagem nem vídeo"); return; }
+        const base = foto ? imgDeFoto(foto)
+          : { thumb: `https://i.ytimg.com/vi/${video}/mqdefault.jpg`, web: `https://i.ytimg.com/vi/${video}/hqdefault.jpg` };
         const legPT = campo(g, "Legenda_PT", "Legenda") || "";
         const legEN = campo(g, "Legenda_EN") || "";
-        const img = { ...imgDeFoto(foto), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
+        const img = { ...base, ...(video ? { video } : {}), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
                       link: String(campo(g, "Link externo", "Link", "URL", "Site") || "").trim() };
         // vinculada a uma Itinerância → vai para a sede; senão, para o Projeto
         const itin = (campo(g, "Itinerância", "Itinerâncias", "Sede") || [])[0];

@@ -52,6 +52,13 @@
   .cz-desc{ margin:14px 0 0; padding-left:20px; font:15.5px/1.6 var(--body-font); max-width:64ch; }
   .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px 20px; scrollbar-width:thin; }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
+  /* vídeo do YouTube na fileira: miniatura com ▶ por cima */
+  .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
+  .cz-strip .cz-vid img{ cursor:pointer; }
+  .cz-play{ position:absolute; left:50%; top:50%; width:46px; height:46px; margin:-23px 0 0 -23px; border-radius:50%;
+    background:rgba(255,255,255,.92); box-shadow:0 2px 10px rgba(32,29,25,.18); pointer-events:none; }
+  .cz-play::before{ content:""; position:absolute; left:18px; top:14px; border-style:solid;
+    border-width:9px 0 9px 14px; border-color:transparent transparent transparent var(--ink); }
   .cz-strip::-webkit-scrollbar{ height:6px; } .cz-strip::-webkit-scrollbar-thumb{ background:var(--line); }
 
   /* imagem ampliada ao passar o mouse na fileira */
@@ -59,6 +66,11 @@
     background:#fff; padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
   .cz-zoom.on{ opacity:1; }
   .cz-zoom img{ display:block; max-height:62vh; max-width:56vw; }
+  .cz-zi{ position:relative; }
+  .cz-zoom .cz-play{ display:none; transform:scale(1.35); }
+  .cz-zoom.video .cz-play{ display:block; }
+  .cz-zoom.on.video{ pointer-events:auto; }
+  .cz-zoom.video .cz-zi{ cursor:pointer; }
   .cz-zoom figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); max-width:56vw; }
   /* imagem com link (campo Link da Galeria): o zoom aceita o mouse e a legenda vira link */
   .cz-zoom.on.link{ pointer-events:auto; }
@@ -70,7 +82,25 @@
   .cz-ext{ display:inline-block; margin-left:5px; font:12px/1 var(--mono-font); }
   .cz-zoom figcaption a:hover .cz-ext{ color:var(--oxide); }
 
+  /* player de vídeo por cima da página */
+  .cz-player{ position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.94); padding:16px; }
+  .cz-player.on{ display:flex; }
+  .cz-player figure{ margin:0; width:min(1100px, 88vw, calc((100vh - 150px) * 16 / 9)); background:#fff;
+    box-shadow:0 18px 50px rgba(32,29,25,.18); padding:0 0 12px; }
+  .cz-player .cz-frame{ position:relative; aspect-ratio:16/9; background:#000; }
+  .cz-player iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .cz-player figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); }
+  .cz-player figcaption a{ color:inherit; }
+  .cz-player figcaption a:hover{ color:var(--oxide); }
+  .cz-player figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cz-player figcaption strong{ font-weight:600; }
+  .cz-close{ position:absolute; top:18px; right:22px; border:0; background:none; cursor:pointer;
+    font:22px/1 var(--mono-font); color:var(--stone); padding:6px; }
+  .cz-close:hover{ color:var(--ink); }
+
   @media (max-width:760px){
+    .cz-player figure{ width:100%; }
     .cz-list{ padding:0 22px 12vh; }
     .cz-row{ grid-template-columns:1fr; gap:10px; }
     .cz-thumb{ display:none; }
@@ -146,9 +176,13 @@
           </div>
           <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${esc(c.titulo)}">` : ""}</div>
         </div>
-        ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g =>
-          `<img src="${esc(g.thumb)}" data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""} alt="${esc(c.titulo)}" loading="lazy">`
-        ).join("")}</div></div></div>` : ""}
+        ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g => {
+          const attrs = `data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""}`;
+          const img = `<img src="${esc(g.thumb)}" alt="${esc(c.titulo)}" loading="lazy"`;
+          // vídeo: miniatura dentro de um span com o ▶; foto: a própria <img>
+          return g.video ? `<span class="cz-vid" data-video="${esc(g.video)}" ${attrs}>${img}><span class="cz-play"></span></span>`
+            : `${img} ${attrs}>`;
+        }).join("")}</div></div></div>` : ""}
       </article>`;
     }).join("");
 
@@ -165,7 +199,7 @@
     const canHover = matchMedia("(hover: hover) and (min-width: 761px)");
     const z = document.createElement("figure");
     z.className = "cz-zoom";
-    z.innerHTML = '<img alt=""><figcaption></figcaption>';
+    z.innerHTML = '<div class="cz-zi"><img alt=""><span class="cz-play"></span></div><figcaption></figcaption>';
     document.body.appendChild(z);
     const zi = z.querySelector("img"), zc = z.querySelector("figcaption");
     let current = null, hideTimer = null, ready = false;
@@ -179,7 +213,8 @@
     const hide = () => { clearTimeout(hideTimer); current = null; ready = false; z.classList.remove("on"); };
     // pequeno atraso para dar tempo de o mouse passar da miniatura para o zoom
     const hideSoon = () => { clearTimeout(hideTimer); hideTimer = setTimeout(hide, 120); };
-    const isStripImg = t => t && t.tagName === "IMG" && t.parentElement.classList.contains("cz-strip");
+    // item da fileira sob o evento: a <img> de uma foto ou o <span> de um vídeo
+    const stripItem = t => (t && t.closest) ? t.closest(".cz-strip > *") : null;
     // legenda e posição só mudam quando a imagem grande terminou de carregar, para nunca
     // aparecer a legenda de uma foto com a imagem de outra (ou a caixa vazia)
     const apply = () => {
@@ -190,6 +225,7 @@
       zc.innerHTML = t.dataset.link
         ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;
       z.classList.toggle("link", !!t.dataset.link);
+      z.classList.toggle("video", !!t.dataset.video);
       ready = true;
       place();
     };
@@ -209,18 +245,43 @@
     addEventListener("mousemove", () => { keyNav = false; }, { passive: true });
 
     list.addEventListener("mouseover", e => {
-      if (keyNav || !canHover.matches || !isStripImg(e.target)) return;
-      show(e.target);
+      const m = stripItem(e.target);
+      if (keyNav || !canHover.matches || !m) return;
+      if (m === current) { clearTimeout(hideTimer); return; }
+      show(m);
     });
     list.addEventListener("mouseout", e => {
-      if (!keyNav && e.target === current && !z.contains(e.relatedTarget)) hideSoon();
+      const m = stripItem(e.target);
+      if (!keyNav && m && m === current && !m.contains(e.relatedTarget) && !z.contains(e.relatedTarget)) hideSoon();
     });
     z.addEventListener("mouseenter", () => clearTimeout(hideTimer));
-    z.addEventListener("mouseleave", e => { if (!keyNav && e.relatedTarget !== current) hideSoon(); });
+    z.addEventListener("mouseleave", e => { if (!keyNav && !(current && current.contains(e.relatedTarget))) hideSoon(); });
+    // vídeo: clicar na imagem do zoom abre o player
+    z.querySelector(".cz-zi").addEventListener("click", () => { if (current && current.dataset.video) play(current); });
 
-    // setas ← → percorrem as imagens do item aberto (Esc fecha o zoom)
+    // player do YouTube (youtube-nocookie: sem cookies de rastreamento antes do play)
+    const pl = document.createElement("div");
+    pl.className = "cz-player";
+    pl.innerHTML = '<button class="cz-close" aria-label="Fechar">×</button><figure><div class="cz-frame"></div><figcaption></figcaption></figure>';
+    document.body.appendChild(pl);
+    const play = t => {
+      hide();
+      pl.querySelector(".cz-frame").innerHTML =
+        `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(t.dataset.video)}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+      const texto = `<span class="cz-cap">${md(t.dataset.cap)}</span>${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}`;
+      pl.querySelector("figcaption").innerHTML = t.dataset.link
+        ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;
+      pl.classList.add("on");
+    };
+    // fechar tira o iframe, para o vídeo parar de tocar
+    const stop = () => { pl.classList.remove("on"); pl.querySelector(".cz-frame").innerHTML = ""; };
+    pl.addEventListener("click", e => { if (e.target === pl || e.target.closest(".cz-close")) stop(); });
+
+    // setas ← → percorrem as imagens do item aberto (Esc fecha o zoom; Enter toca um vídeo)
     addEventListener("keydown", e => {
+      if (pl.classList.contains("on")) { if (e.key === "Escape") stop(); return; }
       if (e.key === "Escape") { hide(); return; }
+      if (e.key === "Enter" && current && current.dataset.video) { play(current); return; }
       if ((e.key !== "ArrowRight" && e.key !== "ArrowLeft") || e.metaKey || e.ctrlKey || e.altKey) return;
       const strip = list.querySelector(".cz-item.open .cz-strip");
       if (!strip) return;
@@ -233,10 +294,13 @@
       next.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
       if (canHover.matches) show(next); else current = next;
     });
-    // celular (sem zoom): tocar numa imagem com link abre o site
+    // clicar num vídeo da fileira abre o player; no celular (sem zoom), tocar numa foto
+    // com link abre o site
     list.addEventListener("click", e => {
-      const t = e.target;
-      if (!canHover.matches && t.tagName === "IMG" && t.dataset.link) open(t.dataset.link, "_blank", "noopener");
+      const m = stripItem(e.target);
+      if (!m) return;
+      if (m.dataset.video) play(m);
+      else if (!canHover.matches && m.dataset.link) open(m.dataset.link, "_blank", "noopener");
     });
     // rolar a página ou a fileira desloca a miniatura: com o mouse, fecha o zoom;
     // pelas setas, o zoom acompanha a miniatura enquanto a fileira rola

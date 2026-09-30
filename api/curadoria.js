@@ -13,7 +13,7 @@
 
 const BASE = "apph3pc09ROncZLnU"; // base "Curadoria" (não é segredo)
 const API = "https://api.airtable.com/v0";
-const { cacheControlFor } = require("./_cache");
+const { cacheControlFor, isPreview } = require("./_cache");
 
 async function fetchAll(H, table) {
   let all = [];
@@ -47,21 +47,22 @@ module.exports = async (req, res) => {
     const url = new URL(req.url, "http://x");
     const isEN = (url.searchParams.get("lang") || "").toLowerCase() === "en";
 
+    let galErro = null;
     const [projRecs, itinRecs, galRecs] = await Promise.all([
       fetchAll(H, "Projetos"),
       fetchAll(H, "Itinerâncias"),
       // tabela opcional: se ainda não existir, segue só com o campo "Fotos"
-      fetchAll(H, "Galeria").catch(() => []),
+      fetchAll(H, "Galeria").catch(e => { galErro = String(e); return []; }),
     ]);
 
     // Galeria → imagens agrupadas pelo id do Projeto ou da Itinerância vinculada
-    const galByRec = {};
+    const galByRec = {}, galIgnoradas = [];
     galRecs
       .map(rec => rec.fields)
       .sort((a, b) => (campo(a, "Ordem") || 0) - (campo(b, "Ordem") || 0))
       .forEach(g => {
         const foto = (campo(g, "Imagem", "Foto", "Fotos") || [])[0];
-        if (!foto) return;
+        if (!foto) { galIgnoradas.push("sem imagem"); return; }
         const legPT = campo(g, "Legenda_PT", "Legenda") || "";
         const legEN = campo(g, "Legenda_EN") || "";
         const img = { ...imgDeFoto(foto), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
@@ -71,6 +72,7 @@ module.exports = async (req, res) => {
         const proj = (campo(g, "Projeto", "Projetos") || [])[0];
         const alvo = itin || proj;
         if (alvo) (galByRec[alvo] = galByRec[alvo] || []).push(img);
+        else galIgnoradas.push("sem Projeto/Itinerância vinculado");
       });
     // imagens de um registro: as da Galeria, se houver; senão o campo "Fotos" antigo
     const imgsDe = (recId, fotos) => galByRec[recId] || imgsDeFotos(fotos);
@@ -120,7 +122,13 @@ module.exports = async (req, res) => {
     }).sort((a, b) => a.ordem - b.ordem);
 
     res.setHeader("Cache-Control", cacheControlFor(req));
-    res.status(200).json({ itens });
+    // modo preview: diagnóstico da tabela Galeria (erro, colunas lidas, linhas ignoradas)
+    const out = { itens };
+    if (isPreview(req)) out.galeria = {
+      erro: galErro, linhas: galRecs.length, ignoradas: galIgnoradas,
+      colunas: [...new Set(galRecs.flatMap(r => Object.keys(r.fields)))],
+    };
+    res.status(200).json(out);
   } catch (e) {
     res.status(500).json({ error: String(e) });
   }

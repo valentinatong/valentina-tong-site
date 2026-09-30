@@ -267,7 +267,7 @@
     const play = t => {
       hide();
       pl.querySelector(".cz-frame").innerHTML =
-        `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(t.dataset.video)}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+        `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(t.dataset.video)}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen"></iframe>`;
       const texto = `<span class="cz-cap">${md(t.dataset.cap)}</span>${t.dataset.link ? '<span class="cz-ext">↗</span>' : ""}`;
       pl.querySelector("figcaption").innerHTML = t.dataset.link
         ? `<a href="${esc(t.dataset.link)}" target="_blank" rel="noopener">${texto}</a>` : texto;

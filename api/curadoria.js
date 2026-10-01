@@ -125,6 +125,9 @@ module.exports = async (req, res) => {
       item.local = proj["Local"] || "";
       item.ano = proj["Ano"] || "";
       item.link = linkDe(proj);
+      // tarja 3:1 da lista (anexo "Tarja"); sem ela, o site usa a 1ª imagem do item
+      const tarja = (campo(proj, "Tarja") || [])[0];
+      item.tarja = tarja ? imgDeFoto(tarja) : null;
       item.imgs = imgsDe(rec.id, proj["Fotos"]);
 
       // sedes (Itinerâncias): à parte, aparecem quando o item abre

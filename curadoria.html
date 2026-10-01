@@ -31,7 +31,7 @@
   .cz-item{ border-top:1px solid var(--line); cursor:pointer; }
   .cz-item.open{ cursor:default; }
   .cz-item:last-child{ border-bottom:1px solid var(--line); }
-  .cz-row{ display:grid; grid-template-columns:48% 1fr 96px; gap:32px; align-items:start; padding:22px 0 24px; }
+  .cz-row{ display:grid; grid-template-columns:40% 1fr 210px; gap:28px; align-items:start; padding:22px 0 24px; }
   .cz-title{ font:500 18px/24px var(--title-font); display:flex; gap:10px; align-items:baseline; cursor:pointer; }
   .cz-plus{ font:12px var(--mono-font); color:var(--stone); width:10px; flex:0 0 10px; transition:transform .3s; }
   .cz-item.open .cz-plus{ transform:rotate(45deg); color:var(--oxide); }
@@ -44,9 +44,10 @@
   .cz-v .l a:hover{ color:var(--oxide); }
   .cz-v .l a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
   .cz-sedes .cz-v{ border-top:1px solid rgba(32,29,25,.07); }
-  .cz-thumb{ justify-self:end; width:96px; height:64px; margin-top:4px; }
-  .cz-thumb img{ width:96px; height:64px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
-  .cz-item.open .cz-thumb img{ opacity:0; }
+  /* tarja 3:1 à direita (campo "Tarja" do Projeto; sem ele, a 1ª imagem do item) */
+  .cz-tarja{ justify-self:end; align-self:start; width:210px; height:70px; margin-top:4px; }
+  .cz-tarja img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:opacity .3s; }
+  .cz-item.open .cz-tarja img{ opacity:0; }
 
   /* partes que abrem — transição de altura via grid-template-rows */
   .cz-fold{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
@@ -107,7 +108,7 @@
     .cz-player figure{ width:100%; }
     .cz-list{ padding:0 22px 12vh; }
     .cz-row{ grid-template-columns:1fr; gap:10px; }
-    .cz-thumb{ display:none; }
+    .cz-tarja{ justify-self:stretch; width:100%; height:auto; aspect-ratio:3/1; margin-top:6px; }
     .cz-row > div:nth-child(2){ padding-left:20px; }
     .cz-strip img{ cursor:default; }
     .cz-zoom{ display:none; }
@@ -171,6 +172,8 @@
         ...(c.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(c.local, c.ano) })),
         ...sedes.flatMap(s => (s.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(s.local, s.ano) })))
       ];
+      // tarja: campo próprio ou, sem ele, a primeira imagem do item (projeto ou sedes)
+      const tarja = c.tarja || imgs[0];
       const tr = [c.tipo, c.papel].filter(Boolean).map(md).join(" · ");
       return `<article class="cz-item">
         <div class="cz-row">
@@ -183,7 +186,7 @@
             ${(c.local || c.ano) ? venue(c.ano, c.local, c.link) : ""}
             ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local, s.link)).join("")}</div></div>` : ""}
           </div>
-          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${plain(c.titulo)}">` : ""}</div>
+          ${tarja ? `<div class="cz-tarja"><img src="${esc(tarja.thumb)}" alt="${plain(c.titulo)}"></div>` : ""}
         </div>
         ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g => {
           const attrs = `data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""}`;

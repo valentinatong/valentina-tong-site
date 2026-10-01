@@ -49,6 +49,7 @@
   .cz-fold{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
   .cz-item.open .cz-fold{ grid-template-rows:1fr; }
   .cz-fold > div{ overflow:hidden; min-height:0; }
+  .cz-list strong{ font-weight:600; }
   .cz-desc{ margin:14px 0 0; padding-left:20px; font:15.5px/1.6 var(--body-font); max-width:64ch; }
   .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px 20px; scrollbar-width:thin; }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
@@ -145,12 +146,14 @@
 
     const esc = s => String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
     // texto formatado do Airtable (markdown): **negrito**, _itálico_ ou *itálico*, quebras de linha
-    const md = s => esc(s)
+    const md = s => esc(String(s == null ? "" : s).trim())
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/(^|[^\w])_(.+?)_(?!\w)/g, "$1<em>$2</em>")
       .replace(/\*(.+?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
-    const venue = (ano, local) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${esc(local)}</span></div>`;
+    // texto sem a marcação (para atributos alt)
+    const plain = s => esc(String(s == null ? "" : s).replace(/\*/g, "").replace(/(^|[^\w])_(.+?)_(?!\w)/g, "$1$2"));
+    const venue = (ano, local) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${md(local)}</span></div>`;
     const lugar = (local, ano) => [local, ano].filter(Boolean).join(" — ");
     const list = document.getElementById("list");
 
@@ -162,23 +165,23 @@
         ...(c.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(c.local, c.ano) })),
         ...sedes.flatMap(s => (s.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(s.local, s.ano) })))
       ];
-      const tr = [c.tipo, c.papel].filter(Boolean).map(esc).join(" · ");
+      const tr = [c.tipo, c.papel].filter(Boolean).map(md).join(" · ");
       return `<article class="cz-item">
         <div class="cz-row">
           <div>
-            <div class="cz-title"><span class="cz-plus">+</span><span>${esc(c.titulo)}</span></div>
-            ${c.desc ? `<div class="cz-fold"><div><p class="cz-desc">${esc(c.desc)}</p></div></div>` : ""}
+            <div class="cz-title"><span class="cz-plus">+</span><span>${md(c.titulo)}</span></div>
+            ${c.desc ? `<div class="cz-fold"><div><p class="cz-desc">${md(c.desc)}</p></div></div>` : ""}
           </div>
           <div>
             ${tr ? `<div class="cz-tr">${tr}</div>` : ""}
             ${(c.local || c.ano) ? venue(c.ano, c.local) : ""}
             ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local)).join("")}</div></div>` : ""}
           </div>
-          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${esc(c.titulo)}">` : ""}</div>
+          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${plain(c.titulo)}">` : ""}</div>
         </div>
         ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g => {
           const attrs = `data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""}`;
-          const img = `<img src="${esc(g.thumb)}" alt="${esc(c.titulo)}" loading="lazy"`;
+          const img = `<img src="${esc(g.thumb)}" alt="${plain(c.titulo)}" loading="lazy"`;
           // vídeo: miniatura dentro de um span com o ▶; foto: a própria <img>
           return g.video ? `<span class="cz-vid" data-video="${esc(g.video)}" ${attrs}>${img}><span class="cz-play"></span></span>`
             : `${img} ${attrs}>`;

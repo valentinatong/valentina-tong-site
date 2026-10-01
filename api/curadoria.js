@@ -45,6 +45,9 @@ function campo(fields, ...nomes) {
   return undefined;
 }
 
+// link da página oficial (coluna Link em Projetos e Itinerâncias)
+const linkDe = f => String(campo(f, "Link", "Link oficial", "Link externo", "URL", "Site") || "").trim();
+
 module.exports = async (req, res) => {
   try {
     const token = process.env.AIRTABLE_TOKEN;
@@ -121,13 +124,14 @@ module.exports = async (req, res) => {
       // linha de abertura: sempre os campos do próprio Projeto, tenha ele sedes ou não
       item.local = proj["Local"] || "";
       item.ano = proj["Ano"] || "";
+      item.link = linkDe(proj);
       item.imgs = imgsDe(rec.id, proj["Fotos"]);
 
       // sedes (Itinerâncias): à parte, aparecem quando o item abre
       const itins = itinsByProj[rec.id];
       item.sedes = (itins && itins.length) ? itins.map(itinRec => {
         const it = itinRec.fields;
-        return { local: it["Local"] || "", ano: it["Ano"] || "", imgs: imgsDe(itinRec.id, it["Fotos"]) };
+        return { local: it["Local"] || "", ano: it["Ano"] || "", link: linkDe(it), imgs: imgsDe(itinRec.id, it["Fotos"]) };
       }) : null;
       return item;
     }).sort((a, b) => a.ordem - b.ordem);

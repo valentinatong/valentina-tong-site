@@ -40,6 +40,9 @@
   .cz-v{ display:grid; grid-template-columns:50px 1fr; gap:8px; padding:2px 0; }
   .cz-v .y{ font:11px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
   .cz-v .l{ font:14px/21px var(--body-font); }
+  .cz-v .l a{ color:inherit; }
+  .cz-v .l a:hover{ color:var(--oxide); }
+  .cz-v .l a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
   .cz-sedes .cz-v{ border-top:1px solid rgba(32,29,25,.07); }
   .cz-thumb{ justify-self:end; width:96px; height:64px; margin-top:4px; }
   .cz-thumb img{ width:96px; height:64px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
@@ -153,7 +156,10 @@
       .replace(/\n/g, "<br>");
     // texto sem a marcação (para atributos alt)
     const plain = s => esc(String(s == null ? "" : s).replace(/\*/g, "").replace(/(^|[^\w])_(.+?)_(?!\w)/g, "$1$2"));
-    const venue = (ano, local) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${md(local)}</span></div>`;
+    // local com link (coluna Link em Projetos/Itinerâncias): abre a página oficial em outra aba
+    const venue = (ano, local, link) => `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${link
+      ? `<a href="${esc(link)}" target="_blank" rel="noopener"><span class="cz-cap">${md(local)}</span><span class="cz-ext">↗</span></a>`
+      : md(local)}</span></div>`;
     const lugar = (local, ano) => [local, ano].filter(Boolean).join(" — ");
     const list = document.getElementById("list");
 
@@ -174,8 +180,8 @@
           </div>
           <div>
             ${tr ? `<div class="cz-tr">${tr}</div>` : ""}
-            ${(c.local || c.ano) ? venue(c.ano, c.local) : ""}
-            ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local)).join("")}</div></div>` : ""}
+            ${(c.local || c.ano) ? venue(c.ano, c.local, c.link) : ""}
+            ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local, s.link)).join("")}</div></div>` : ""}
           </div>
           <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${plain(c.titulo)}">` : ""}</div>
         </div>
@@ -191,6 +197,7 @@
 
     // fechado: clicar em qualquer lugar abre; aberto: só o título fecha. Um aberto por vez.
     list.querySelectorAll(".cz-item").forEach(a => a.addEventListener("click", e => {
+      if (e.target.closest("a")) return; // links (local, legenda) não abrem/fecham o item
       const open = a.classList.contains("open");
       if (open && !e.target.closest(".cz-title")) return;
       hide();

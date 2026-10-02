@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#ffffff; --ink:#201D19; --stone:#86806F; --stone-dim:#a49d8f; --oxide:#9A4A2C;
+    --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C;
     --line:rgba(32,29,25,.14);
     --title-font:"Fraunces", Georgia, serif;
     --body-font:"Newsreader", Georgia, serif;
@@ -32,13 +32,14 @@
   .cz-item.open{ cursor:default; }
   .cz-item:last-child{ border-bottom:1px solid var(--line); }
   .cz-row{ display:grid; grid-template-columns:48% 1fr 96px; gap:32px; align-items:start; padding:22px 0 24px; }
-  .cz-title{ font:500 18px/24px var(--title-font); display:flex; gap:10px; align-items:baseline; cursor:pointer; }
-  .cz-plus{ font:12px var(--mono-font); color:var(--stone); width:10px; flex:0 0 10px; transition:transform .3s; }
-  .cz-item.open .cz-plus{ transform:rotate(45deg); color:var(--oxide); }
+  .cz-title{ font:500 18px/24px var(--title-font); cursor:pointer; transition:color .2s; }
   .cz-item.open .cz-title{ color:var(--oxide); }
+  /* linha clicável: hover discreto no título (cor de destaque a 80%) */
+  .cz-item:not(.open) .cz-row{ cursor:pointer; }
+  .cz-item:not(.open) .cz-row:hover .cz-title, .cz-title:hover{ color:rgba(154,74,44,.8); }
   .cz-tr{ font:italic 15px/24px var(--body-font); color:var(--stone); margin:0 0 4px; }
   .cz-v{ display:grid; grid-template-columns:50px 1fr; gap:8px; padding:2px 0; }
-  .cz-v .y{ font:11px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
+  .cz-v .y{ font:12px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
   .cz-v .l{ font:14px/21px var(--body-font); }
   .cz-v .l a{ color:inherit; }
   .cz-v .l a:hover{ color:var(--oxide); }
@@ -53,8 +54,8 @@
   .cz-item.open .cz-fold{ grid-template-rows:1fr; }
   .cz-fold > div{ overflow:hidden; min-height:0; }
   .cz-list strong{ font-weight:600; }
-  .cz-desc{ margin:14px 0 0; padding-left:20px; font:15.5px/1.6 var(--body-font); max-width:64ch; }
-  .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px 20px; scrollbar-width:thin; }
+  .cz-desc{ margin:14px 0 0; font:15.5px/1.6 var(--body-font); max-width:64ch; }
+  .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px; scrollbar-width:thin; }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
   /* vídeo do YouTube na fileira: miniatura com ▶ por cima */
   .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
@@ -108,7 +109,6 @@
     .cz-list{ padding:0 22px 12vh; }
     .cz-row{ grid-template-columns:1fr; gap:10px; }
     .cz-thumb{ display:none; }
-    .cz-row > div:nth-child(2){ padding-left:20px; }
     .cz-strip img{ cursor:default; }
     .cz-zoom{ display:none; }
   }
@@ -175,7 +175,7 @@
       return `<article class="cz-item">
         <div class="cz-row">
           <div>
-            <div class="cz-title"><span class="cz-plus">+</span><span>${md(c.titulo)}</span></div>
+            <div class="cz-title">${md(c.titulo)}</div>
             ${c.desc ? `<div class="cz-fold"><div><p class="cz-desc">${md(c.desc)}</p></div></div>` : ""}
           </div>
           <div>

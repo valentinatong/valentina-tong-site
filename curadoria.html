@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C;
+    --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C; --card:#ffffff;
     --line:rgba(32,29,25,.14);
     --title-font:"Fraunces", Georgia, serif;
     --body-font:"Newsreader", Georgia, serif;
@@ -56,6 +56,8 @@
   .cz-list strong{ font-weight:600; }
   .cz-desc{ margin:14px 0 0; font:15.5px/1.6 var(--body-font); max-width:64ch; }
   .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px; scrollbar-width:thin; }
+  /* filete cinza bem fino em volta das fotos da galeria (fileira e zoom) */
+  .cz-strip img, .cz-zoom img{ border:1px solid rgba(32,29,25,.16); }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
   /* vídeo do YouTube na fileira: miniatura com ▶ por cima */
   .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
@@ -68,7 +70,7 @@
 
   /* imagem ampliada ao passar o mouse na fileira */
   .cz-zoom{ position:fixed; z-index:60; margin:0; left:0; top:0; pointer-events:none; opacity:0; transition:opacity .2s;
-    background:#fff; padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
+    background:var(--card); padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
   .cz-zoom.on{ opacity:1; }
   .cz-zoom img{ display:block; max-height:62vh; max-width:56vw; }
   .cz-zi{ position:relative; }
@@ -91,7 +93,7 @@
   .cz-player{ position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
     background:rgba(255,255,255,.94); padding:16px; }
   .cz-player.on{ display:flex; }
-  .cz-player figure{ margin:0; width:min(1100px, 88vw, calc((100vh - 150px) * 16 / 9)); background:#fff;
+  .cz-player figure{ margin:0; width:min(1100px, 88vw, calc((100vh - 150px) * 16 / 9)); background:var(--card);
     box-shadow:0 18px 50px rgba(32,29,25,.18); padding:0 0 12px; }
   .cz-player .cz-frame{ position:relative; aspect-ratio:16/9; background:#000; }
   .cz-player iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
@@ -341,6 +343,8 @@
   var vtP2 = function(u){ return /(?:^|; )vt_preview=1(?:;|$)/.test(document.cookie) ? u+(u.indexOf("?")===-1?"?":"&")+"_preview="+Date.now() : u; };
   fetch(vtP2("/api/config?base=curadoria")).then(r=>r.ok?r.json():null).then(d=>{
     if(d && d.corFundo) document.documentElement.style.setProperty("--bg", "#"+d.corFundo.trim().replace(/^#/,""));
+    // fundo da caixa da legenda (zoom e player de vídeo): campo "Cor da legenda"
+    if(d && d.corLegenda) document.documentElement.style.setProperty("--card", "#"+d.corLegenda.trim().replace(/^#/,""));
   }).catch(()=>{});
   </script>
   <script src="assets/no-drag.js"></script>

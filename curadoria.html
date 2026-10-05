@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C; --card:#ffffff;
+    --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C; --card:#ffffff; --cell:transparent;
     --line:rgba(32,29,25,.14);
     --title-font:"Fraunces", Georgia, serif;
     --body-font:"Newsreader", Georgia, serif;
@@ -58,6 +58,8 @@
   .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px; scrollbar-width:thin; }
   /* filete cinza bem fino em volta das fotos da galeria (fileira e zoom) */
   .cz-strip img, .cz-zoom img{ border:1px solid rgba(32,29,25,.16); }
+  /* "célula" atrás de imagens com fundo transparente: campo "Cor da imagem" do Airtable */
+  .cz-strip img, .cz-zoom img, .cz-thumb img{ background-color:var(--cell); }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
   /* vídeo do YouTube na fileira: miniatura com ▶ por cima */
   .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
@@ -345,6 +347,7 @@
     if(d && d.corFundo) document.documentElement.style.setProperty("--bg", "#"+d.corFundo.trim().replace(/^#/,""));
     // fundo da caixa da legenda (zoom e player de vídeo): campo "Cor da legenda"
     if(d && d.corLegenda) document.documentElement.style.setProperty("--card", "#"+d.corLegenda.trim().replace(/^#/,""));
+    if(d && d.corImagem) document.documentElement.style.setProperty("--cell", "#"+d.corImagem.trim().replace(/^#/,""));
   }).catch(()=>{});
   </script>
   <script src="assets/no-drag.js"></script>

@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
     const corFundo = rec ? (rec.fields["Cor de fundo"] || "") : "";
     const corTag = rec ? (rec.fields["Cor da tag"] || "") : "";
     const corLegenda = rec ? (rec.fields["Cor da legenda"] || "") : "";
+    const corImagem = rec ? (rec.fields["Cor da imagem"] || "") : "";
     const textoAbertura = rec ? (rec.fields["Texto de abertura"] || "") : "";
     const textoAberturaEN = rec ? (rec.fields["Texto de abertura_EN"] || "") : "";
     const rotuloFiltro = rec ? (rec.fields["Rótulo filtro"] || "") : "";
@@ -37,7 +38,7 @@ module.exports = async (req, res) => {
 
     res.setHeader("Cache-Control", cacheControlFor(req));
     res.status(200).json({
-      corFundo, corTag, corLegenda,
+      corFundo, corTag, corLegenda, corImagem,
       textoAbertura, textoAberturaEN,
       rotuloFiltro, rotuloFiltroEN,
       rotuloTodos, rotuloTodosEN,

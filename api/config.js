@@ -6,7 +6,7 @@ const BASES = {
   curadoria: "apph3pc09ROncZLnU",
 };
 const API = "https://api.airtable.com/v0";
-const { cacheControlFor } = require("./_cache");
+const { cacheControlFor, isPreview } = require("./_cache");
 
 module.exports = async (req, res) => {
   try {
@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
     const base = BASES[which];
     if (!base) { res.status(400).json({ error: "faltou ?base=arquivo|curadoria" }); return; }
 
-    const r = await fetch(`${API}/${base}/Configura%C3%A7%C3%B5es?maxRecords=1`, { headers: H });
+    // modo preview: lê até 10 linhas para o diagnóstico (o site só usa a primeira)
+    const r = await fetch(`${API}/${base}/Configura%C3%A7%C3%B5es?maxRecords=${isPreview(req) ? 10 : 1}`, { headers: H });
     if (!r.ok) { res.status(502).json({ error: "Airtable Configurações", status: r.status }); return; }
     const data = await r.json();
     const rec = (data.records || [])[0];
@@ -37,7 +38,9 @@ module.exports = async (req, res) => {
     const textoAberturaMapaEN = rec ? (rec.fields["Texto de abertura do Mapa_EN"] || "") : "";
 
     res.setHeader("Cache-Control", cacheControlFor(req));
+    const diag = isPreview(req) ? { linhas: (data.records || []).map(x => x.fields) } : {};
     res.status(200).json({
+      ...diag,
       corFundo, corTag, corLegenda, corImagem,
       textoAbertura, textoAberturaEN,
       rotuloFiltro, rotuloFiltroEN,

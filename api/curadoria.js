@@ -118,7 +118,7 @@ module.exports = async (req, res) => {
       const desc = isEN ? (proj["Texto de apresentação_EN"] || proj["Texto de apresentação_PT"]) : proj["Texto de apresentação_PT"];
 
       const item = {
-        titulo: titulo || "", tipo: (tipoArr || []).join(" + "), papel: papel || "",
+        titulo: titulo || "", tipo: (tipoArr || []).join(" + "), papel: [].concat(papel || []).join(" + "), // várias tags → "A + B"
         desc: desc || "", ordem: proj["Ordem"] || 0,
       };
 

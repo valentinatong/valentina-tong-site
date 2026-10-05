@@ -72,8 +72,8 @@
   .cz-zoom{ position:fixed; z-index:60; margin:0; left:0; top:0; pointer-events:none; opacity:0; transition:opacity .2s;
     background:var(--card); padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
   .cz-zoom.on{ opacity:1; }
-  /* a altura (62vh) é o limite principal; panorâmicas podem ocupar a largura toda da tela */
-  .cz-zoom img{ display:block; max-height:62vh; max-width:calc(100vw - 32px); }
+  /* a altura (62vh) é o limite principal; panorâmicas vão até 80% da largura da tela */
+  .cz-zoom img{ display:block; max-height:62vh; max-width:80vw; }
   .cz-zi{ position:relative; }
   .cz-zoom .cz-play{ display:none; transform:scale(1.35); }
   .cz-zoom.video .cz-play{ display:block; }

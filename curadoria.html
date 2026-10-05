@@ -59,7 +59,7 @@
   /* filete cinza bem fino em volta das fotos da galeria (fileira e zoom) */
   .cz-strip img, .cz-zoom img{ border:1px solid rgba(32,29,25,.16); }
   /* "célula" atrás de imagens com fundo transparente: campo "Cor da imagem" do Airtable */
-  .cz-strip img, .cz-zoom img{ background-color:var(--cell); }
+  .cz-strip img, .cz-zoom img, .cz-thumb img.cz-tr{ background-color:var(--cell); }
   .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
   /* vídeo do YouTube na fileira: miniatura com ▶ por cima */
   .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
@@ -187,7 +187,7 @@
             ${(c.local || c.ano) ? venue(c.ano, c.local, c.link) : ""}
             ${sedes.length ? `<div class="cz-fold"><div class="cz-sedes">${sedes.map(s => venue(s.ano, s.local, s.link)).join("")}</div></div>` : ""}
           </div>
-          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}" alt="${plain(c.titulo)}">` : ""}</div>
+          <div class="cz-thumb">${c.imgs && c.imgs[0] ? `<img src="${esc(c.imgs[0].thumb)}"${c.imgs[0].transp ? ' class="cz-tr"' : ""} alt="${plain(c.titulo)}">` : ""}</div>
         </div>
         ${imgs.length ? `<div class="cz-fold"><div><div class="cz-strip">${imgs.map(g => {
           const attrs = `data-web="${esc(g.web)}" data-cap="${esc(g.cap)}"${g.link ? ` data-link="${esc(g.link)}"` : ""}`;

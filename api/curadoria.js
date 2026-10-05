@@ -100,10 +100,11 @@ module.exports = async (req, res) => {
     Object.values(itinsByProj).forEach(list => list.sort((a, b) => (a.fields["Ordem"] || 0) - (b.fields["Ordem"] || 0)));
 
     function imgDeFoto(f) {
-      return {
-        thumb: (f.thumbnails && f.thumbnails.large) ? f.thumbnails.large.url : f.url,
-        web: f.url,
-      };
+      // PNG/WebP podem ter transparência, e a miniatura do Airtable é JPEG: o fundo
+      // transparente vira branco e sombras suaves viram preto. Nesses casos usa o original.
+      const transp = /png|webp|gif/i.test(f.type || "") || /\.(png|webp|gif)$/i.test(f.filename || "");
+      const thumb = (!transp && f.thumbnails && f.thumbnails.large) ? f.thumbnails.large.url : f.url;
+      return transp ? { thumb, web: f.url, transp: true } : { thumb, web: f.url };
     }
     function imgsDeFotos(fotos) {
       return (fotos || []).filter(Boolean).map(imgDeFoto);

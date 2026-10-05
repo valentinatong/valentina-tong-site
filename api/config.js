@@ -19,15 +19,24 @@ module.exports = async (req, res) => {
     const base = BASES[which];
     if (!base) { res.status(400).json({ error: "faltou ?base=arquivo|curadoria" }); return; }
 
-    // modo preview: lê até 10 linhas para o diagnóstico (o site só usa a primeira)
-    const r = await fetch(`${API}/${base}/Configura%C3%A7%C3%B5es?maxRecords=${isPreview(req) ? 10 : 1}`, { headers: H });
+    // lê todas as linhas numa chamada só: a 1ª é a configuração da página; linhas extras
+    // com "Página" = "Cor da legenda" / "Cor da imagem" guardam essas cores em "Cor de fundo"
+    const r = await fetch(`${API}/${base}/Configura%C3%A7%C3%B5es?pageSize=20`, { headers: H });
     if (!r.ok) { res.status(502).json({ error: "Airtable Configurações", status: r.status }); return; }
     const data = await r.json();
-    const rec = (data.records || [])[0];
+    // configuração da página = 1ª linha que não seja uma das linhas de cor extra
+    const ehLinhaCor = x => /^cor da (legenda|imagem)$/.test(String(x.fields["Página"] || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase());
+    const rec = (data.records || []).find(x => !ehLinhaCor(x)) || null;
     const corFundo = rec ? (rec.fields["Cor de fundo"] || "") : "";
     const corTag = rec ? (rec.fields["Cor da tag"] || "") : "";
-    const corLegenda = rec ? (rec.fields["Cor da legenda"] || "") : "";
-    const corImagem = rec ? (rec.fields["Cor da imagem"] || "") : "";
+    const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+    const linhaCor = nome => {
+      const l = (data.records || []).find(x => norm(x.fields["Página"]) === nome);
+      return l ? (l.fields["Cor de fundo"] || "") : "";
+    };
+    // aceita como coluna na 1ª linha ou como linha própria
+    const corLegenda = (rec && rec.fields["Cor da legenda"]) || linhaCor("cor da legenda");
+    const corImagem = (rec && rec.fields["Cor da imagem"]) || linhaCor("cor da imagem");
     const textoAbertura = rec ? (rec.fields["Texto de abertura"] || "") : "";
     const textoAberturaEN = rec ? (rec.fields["Texto de abertura_EN"] || "") : "";
     const rotuloFiltro = rec ? (rec.fields["Rótulo filtro"] || "") : "";

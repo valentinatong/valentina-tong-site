@@ -78,7 +78,8 @@
   .cz-zoom.video .cz-play{ display:block; }
   .cz-zoom.on.video{ pointer-events:auto; }
   .cz-zoom.video .cz-zi{ cursor:pointer; }
-  .cz-zoom figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); max-width:56vw; }
+  /* width:0 + min-width:100%: a legenda não alarga a caixa; acompanha a largura da foto e quebra linha */
+  .cz-zoom figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); width:0; min-width:100%; }
   /* imagem com link (campo Link da Galeria): o zoom aceita o mouse e a legenda vira link */
   .cz-zoom.on.link{ pointer-events:auto; }
   .cz-zoom figcaption a{ display:block; color:inherit; }

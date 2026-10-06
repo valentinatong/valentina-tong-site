@@ -219,10 +219,11 @@
     let current = null, hideTimer = null, ready = false;
     const place = () => {
       if (!current || !ready || !canHover.matches) return;
-      const r = current.getBoundingClientRect(), w = z.offsetWidth, h = z.offsetHeight;
+      const w = z.offsetWidth, h = z.offsetHeight;
       // horizontal: sempre no centro da tela (a fileira é que anda, pelas setas)
       const x = Math.max(16, (innerWidth - w) / 2);
-      const y = Math.max(70, Math.min(innerHeight - h - 16, r.top + r.height / 2 - h / 2));
+      // vertical: também no centro da tela
+      const y = Math.max(16, (innerHeight - h) / 2);
       z.style.left = x + "px"; z.style.top = y + "px"; z.classList.add("on");
     };
     const hide = () => { clearTimeout(hideTimer); current = null; ready = false; z.classList.remove("on"); };

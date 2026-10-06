@@ -66,6 +66,7 @@ module.exports = async (req, res) => {
     ]);
 
     // Galeria → imagens agrupadas pelo id do Projeto ou da Itinerância vinculada
+    const tituloDe = Object.fromEntries(projRecs.map(r => [r.id, r.fields["Título_PT"] || ""]));
     const galByRec = {}, galIgnoradas = [];
     let galMultiplos = 0;
     galRecs
@@ -76,7 +77,7 @@ module.exports = async (req, res) => {
         const fotos = (campo(g, "Imagem", "Foto", "Fotos") || []).filter(Boolean);
         // vídeo do YouTube: sem Imagem, usa a miniatura do próprio YouTube
         const video = youtubeId(campo(g, "Vídeo", "Video"));
-        const desc = motivo => ({ motivo, legenda: String(campo(g, "Legenda_PT", "Legenda") || "").slice(0, 60), colunas: Object.keys(g) });
+        const desc = motivo => ({ motivo, projeto: tituloDe[(campo(g, "Projeto", "Projetos") || [])[0]] || "", legenda: String(campo(g, "Legenda_PT", "Legenda") || "").slice(0, 60), colunas: Object.keys(g) });
         if (!fotos.length && !video) { galIgnoradas.push(desc("sem imagem nem vídeo")); return; }
         if (fotos.length > 1) galMultiplos++;
         const bases = fotos.length ? fotos.map(imgDeFoto)

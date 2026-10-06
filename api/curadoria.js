@@ -74,7 +74,8 @@ module.exports = async (req, res) => {
         const foto = (campo(g, "Imagem", "Foto", "Fotos") || [])[0];
         // vídeo do YouTube: sem Imagem, usa a miniatura do próprio YouTube
         const video = youtubeId(campo(g, "Vídeo", "Video"));
-        if (!foto && !video) { galIgnoradas.push("sem imagem nem vídeo"); return; }
+        const desc = motivo => ({ motivo, legenda: String(campo(g, "Legenda_PT", "Legenda") || "").slice(0, 60), colunas: Object.keys(g) });
+        if (!foto && !video) { galIgnoradas.push(desc("sem imagem nem vídeo")); return; }
         const base = foto ? imgDeFoto(foto)
           : { thumb: `https://i.ytimg.com/vi/${video}/mqdefault.jpg`, web: `https://i.ytimg.com/vi/${video}/hqdefault.jpg` };
         const legPT = campo(g, "Legenda_PT", "Legenda") || "";
@@ -86,7 +87,7 @@ module.exports = async (req, res) => {
         const proj = (campo(g, "Projeto", "Projetos") || [])[0];
         const alvo = itin || proj;
         if (alvo) (galByRec[alvo] = galByRec[alvo] || []).push(img);
-        else galIgnoradas.push("sem Projeto/Itinerância vinculado");
+        else galIgnoradas.push(desc("sem Projeto/Itinerância vinculado"));
       });
     // imagens de um registro: as da Galeria, se houver; senão o campo "Fotos" antigo
     const imgsDe = (recId, fotos) => galByRec[recId] || imgsDeFotos(fotos);

@@ -147,6 +147,11 @@ module.exports = async (req, res) => {
     if (isPreview(req)) out.galeria = {
       erro: galErro, linhas: galRecs.length, linhasComVariasImagens: galMultiplos, ignoradas: galIgnoradas,
       colunas: [...new Set(galRecs.flatMap(r => Object.keys(r.fields)))],
+      // imagens vinculadas a um registro que não aparece no site (ex.: itinerância sem projeto)
+      orfas: (() => {
+        const usados = new Set([...projRecs.map(r => r.id), ...Object.values(itinsByProj).flat().map(r => r.id)]);
+        return Object.entries(galByRec).filter(([id]) => !usados.has(id)).map(([id, l]) => ({ id, imagens: l.length, legenda: (l[0].legenda || "").slice(0, 60) }));
+      })(),
     };
     if (isPreview(req) && galErro) {
       // lista as tabelas da base (precisa do escopo schema.bases:read no token)

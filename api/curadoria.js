@@ -67,26 +67,29 @@ module.exports = async (req, res) => {
 
     // Galeria → imagens agrupadas pelo id do Projeto ou da Itinerância vinculada
     const galByRec = {}, galIgnoradas = [];
+    let galMultiplos = 0;
     galRecs
       .map(rec => rec.fields)
       .sort((a, b) => (campo(a, "Ordem") || 0) - (campo(b, "Ordem") || 0))
       .forEach(g => {
-        const foto = (campo(g, "Imagem", "Foto", "Fotos") || [])[0];
+        // uma linha pode ter VÁRIOS anexos em Imagem: cada um vira uma imagem, com a mesma legenda
+        const fotos = (campo(g, "Imagem", "Foto", "Fotos") || []).filter(Boolean);
         // vídeo do YouTube: sem Imagem, usa a miniatura do próprio YouTube
         const video = youtubeId(campo(g, "Vídeo", "Video"));
         const desc = motivo => ({ motivo, legenda: String(campo(g, "Legenda_PT", "Legenda") || "").slice(0, 60), colunas: Object.keys(g) });
-        if (!foto && !video) { galIgnoradas.push(desc("sem imagem nem vídeo")); return; }
-        const base = foto ? imgDeFoto(foto)
-          : { thumb: `https://i.ytimg.com/vi/${video}/mqdefault.jpg`, web: `https://i.ytimg.com/vi/${video}/hqdefault.jpg` };
+        if (!fotos.length && !video) { galIgnoradas.push(desc("sem imagem nem vídeo")); return; }
+        if (fotos.length > 1) galMultiplos++;
+        const bases = fotos.length ? fotos.map(imgDeFoto)
+          : [{ thumb: `https://i.ytimg.com/vi/${video}/mqdefault.jpg`, web: `https://i.ytimg.com/vi/${video}/hqdefault.jpg` }];
         const legPT = campo(g, "Legenda_PT", "Legenda") || "";
         const legEN = campo(g, "Legenda_EN") || "";
-        const img = { ...base, ...(video ? { video } : {}), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
-                      link: String(campo(g, "Link externo", "Link", "URL", "Site") || "").trim() };
+        const extra = { ...(video ? { video } : {}), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
+                        link: String(campo(g, "Link externo", "Link", "URL", "Site") || "").trim() };
         // vinculada a uma Itinerância → vai para a sede; senão, para o Projeto
         const itin = (campo(g, "Itinerância", "Itinerâncias", "Sede") || [])[0];
         const proj = (campo(g, "Projeto", "Projetos") || [])[0];
         const alvo = itin || proj;
-        if (alvo) (galByRec[alvo] = galByRec[alvo] || []).push(img);
+        if (alvo) (galByRec[alvo] = galByRec[alvo] || []).push(...bases.map(base => ({ ...base, ...extra })));
         else galIgnoradas.push(desc("sem Projeto/Itinerância vinculado"));
       });
     // imagens de um registro: as da Galeria, se houver; senão o campo "Fotos" antigo
@@ -142,7 +145,7 @@ module.exports = async (req, res) => {
     // modo preview: diagnóstico da tabela Galeria (erro, colunas lidas, linhas ignoradas)
     const out = { itens };
     if (isPreview(req)) out.galeria = {
-      erro: galErro, linhas: galRecs.length, ignoradas: galIgnoradas,
+      erro: galErro, linhas: galRecs.length, linhasComVariasImagens: galMultiplos, ignoradas: galIgnoradas,
       colunas: [...new Set(galRecs.flatMap(r => Object.keys(r.fields)))],
     };
     if (isPreview(req) && galErro) {

@@ -174,7 +174,11 @@
       const imgs = [
         ...(c.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(c.local, c.ano) })),
         ...sedes.flatMap(s => (s.imgs || []).map(g => ({ ...g, cap: g.legenda || lugar(s.local, s.ano) })))
-      ];
+      ].map((g, i) => ({ g, i }))
+       // fileira na ordem do campo Ordem da Galerias, misturando projeto e sedes;
+       // imagens sem Ordem (campo Fotos antigo) vão para o fim, na ordem em que vieram
+       .sort((a, b) => (a.g.ordem ?? Infinity) - (b.g.ordem ?? Infinity) || a.i - b.i)
+       .map(x => x.g);
       const tr = [c.tipo, c.papel].filter(Boolean).map(md).join(" · ");
       return `<article class="cz-item">
         <div class="cz-row">

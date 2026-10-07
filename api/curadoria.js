@@ -84,7 +84,7 @@ module.exports = async (req, res) => {
           : [{ thumb: `https://i.ytimg.com/vi/${video}/mqdefault.jpg`, web: `https://i.ytimg.com/vi/${video}/hqdefault.jpg` }];
         const legPT = campo(g, "Legenda_PT", "Legenda") || "";
         const legEN = campo(g, "Legenda_EN") || "";
-        const extra = { ...(video ? { video } : {}), legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
+        const extra = { ...(video ? { video } : {}), ordem: campo(g, "Ordem") ?? null, legenda: String(isEN ? (legEN || legPT) : legPT).trim(),
                         link: String(campo(g, "Link externo", "Link", "URL", "Site") || "").trim() };
         // vinculada a uma Itinerância → vai para a sede; senão, para o Projeto
         const itin = (campo(g, "Itinerância", "Itinerâncias", "Sede") || [])[0];

@@ -31,7 +31,7 @@
   .cz-item{ border-top:1px solid var(--line); cursor:pointer; }
   .cz-item.open{ cursor:default; }
   .cz-item:last-child{ border-bottom:1px solid var(--line); }
-  .cz-row{ display:grid; grid-template-columns:48% 1fr 96px; gap:32px; align-items:start; padding:22px 0 24px; }
+  .cz-row{ display:grid; grid-template-columns:48% 1fr 120px; gap:32px; align-items:start; padding:22px 0 24px; }
   .cz-title{ font:500 18px/24px var(--title-font); cursor:pointer; transition:color .2s; }
   .cz-item.open .cz-title{ color:var(--oxide); }
   /* linha clicável: hover discreto no título (cor de destaque a 80%) */
@@ -45,8 +45,8 @@
   .cz-v .l a:hover{ color:var(--oxide); }
   .cz-v .l a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
   .cz-sedes .cz-v{ border-top:1px solid rgba(32,29,25,.07); }
-  .cz-thumb{ justify-self:end; width:96px; height:64px; margin-top:4px; }
-  .cz-thumb img{ width:96px; height:64px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
+  .cz-thumb{ justify-self:end; width:120px; height:80px; margin-top:4px; }
+  .cz-thumb img{ width:120px; height:80px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
   .cz-item.open .cz-thumb img{ opacity:0; }
 
   /* partes que abrem — transição de altura via grid-template-rows */

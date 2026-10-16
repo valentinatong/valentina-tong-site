@@ -38,7 +38,7 @@
   .cz-item:not(.open) .cz-row{ cursor:pointer; }
   .cz-item:not(.open) .cz-row:hover .cz-title, .cz-title:hover{ color:rgba(154,74,44,.8); }
   .cz-tr{ font:italic 15px/24px var(--body-font); color:var(--stone); margin:0 0 4px; }
-  .cz-tr b{ font-weight:600; color:var(--ink); }
+  .cz-tr b{ font-weight:500; color:var(--ink); }
   .cz-v{ display:grid; grid-template-columns:50px 1fr; gap:8px; padding:2px 0; }
   .cz-v .y{ font:12px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
   .cz-v .l{ font:14px/21px var(--body-font); }
@@ -187,7 +187,7 @@
         return t.length < 2 ? (t[0] || "") : t.slice(0, -1).join(", ") + (lang === "en" ? " and " : " e ") + t[t.length - 1];
       };
       const tipoTxt = frase(c.tipo), papelTxt = frase(c.papel, !!c.tipo);
-      const tr = [tipoTxt && `<b>${md(tipoTxt)}</b>`, papelTxt && md(papelTxt)].filter(Boolean).join(" · ");
+      const tr = [tipoTxt && `<b>${md(tipoTxt)}</b>`, papelTxt && md(papelTxt)].filter(Boolean).join(" ·\u00a0"); // "·" colado ao papel: quebra antes do ponto, nunca depois
       return `<article class="cz-item">
         <div class="cz-row">
           <div>

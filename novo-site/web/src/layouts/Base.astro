@@ -1,13 +1,14 @@
 ---
 // Página-mestre: cabeçalho, menu, PT/EN, fontes e cores — usada por todas as páginas.
-interface Props { titulo: string; cabecalho: string; ativo: string; lang: 'pt' | 'en'; outraLingua: string; cores?: Record<string, string> }
+// sem 'cabecalho': menu flutuante no canto (páginas de Projetos), sem a faixa de título
+interface Props { titulo: string; cabecalho?: string; ativo: string; lang: 'pt' | 'en'; outraLingua: string; cores?: Record<string, string> }
 const {titulo, cabecalho, ativo, lang, outraLingua, cores = {}} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
 // páginas ainda não migradas apontam para o site antigo
 const ANTIGO = 'https://valentina-tong-site.vercel.app'
 const menu = [
   {id: 'home', pt: 'HOME', en: 'HOME', href: `${ANTIGO}/index.html`},
-  {id: 'projetos', pt: 'PROJETOS', en: 'PROJECTS', href: `${ANTIGO}/projetos.html`},
+  {id: 'projetos', pt: 'PROJETOS', en: 'PROJECTS', href: `${pre}/projetos/`},
   {id: 'atlas', pt: 'ATLAS FOTOGRÁFICO', en: 'PHOTOGRAPHIC ATLAS', href: `${ANTIGO}/arquivo.html`},
   {id: 'curadoria', pt: 'CURADORIA', en: 'CURATORSHIP', href: `${pre}/curadoria/`},
   {id: 'bio', pt: 'BIO', en: 'BIO', href: `${ANTIGO}/bio.html`},
@@ -44,16 +45,29 @@ const geradoEm = new Date().toISOString()
   nav.main{ display:flex; gap:26px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
   nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--ink); } nav.main a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
   @media (max-width:800px){ .top{ flex-direction:column; gap:14px; padding:20px 22px; } }
+  /* menu flutuante (Projetos) */
+  .pillars{ position:fixed; top:16px; right:26px; z-index:41; display:flex; gap:22px;
+    font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; transition:opacity .18s linear; }
+  .pillars a{ color:var(--stone); } .pillars a:hover{ color:var(--ink); }
+  .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+  @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
 </style>
 </head>
 <body>
-  <header class="top">
-    <div class="h">{cabecalho}</div>
-    <nav class="main">
+  {cabecalho ? (
+    <header class="top">
+      <div class="h">{cabecalho}</div>
+      <nav class="main">
+        {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
+        <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      </nav>
+    </header>
+  ) : (
+    <nav class="pillars" id="pillars" aria-label={lang === 'en' ? 'Sections' : 'Pilares'}>
       {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
       <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
     </nav>
-  </header>
+  )}
   <slot />
   <script is:inline src="/no-drag.js"></script>
 </body>

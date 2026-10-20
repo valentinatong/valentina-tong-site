@@ -1,0 +1,113 @@
+---
+// Página de um projeto: título (empilhado) à esquerda, ano à direita, texto de abertura,
+// imagens em sequência com legenda (ou duas, nos dípticos), créditos e linha do tempo no rodapé.
+import {img, rico, temTexto, type Lang} from '../lib/sanity'
+interface Props { p: any; lista: any[]; lang: Lang }
+const {p, lista, lang} = Astro.props
+const pre = lang === 'en' ? '/en' : ''
+
+const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: number) => ({
+  src: img(g).url(),
+  cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
+  cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
+  lazy: i > 1,
+}))
+---
+<div class="pj">
+  <div class="rail-left">
+    <div class="title" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
+    {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
+  </div>
+  <div class="rail-right"><div class="date">{p.ano}</div></div>
+
+  <main class="stage" id="stage">
+    {paginas.map((g: any, i: number) => (
+      <section class="spread">
+        <div class="spread-media">
+          <img src={g.src} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
+          {g.cap2
+            ? <div class="cap-row"><div class="cap-half"><div class="cap-block" set:html={g.cap} /></div><div class="cap-half"><div class="cap-block" set:html={g.cap2} /></div></div>
+            : g.cap && <div class="cap" set:html={g.cap} />}
+        </div>
+      </section>
+    ))}
+    {temTexto(p.creditos) && (
+      <section class="credits"><h3>{lang === 'en' ? 'Credits' : 'Créditos'}</h3><Fragment set:html={rico(p.creditos, lang, {paragrafos: true})} /></section>
+    )}
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="footer-row">
+      <nav class="timeline" id="timeline" aria-label={lang === 'en' ? 'Project timeline' : 'Linha do tempo de projetos'}>
+        {lista.map((x: any) => (
+          <a href={`${pre}/projetos/${x.slug}/`} class={x.slug === p.slug.current ? 'current' : undefined}><span class="yr">{x.ano}</span><span class="nm">{x.nome}</span></a>
+        ))}
+      </nav>
+    </div>
+  </footer>
+</div>
+
+<script is:inline>
+(function () {
+  // linha do tempo centrada no projeto atual
+  var tl = document.getElementById('timeline'), cur = tl.querySelector('a.current');
+  if (cur) tl.scrollLeft = cur.offsetLeft - tl.clientWidth / 2 + cur.clientWidth / 2;
+  // a legenda dupla (díptico) acompanha a largura real da imagem
+  var stage = document.getElementById('stage');
+  function sync() {
+    stage.querySelectorAll('.spread-media').forEach(function (m) {
+      var im = m.querySelector('img'), cap = m.querySelector('.cap-row');
+      if (!im || !cap) return; var w = im.getBoundingClientRect().width; if (w > 0) cap.style.width = w + 'px';
+    });
+  }
+  stage.querySelectorAll('.spread-media img').forEach(function (im) { if (im.complete) sync(); else im.addEventListener('load', sync); });
+  addEventListener('resize', sync);
+  // texto de abertura some ao rolar; menu e rodapé aparecem no começo e no fim da página
+  var op = document.getElementById('opening'), footer = document.getElementById('footer'), pillars = document.getElementById('pillars');
+  function onScroll() {
+    var y = scrollY, vh = innerHeight, doc = document.documentElement.scrollHeight;
+    var topF = Math.max(0, 1 - y / (vh * 0.42)), botF = Math.max(0, 1 - (doc - (y + vh)) / (vh * 0.42));
+    if (op) op.style.opacity = topF.toFixed(3);
+    var nav = Math.max(topF, botF);
+    [footer, pillars].forEach(function (el) { if (!el) return; el.style.opacity = nav.toFixed(3); el.style.pointerEvents = nav < 0.05 ? 'none' : 'auto'; });
+  }
+  addEventListener('scroll', onScroll, {passive: true}); onScroll();
+})();
+</script>
+
+<style is:global>
+  :root{ --band-left:260px; --band-right:140px; --nav-h:58px; --opening-font:var(--body-font); --opening-size:13.5px; --opening-color:var(--ink); }
+  .pj .footer{ position:fixed; left:0; right:0; bottom:0; z-index:40; background:linear-gradient(to top, var(--bg) 58%, transparent); padding-top:14px; transition:opacity .18s linear; }
+  .pj .footer-row{ display:flex; align-items:center; height:var(--nav-h); border-top:1px solid rgba(32,29,25,.20); }
+  .pj .timeline{ position:relative; flex:1 1 auto; min-width:0; display:flex; align-items:center; justify-content:space-between; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; padding-right:22px; }
+  .pj .timeline::-webkit-scrollbar{ display:none; }
+  .pj .timeline a{ flex:0 0 auto; color:var(--stone); padding:4px 15px; text-align:center; line-height:1.05; }
+  .pj .timeline a .yr{ font-family:var(--mono-font); font-size:10px; letter-spacing:.06em; display:block; }
+  .pj .timeline a .nm{ font-family:var(--title-font); font-weight:500; font-size:12px; display:block; white-space:nowrap; }
+  .pj .timeline a.current{ color:var(--ink); } .pj .timeline a.current .nm{ font-weight:600; }
+  .pj .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
+  .pj .rail-left .title{ position:absolute; top:50%; transform:translateY(-50%); left:0; width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
+  .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
+  .pj .rail-left .opening p{ font-family:var(--opening-font); font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
+  .pj .rail-right{ position:fixed; right:0; top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
+  .pj .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right; font-family:var(--title-font); font-weight:600; font-size:14px; color:var(--ink); }
+  .pj .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
+  .pj .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
+  .pj .spread img{ max-height:88vh; max-width:calc(100vw - 480px); width:auto; height:auto; display:block; }
+  .pj .spread .cap{ font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }
+  .pj .spread .cap-row{ display:flex; padding:0 4%; }
+  .pj .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }
+  .pj .spread .cap-row .cap-half .cap-block{ max-width:34ch; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }
+  /* ajuste fino herdado do site antigo: na 5ª imagem (foto composta, não é 50/50) a 1ª legenda desloca um pouco */
+  .pj #stage > .spread:nth-of-type(5) .cap-row .cap-half:first-child{ padding-left:6%; }
+  .pj .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
+  .pj .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
+  .pj .credits strong{ font-weight:600; }
+  @media (max-width:760px){
+    .pj .rail-left, .pj .rail-right{ position:static; width:auto; }
+    .pj .rail-left .title, .pj .rail-left .opening, .pj .rail-right .date{ position:static; transform:none; padding:0 16px; max-width:none; }
+    .pj .rail-left{ padding-top:100px; }
+    .pj .spread{ min-height:auto; padding:4vh 0; }
+    .pj .spread img{ max-width:calc(100vw - 32px); }
+  }
+</style>

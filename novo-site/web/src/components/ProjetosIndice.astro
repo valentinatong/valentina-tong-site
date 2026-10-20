@@ -1,0 +1,63 @@
+---
+// Índice de projetos: ano + nome; ao passar o mouse, o fundo assume a cor do projeto
+// e a capa aparece à direita.
+import {projetos, img, tintaPara, hex, type Lang} from '../lib/sanity'
+interface Props { lang: Lang }
+const {lang} = Astro.props
+const pre = lang === 'en' ? '/en' : ''
+const lista = (await projetos()).map((p: any) => {
+  const bg = hex(p.corFundo, '#e9e6df')
+  const fonte = p.capa?.asset ? p.capa : p.primeira
+  return {
+    ...p, bg,
+    ink: tintaPara(bg) === 'claro' ? '#f4f1ea' : '#1f1b17',
+    capaUrl: fonte?.asset ? img(fonte).height(1100).fit('max').url() : '',
+  }
+})
+---
+<main>
+  <ul class="index" id="index" aria-label={lang === 'en' ? 'Projects' : 'Projetos'}>
+    {lista.map((p: any) => (
+      <li><a href={`${pre}/projetos/${p.slug}/`} data-bg={p.bg} data-ink={p.ink} data-capa={p.capaUrl}>
+        <span class="yr">{p.ano}</span><span class="nm">{p.nome}</span>
+      </a></li>
+    ))}
+  </ul>
+  <div class="cover" id="cover" aria-hidden="true"><img alt="" /></div>
+</main>
+
+<script is:inline>
+(function () {
+  var list = document.getElementById('index'), cover = document.getElementById('cover'), im = cover.querySelector('img');
+  var root = document.documentElement.style;
+  var links = list.querySelectorAll('a');
+  links.forEach(function (a) { if (a.dataset.capa) new Image().src = a.dataset.capa; }); // pré-carrega as capas
+  function focus(a) {
+    root.setProperty('--bg', a.dataset.bg); root.setProperty('--ink', a.dataset.ink); root.setProperty('--stone', a.dataset.ink);
+    if (a.dataset.capa) { im.src = a.dataset.capa; cover.classList.add('on'); }
+  }
+  function reset() { root.setProperty('--bg', '#e9e6df'); root.setProperty('--ink', '#201D19'); root.setProperty('--stone', '#6f6a5c'); cover.classList.remove('on'); }
+  links.forEach(function (a) { a.addEventListener('mouseenter', function () { focus(a); }); a.addEventListener('focus', function () { focus(a); }); });
+  list.addEventListener('mouseleave', reset);
+  list.addEventListener('focusout', function (e) { if (!list.contains(e.relatedTarget)) reset(); });
+})();
+</script>
+
+<style is:global>
+  body{ min-height:100vh; transition:background-color .45s ease, color .45s ease; }
+  .index{ list-style:none; margin:0; padding:15vh 0 12vh 8vw; }
+  .index a{ display:grid; grid-template-columns:78px auto; align-items:baseline; width:max-content; padding:3px 0; transition:opacity .3s; }
+  .index:hover a{ opacity:.28; }
+  .index a:hover, .index a:focus-visible{ opacity:1; outline:none; }
+  .index .yr{ font-family:var(--mono-font); font-size:13px; letter-spacing:.04em; }
+  .index .nm{ font-family:var(--title-font); font-weight:400; letter-spacing:-.01em; font-size:clamp(18px, 2vw, 30px); line-height:1.12; white-space:nowrap; }
+  .cover{ position:fixed; right:4vw; top:50%; width:40vw; height:62vh; transform:translateY(-50%); pointer-events:none; opacity:0; transition:opacity .35s; }
+  .cover.on{ opacity:1; }
+  .cover img{ width:100%; height:100%; object-fit:contain; display:block; }
+  @media (max-width:760px){
+    .index{ padding:110px 16px 60px; }
+    .index a{ width:auto; grid-template-columns:56px 1fr; }
+    .index .nm{ white-space:normal; font-size:20px; }
+    .cover{ display:none; }
+  }
+</style>

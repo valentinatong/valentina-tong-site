@@ -16,6 +16,7 @@ export default defineConfig({
           .title('Conteúdo')
           .items([
             // lista de curadoria ordenável arrastando (a ordem vira a ordem do site)
+            orderableDocumentListDeskItem({type: 'projeto', title: 'Projetos', S, context}),
             orderableDocumentListDeskItem({type: 'curadoria', title: 'Curadoria', S, context}),
             S.listItem().title('Etiquetas (tipo e papel)').child(S.documentTypeList('etiqueta').title('Etiquetas')),
             S.divider(),

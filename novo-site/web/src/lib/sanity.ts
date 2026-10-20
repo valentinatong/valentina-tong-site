@@ -45,3 +45,33 @@ export async function configuracoes() {
   return (await client.fetch(`*[_id=="configuracoes"][0]`)) || {}
 }
 export const hex = (s: string, padrao: string) => (s ? '#' + String(s).trim().replace(/^#/, '') : padrao)
+
+// texto claro ou escuro, o que tiver mais contraste (WCAG) com a cor de fundo
+export function tintaPara(bg: string) {
+  const n = parseInt(String(bg).replace('#', ''), 16)
+  const lin = (c: number) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4) }
+  const L = 0.2126 * lin((n >> 16) & 255) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255)
+  return (0.885 + 0.05) / (L + 0.05) > (L + 0.05) / (0.0118 + 0.05) ? 'claro' : 'escuro'
+}
+
+// lista de projetos (ordem, cor, capa) — usada no índice e na linha do tempo
+export async function projetos() {
+  return client.fetch(`*[_type=="projeto"] | order(orderRank) {nome, "slug": slug.current, ano, corFundo, capa, "primeira": paginas[0]}`)
+}
+
+// cores e fonte de um projeto, como variáveis CSS para a página inteira (fundo, texto, abertura)
+export function coresProjeto(p: any): Record<string, string> {
+  const bg = hex(p.corFundo, '#ebebeb')
+  const escuro = tintaPara(bg) === 'claro'
+  const fonte = p.corFonte ? hex(p.corFonte, '') : ''
+  const FONTES: Record<string, string> = {Newsreader: 'var(--body-font)', Fraunces: 'var(--title-font)', 'Space Mono': 'var(--mono-font)'}
+  const c: Record<string, string> = {
+    '--bg': bg,
+    '--ink': fonte || (escuro ? '#f4f1ea' : '#201D19'),
+    '--stone': fonte ? `color-mix(in srgb, ${fonte} 65%, transparent)` : (escuro ? 'rgba(244,241,234,.7)' : '#86806F'),
+  }
+  if (p.fonteTipo && FONTES[p.fonteTipo]) c['--opening-font'] = FONTES[p.fonteTipo]
+  if (p.fonteTamanho) c['--opening-size'] = `${p.fonteTamanho}px`
+  if (fonte) c['--opening-color'] = fonte
+  return c
+}

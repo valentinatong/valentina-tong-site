@@ -1,0 +1,15 @@
+---
+// uma página por projeto, gerada no build a partir do Sanity
+import Base from '../../../layouts/Base.astro'
+import ProjetoPagina from '../../../components/ProjetoPagina.astro'
+import {client, projetos, coresProjeto} from '../../../lib/sanity'
+export async function getStaticPaths() {
+  const todos = await client.fetch(`*[_type=="projeto" && defined(slug.current)] | order(orderRank)`)
+  const lista = await projetos()
+  return todos.map((p: any) => ({params: {slug: p.slug.current}, props: {p, lista}}))
+}
+const {p, lista} = Astro.props
+---
+<Base titulo={p.nome} ativo="projetos" lang="en" outraLingua={`/projetos/${p.slug.current}/`} cores={coresProjeto(p)}>
+  <ProjetoPagina p={p} lista={lista} lang="en" />
+</Base>

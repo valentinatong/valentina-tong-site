@@ -30,8 +30,10 @@ function campo(p: FieldProps) {
 export function FichaInput(props: ObjectInputProps) {
   return (
     <Card radius={2} border style={{overflow: 'visible'}}>
-      {/* foto alinhada à esquerda (o Studio centraliza a imagem na caixa) */}
-      <style>{'[data-ficha-foto] img{object-position:left center !important}'}</style>
+      {/* foto alinhada à esquerda (o Studio centraliza a imagem na caixa); sem o título grande
+          "Fotogramas / código", que já aparece no topo do painel */}
+      <style>{'[data-ficha-foto] img{object-position:left center !important}'
+        + ' form[data-testid="form-view"]:has([data-ficha-foto]) > [data-ui="FormRow"]:has([data-testid="document-panel-document-title"]):not(:has([data-ficha-foto])){display:none}'}</style>
       {props.members.map((m) => m.kind === 'field' && (
         <MemberField key={m.key} member={m} renderField={campo} renderInput={props.renderInput} renderItem={props.renderItem} renderPreview={props.renderPreview} />
       ))}

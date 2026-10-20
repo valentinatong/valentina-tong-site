@@ -1,6 +1,6 @@
 // Campos de etiqueta do fotograma, editados na própria ficha (sem abrir outra janela):
-// digita, escolhe da lista ou cria na hora com Enter. Os itens continuam sendo listas fixas
-// (tagAtlas / lugar), editáveis nas pastas do Atlas.
+// clica para ver a lista, digita para filtrar, escolhe ou cria na hora com Enter.
+// Os itens continuam sendo listas fixas (tagAtlas / lugar), editáveis nas pastas do Atlas.
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
 import {insert, set, setIfMissing, unset, useClient, type ArrayOfObjectsInputProps, type ObjectInputProps} from 'sanity'
@@ -12,7 +12,7 @@ const chave = () => Math.random().toString(36).slice(2, 14)
 
 type Item = {_id: string; nome: string; detalhe?: string}
 
-// Chip de um item escolhido, com × para tirar
+// Plaquinha de um item escolhido, com × para tirar
 function Chip({texto, aviso, onRemover, readOnly}: {texto: string; aviso?: string; onRemover: () => void; readOnly?: boolean}) {
   return (
     <Card radius={2} padding={1} paddingLeft={2} tone={aviso ? 'caution' : 'primary'} border>
@@ -25,25 +25,31 @@ function Chip({texto, aviso, onRemover, readOnly}: {texto: string; aviso?: strin
   )
 }
 
-// Caixa de digitar com sugestões; Enter escolhe a primeira sugestão ou cria o texto digitado
-function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly}: {
-  itens: Item[]; escolhidos: string[]; onEscolher: (id: string) => void; onCriar: (nome: string) => void; placeholder: string; readOnly?: boolean
+// Caixa com a lista: abre ao clicar, filtra ao digitar; Enter escolhe o item igual (ou único) ou cria o texto digitado
+function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly, criarRotulo = 'Criar'}: {
+  itens: Item[]; escolhidos: string[]; onEscolher: (id: string) => void; onCriar: (nome: string) => void
+  placeholder: string; readOnly?: boolean; criarRotulo?: string
 }) {
   const [q, setQ] = useState('')
+  const [aberta, setAberta] = useState(false)
   const termo = q.trim()
-  const sugestoes = useMemo(() => {
-    if (!termo) return []
-    return itens.filter((i) => !escolhidos.includes(i._id) && sem(i.nome).includes(sem(termo))).slice(0, 8)
-  }, [itens, escolhidos, termo])
-  const exato = itens.find((i) => sem(i.nome) === sem(termo))
+  const sugestoes = useMemo(
+    () => itens.filter((i) => !escolhidos.includes(i._id) && (!termo || sem(i.nome).includes(sem(termo)))),
+    [itens, escolhidos, termo],
+  )
+  const exato = termo ? itens.find((i) => sem(i.nome) === sem(termo)) : undefined
   const escolher = (id: string) => { onEscolher(id); setQ('') }
-  const criar = () => { onCriar(termo); setQ('') }
+  const criar = () => { onCriar(termo); setQ(''); setAberta(false) }
+  // onMouseDown + preventDefault: o clique na lista não tira o foco da caixa antes de escolher
+  const segura = (e: React.MouseEvent) => e.preventDefault()
   return (
     <Stack gap={1}>
       <TextInput
         value={q} placeholder={placeholder} readOnly={readOnly} fontSize={1}
-        onChange={(e) => setQ(e.currentTarget.value)}
+        onFocus={() => setAberta(true)} onClick={() => setAberta(true)} onBlur={() => setAberta(false)}
+        onChange={(e) => { setQ(e.currentTarget.value); setAberta(true) }}
         onKeyDown={(e) => {
+          if (e.key === 'Escape') { setAberta(false); return }
           if (e.key !== 'Enter' || !termo) return
           e.preventDefault()
           if (exato) escolher(exato._id)
@@ -51,13 +57,13 @@ function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly}: 
           else criar()
         }}
       />
-      {termo && (
-        <Card radius={2} border padding={1}>
+      {aberta && !readOnly && (sugestoes.length > 0 || (termo && !exato)) && (
+        <Card radius={2} border padding={1} shadow={1} style={{maxHeight: 260, overflowY: 'auto'}} onMouseDown={segura}>
           <Stack gap={1}>
+            {termo && !exato && <Button mode="ghost" tone="positive" justify="flex-start" fontSize={1} padding={2} text={`+ ${criarRotulo} “${termo}”`} onClick={criar} />}
             {sugestoes.map((i) => (
               <Button key={i._id} mode="bleed" justify="flex-start" fontSize={1} padding={2} text={i.detalhe ? `${i.nome} · ${i.detalhe}` : i.nome} onClick={() => escolher(i._id)} />
             ))}
-            {!exato && <Button mode="ghost" tone="positive" justify="flex-start" fontSize={1} padding={2} text={`+ Criar “${termo}”`} onClick={criar} />}
           </Stack>
         </Card>
       )}
@@ -91,31 +97,35 @@ export function etiquetasInput(grupo: string) {
             {valor.map((v) => <Chip key={v._key} texto={nomeDe(v._ref)} readOnly={props.readOnly} onRemover={() => props.onChange(unset([{_key: v._key}]))} />)}
           </Flex>
         )}
-        <Busca itens={itens} escolhidos={valor.map((v) => v._ref)} onEscolher={adicionar} onCriar={criar} placeholder="Digite para escolher ou criar (Enter)" readOnly={props.readOnly} />
+        <Busca itens={itens} escolhidos={valor.map((v) => v._ref)} onEscolher={adicionar} onCriar={criar} placeholder="Clique para ver a lista, digite para filtrar ou criar" readOnly={props.readOnly} />
       </Stack>
     )
   }
 }
 
-// Município (uma referência a lugar). Ao criar, pede o estado; latitude/longitude ficam na própria ficha.
+// Estado + Município + coordenadas (uma referência a lugar). O estado filtra a lista de municípios
+// e é usado ao criar um município novo; latitude/longitude ficam na própria ficha.
 type Lugar = Item & {estado?: string; lat?: number; lon?: number}
+const Rotulo = ({children}: {children: string}) => <Text size={1} weight="medium">{children}</Text>
+
 export function MunicipioInput(props: ObjectInputProps) {
   const client = useClient(API)
   const [itens, setItens] = useState<Lugar[]>([])
-  const [novo, setNovo] = useState<string | null>(null)
-  const [estado, setEstado] = useState('')
+  const [estadoLivre, setEstadoLivre] = useState('')
   const carregar = useCallback(() => client.fetch<Lugar[]>(`*[_type=="lugar" && !(_id in path("drafts.**"))]{_id, "nome": municipio, "detalhe": estado, estado, lat, lon} | order(nome asc)`).then(setItens), [client])
   useEffect(() => { carregar() }, [carregar])
   const ref = (props.value as any)?._ref as string | undefined
   const atual = itens.find((i) => i._id === ref)
+  const estado = atual?.estado || estadoLivre
+  const estados: Item[] = useMemo(() => [...new Set(itens.map((i) => i.estado).filter(Boolean) as string[])].sort().map((e) => ({_id: e, nome: e})), [itens])
+  const municipios = useMemo(() => itens.filter((i) => !estado || i.estado === estado).map((i) => (estado ? {...i, detalhe: undefined} : i)), [itens, estado])
   const escolher = (id: string) => props.onChange(set({_type: 'reference', _ref: id}))
-  const estados = useMemo(() => [...new Set(itens.map((i) => i.estado).filter(Boolean))].sort() as string[], [itens])
-  const criar = async () => {
-    if (!novo || !estado.trim()) return
-    const id = `lugar-${slug(`${novo}-${estado}`)}`
-    await client.createIfNotExists({_id: id, _type: 'lugar', municipio: novo, estado: estado.trim()})
+  const tirarEstado = () => { setEstadoLivre(''); if (ref) props.onChange(unset()) }
+  const criar = async (nome: string) => {
+    const id = `lugar-${slug(`${nome}-${estado}`)}`
+    await client.createIfNotExists({_id: id, _type: 'lugar', municipio: nome, estado})
     await carregar()
-    escolher(id); setNovo(null); setEstado('')
+    escolher(id)
   }
   const coord = async (campo: 'lat' | 'lon', txt: string) => {
     if (!atual) return
@@ -124,36 +134,33 @@ export function MunicipioInput(props: ObjectInputProps) {
     carregar()
   }
   return (
-    <Stack gap={2}>
-      {ref ? (
-        <Stack gap={2}>
+    <Stack gap={4}>
+      <Stack gap={2}>
+        <Rotulo>Estado</Rotulo>
+        {estado
+          ? <Flex><Chip texto={estado} readOnly={props.readOnly} onRemover={tirarEstado} /></Flex>
+          : <Busca itens={estados} escolhidos={[]} onEscolher={setEstadoLivre} onCriar={setEstadoLivre} criarRotulo="Usar" placeholder="Clique para ver a lista ou digite um estado novo" readOnly={props.readOnly} />}
+      </Stack>
+      <Stack gap={2}>
+        <Rotulo>Município</Rotulo>
+        {ref ? (
           <Flex>
-            <Chip texto={atual ? `${atual.nome} · ${atual.estado || 'sem estado'}` : '…'} aviso={atual && (atual.lat == null || atual.lon == null) ? 'sem coordenadas, fora do mapa' : undefined} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} />
+            <Chip texto={atual?.nome || '…'} aviso={atual && (atual.lat == null || atual.lon == null) ? 'sem coordenadas, fora do mapa' : undefined} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} />
           </Flex>
-          {atual && (
-            <Flex gap={2} align="center">
-              <Text size={1} muted>Latitude</Text>
-              <Box style={{width: 130}}><TextInput key={`lat-${atual._id}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="-6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
-              <Text size={1} muted>Longitude</Text>
-              <Box style={{width: 130}}><TextInput key={`lon-${atual._id}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="-37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
-            </Flex>
-          )}
-        </Stack>
-      ) : novo ? (
-        <Card radius={2} border padding={3} tone="positive">
-          <Stack gap={3}>
-            <Text size={1}>Novo município: <strong>{novo}</strong></Text>
-            <TextInput fontSize={1} value={estado} placeholder="Estado (ex.: Bahia)" list="estados-atlas" autoFocus
-              onChange={(e) => setEstado(e.currentTarget.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); criar() } }} />
-            <datalist id="estados-atlas">{estados.map((e) => <option key={e} value={e} />)}</datalist>
-            <Flex gap={2}>
-              <Button tone="positive" fontSize={1} text="Criar" disabled={!estado.trim()} onClick={criar} />
-              <Button mode="bleed" fontSize={1} text="Cancelar" onClick={() => { setNovo(null); setEstado('') }} />
-            </Flex>
-          </Stack>
-        </Card>
-      ) : (
-        <Busca itens={itens} escolhidos={[]} onEscolher={escolher} onCriar={(n) => setNovo(n)} placeholder="Digite o município para escolher ou criar (Enter)" readOnly={props.readOnly} />
+        ) : estado ? (
+          <Busca itens={municipios} escolhidos={[]} onEscolher={escolher} onCriar={criar} placeholder={`Clique para ver os municípios de ${estado}, digite para filtrar ou criar`} readOnly={props.readOnly} />
+        ) : (
+          <Text size={1} muted>Escolha o estado primeiro.</Text>
+        )}
+      </Stack>
+      {atual && (
+        <Flex gap={2} align="center" wrap="wrap">
+          <Rotulo>Coordenadas</Rotulo>
+          <Text size={1} muted>lat</Text>
+          <Box style={{width: 120}}><TextInput key={`lat-${atual._id}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="-6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
+          <Text size={1} muted>lon</Text>
+          <Box style={{width: 120}}><TextInput key={`lon-${atual._id}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="-37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
+        </Flex>
       )}
     </Stack>
   )

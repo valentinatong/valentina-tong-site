@@ -13,12 +13,15 @@ const menu = [
   {id: 'bio', pt: 'BIO', en: 'BIO', href: `${ANTIGO}/bio.html`},
 ]
 const estilo = Object.entries(cores).map(([k, v]) => `${k}:${v}`).join(';')
+// horário da geração do site (para conferir se o Publicar do Sanity reconstruiu)
+const geradoEm = new Date().toISOString()
 ---
 <!doctype html>
 <html lang={lang === 'en' ? 'en' : 'pt-BR'} style={estilo}>
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="gerado-em" content={geradoEm} />
 <title>{titulo} — Valentina Tong</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

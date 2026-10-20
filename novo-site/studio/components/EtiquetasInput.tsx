@@ -27,7 +27,7 @@ function Chip({texto, aviso, onRemover, readOnly}: {texto: string; aviso?: strin
 
 // Caixa com a lista: abre ao clicar, filtra ao digitar; Enter escolhe o item igual (ou único) ou cria o texto digitado
 function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly, criarRotulo = 'Criar'}: {
-  itens: Item[]; escolhidos: string[]; onEscolher: (id: string) => void; onCriar: (nome: string) => void
+  itens: Item[]; escolhidos: string[]; onEscolher: (id: string) => void; onCriar?: (nome: string) => void
   placeholder: string; readOnly?: boolean; criarRotulo?: string
 }) {
   const [q, setQ] = useState('')
@@ -39,7 +39,8 @@ function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly, c
   )
   const exato = termo ? itens.find((i) => sem(i.nome) === sem(termo)) : undefined
   const escolher = (id: string) => { onEscolher(id); setQ('') }
-  const criar = () => { onCriar(termo); setQ(''); setAberta(false) }
+  const podeCriar = !!onCriar && !!termo && !exato
+  const criar = () => { onCriar?.(termo); setQ(''); setAberta(false) }
   // onMouseDown + preventDefault: o clique na lista não tira o foco da caixa antes de escolher
   const segura = (e: React.MouseEvent) => e.preventDefault()
   return (
@@ -54,13 +55,13 @@ function Busca({itens, escolhidos, onEscolher, onCriar, placeholder, readOnly, c
           e.preventDefault()
           if (exato) escolher(exato._id)
           else if (sugestoes.length === 1) escolher(sugestoes[0]._id)
-          else criar()
+          else if (podeCriar) criar()
         }}
       />
-      {aberta && !readOnly && (sugestoes.length > 0 || (termo && !exato)) && (
+      {aberta && !readOnly && (sugestoes.length > 0 || podeCriar) && (
         <Card radius={2} border padding={1} shadow={1} style={{maxHeight: 260, overflowY: 'auto'}} onMouseDown={segura}>
           <Stack gap={1}>
-            {termo && !exato && <Button mode="ghost" tone="positive" justify="flex-start" fontSize={1} padding={2} text={`+ ${criarRotulo} “${termo}”`} onClick={criar} />}
+            {podeCriar && <Button mode="ghost" tone="positive" justify="flex-start" fontSize={1} padding={2} text={`+ ${criarRotulo} “${termo}”`} onClick={criar} />}
             {sugestoes.map((i) => (
               <Button key={i._id} mode="bleed" justify="flex-start" fontSize={1} padding={2} text={i.detalhe ? `${i.nome} · ${i.detalhe}` : i.nome} onClick={() => escolher(i._id)} />
             ))}
@@ -101,6 +102,16 @@ export function etiquetasInput(grupo: string) {
       </Stack>
     )
   }
+}
+
+// Projeto (uma referência a projeto): só escolhe da lista; projetos novos são criados na pasta Projetos
+export function ProjetoInput(props: ObjectInputProps) {
+  const client = useClient(API)
+  const [itens, setItens] = useState<Item[]>([])
+  useEffect(() => { client.fetch<Item[]>(`*[_type=="projeto" && !(_id in path("drafts.**"))]{_id, nome} | order(nome asc)`).then(setItens) }, [client])
+  const ref = (props.value as any)?._ref as string | undefined
+  if (ref) return <Flex><Chip texto={itens.find((i) => i._id === ref)?.nome || '…'} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} /></Flex>
+  return <Busca itens={itens} escolhidos={[]} onEscolher={(id) => props.onChange(set({_type: 'reference', _ref: id}))} placeholder="Clique para ver a lista de projetos" readOnly={props.readOnly} />
 }
 
 // Estado + Município + coordenadas (uma referência a lugar). O estado filtra a lista de municípios

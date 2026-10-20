@@ -21,7 +21,7 @@ function campo(p: FieldProps) {
   const erro = p.validation?.find((v) => v.level === 'error')
   return (
     <Linha rotulo={p.title || p.name}>
-      {p.children}
+      {p.name === 'foto' ? <div data-ficha-foto="">{p.children}</div> : p.children}
       {erro && <Box paddingTop={1}><Text size={0} style={{color: 'var(--card-badge-critical-dot-color, #e5484d)'}}>{erro.message}</Text></Box>}
     </Linha>
   )
@@ -30,6 +30,8 @@ function campo(p: FieldProps) {
 export function FichaInput(props: ObjectInputProps) {
   return (
     <Card radius={2} border style={{overflow: 'visible'}}>
+      {/* foto alinhada à esquerda (o Studio centraliza a imagem na caixa) */}
+      <style>{'[data-ficha-foto] img{object-position:left center !important}'}</style>
       {props.members.map((m) => m.kind === 'field' && (
         <MemberField key={m.key} member={m} renderField={campo} renderInput={props.renderInput} renderItem={props.renderItem} renderPreview={props.renderPreview} />
       ))}

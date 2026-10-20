@@ -3,6 +3,7 @@
 // Os itens continuam sendo listas fixas (tagAtlas / lugar), editáveis nas pastas do Atlas.
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
+import {Linha} from './Ficha'
 import {insert, set, setIfMissing, unset, useClient, type ArrayOfObjectsInputProps, type ObjectInputProps} from 'sanity'
 
 const API = {apiVersion: '2025-01-01'}
@@ -98,7 +99,7 @@ export function etiquetasInput(grupo: string) {
             {valor.map((v) => <Chip key={v._key} texto={nomeDe(v._ref)} readOnly={props.readOnly} onRemover={() => props.onChange(unset([{_key: v._key}]))} />)}
           </Flex>
         )}
-        <Busca itens={itens} escolhidos={valor.map((v) => v._ref)} onEscolher={adicionar} onCriar={criar} placeholder="Clique para ver a lista, digite para filtrar ou criar" readOnly={props.readOnly} />
+        <Busca itens={itens} escolhidos={valor.map((v) => v._ref)} onEscolher={adicionar} onCriar={criar} placeholder="Escolher ou criar…" readOnly={props.readOnly} />
       </Stack>
     )
   }
@@ -111,13 +112,12 @@ export function ProjetoInput(props: ObjectInputProps) {
   useEffect(() => { client.fetch<Item[]>(`*[_type=="projeto" && !(_id in path("drafts.**"))]{_id, nome} | order(nome asc)`).then(setItens) }, [client])
   const ref = (props.value as any)?._ref as string | undefined
   if (ref) return <Flex><Chip texto={itens.find((i) => i._id === ref)?.nome || '…'} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} /></Flex>
-  return <Busca itens={itens} escolhidos={[]} onEscolher={(id) => props.onChange(set({_type: 'reference', _ref: id}))} placeholder="Clique para ver a lista de projetos" readOnly={props.readOnly} />
+  return <Busca itens={itens} escolhidos={[]} onEscolher={(id) => props.onChange(set({_type: 'reference', _ref: id}))} placeholder="Escolher…" readOnly={props.readOnly} />
 }
 
 // Estado + Município + coordenadas (uma referência a lugar). O estado filtra a lista de municípios
 // e é usado ao criar um município novo; latitude/longitude ficam na própria ficha.
 type Lugar = Item & {estado?: string; lat?: number; lon?: number}
-const Rotulo = ({children}: {children: string}) => <Text size={1} weight="medium">{children}</Text>
 
 export function MunicipioInput(props: ObjectInputProps) {
   const client = useClient(API)
@@ -145,34 +145,31 @@ export function MunicipioInput(props: ObjectInputProps) {
     carregar()
   }
   return (
-    <Stack gap={4}>
-      <Stack gap={2}>
-        <Rotulo>Estado</Rotulo>
+    <>
+      <Linha rotulo="Estado">
         {estado
           ? <Flex><Chip texto={estado} readOnly={props.readOnly} onRemover={tirarEstado} /></Flex>
-          : <Busca itens={estados} escolhidos={[]} onEscolher={setEstadoLivre} onCriar={setEstadoLivre} criarRotulo="Usar" placeholder="Clique para ver a lista ou digite um estado novo" readOnly={props.readOnly} />}
-      </Stack>
-      <Stack gap={2}>
-        <Rotulo>Município</Rotulo>
+          : <Busca itens={estados} escolhidos={[]} onEscolher={setEstadoLivre} onCriar={setEstadoLivre} criarRotulo="Usar" placeholder="Escolher ou criar…" readOnly={props.readOnly} />}
+      </Linha>
+      <Linha rotulo="Município">
         {ref ? (
           <Flex>
             <Chip texto={atual?.nome || '…'} aviso={atual && (atual.lat == null || atual.lon == null) ? 'sem coordenadas, fora do mapa' : undefined} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} />
           </Flex>
         ) : estado ? (
-          <Busca itens={municipios} escolhidos={[]} onEscolher={escolher} onCriar={criar} placeholder={`Clique para ver os municípios de ${estado}, digite para filtrar ou criar`} readOnly={props.readOnly} />
+          <Busca itens={municipios} escolhidos={[]} onEscolher={escolher} onCriar={criar} placeholder="Escolher ou criar…" readOnly={props.readOnly} />
         ) : (
-          <Text size={1} muted>Escolha o estado primeiro.</Text>
+          <Box paddingTop={2}><Text size={1} muted>Escolha o estado primeiro.</Text></Box>
         )}
-      </Stack>
+      </Linha>
       {atual && (
-        <Flex gap={2} align="center" wrap="wrap">
-          <Rotulo>Coordenadas</Rotulo>
-          <Text size={1} muted>lat</Text>
-          <Box style={{width: 120}}><TextInput key={`lat-${atual._id}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="-6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
-          <Text size={1} muted>lon</Text>
-          <Box style={{width: 120}}><TextInput key={`lon-${atual._id}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="-37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
-        </Flex>
+        <Linha rotulo="Coordenadas">
+          <Flex gap={2} align="center">
+            <Box style={{width: 120}}><TextInput key={`lat-${atual._id}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="lat -6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
+            <Box style={{width: 120}}><TextInput key={`lon-${atual._id}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="lon -37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
+          </Flex>
+        </Linha>
       )}
-    </Stack>
+    </>
   )
 }

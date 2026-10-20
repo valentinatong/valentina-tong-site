@@ -4,6 +4,7 @@ import {ImageIcon} from '@sanity/icons/Image'
 import {PinIcon} from '@sanity/icons/Pin'
 import {CogIcon} from '@sanity/icons/Cog'
 import {TagIcon} from '@sanity/icons/Tag'
+import {FichaInput} from '../components/Ficha'
 import {etiquetasInput, MunicipioInput, ProjetoInput} from '../components/EtiquetasInput'
 
 const hex = (r: any) => r.regex(/^#?[0-9a-fA-F]{6}$/, {name: 'cor hex'}).warning('Use 6 dígitos, ex.: 080d63')
@@ -58,19 +59,20 @@ export const fotograma = defineType({
   title: 'Fotogramas',
   type: 'document',
   icon: ImageIcon,
+  components: {input: FichaInput},
   fields: [
     orderRankField({type: 'fotograma'}),
     defineField({name: 'foto', title: 'Foto', type: 'image', options: {hotspot: true}, validation: (r) => r.required()}),
-    defineField({name: 'codigo', title: 'Código (nome do arquivo)', type: 'string', description: 'Ex.: VT_SD_03_06', validation: (r) => r.required()}),
-    defineField({name: 'projeto', title: 'Projeto', type: 'reference', to: [{type: 'projeto'}], components: {input: ProjetoInput}, description: 'Série a que a foto pertence (filtro do Atlas). Opcional.'}),
-    defineField({name: 'lugar', title: 'Estado e município', type: 'reference', to: [{type: 'lugar'}], components: {input: MunicipioInput}, description: 'Escolha o estado, depois o município (ou crie um novo). As coordenadas definem a posição no mapa.'}),
+    defineField({name: 'codigo', title: 'Código', type: 'string', validation: (r) => r.required()}),
+    defineField({name: 'projeto', title: 'Projeto', type: 'reference', to: [{type: 'projeto'}], components: {input: ProjetoInput}}),
+    defineField({name: 'lugar', title: 'Estado e município', type: 'reference', to: [{type: 'lugar'}], components: {input: MunicipioInput}}),
     defineField({name: 'locais', title: 'Local', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"local\"'}})], components: {input: etiquetasInput('local')}}),
     defineField({name: 'ano', title: 'Ano', type: 'string'}),
     defineField({name: 'geologias', title: 'Geologia', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"geologia\"'}})], components: {input: etiquetasInput('geologia')}}),
     defineField({name: 'contextos', title: 'Contexto', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"contexto\"'}})], components: {input: etiquetasInput('contexto')}}),
     defineField({name: 'publicacoes', title: 'Publicação', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"publicacao\"'}})], components: {input: etiquetasInput('publicacao')}}),
     defineField({name: 'exposicoes', title: 'Exposição', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"exposicao\"'}})], components: {input: etiquetasInput('exposicao')}}),
-    defineField({name: 'publicado', title: 'Publicado no site', type: 'boolean', initialValue: true}),
+    defineField({name: 'publicado', title: 'Publicado', type: 'boolean', initialValue: true}),
   ],
   preview: {
     select: {title: 'codigo', municipio: 'lugar.municipio', ano: 'ano', media: 'foto', publicado: 'publicado'},

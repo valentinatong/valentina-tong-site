@@ -16,10 +16,12 @@ export default defineConfig({
           .title('Conteúdo')
           .items([
             // lista de curadoria ordenável arrastando (a ordem vira a ordem do site)
+            S.listItem().title('Home').id('home').child(S.document().schemaType('home').documentId('home')),
             orderableDocumentListDeskItem({type: 'projeto', title: 'Projetos', S, context}),
             orderableDocumentListDeskItem({type: 'fotograma', title: 'Atlas · Fotogramas', S, context}),
             S.listItem().title('Atlas · Lugares (mapa)').child(S.documentTypeList('lugar').title('Lugares')),
             orderableDocumentListDeskItem({type: 'curadoria', title: 'Curadoria', S, context}),
+            S.listItem().title('Bio').id('bio').child(S.document().schemaType('bio').documentId('bio')),
             S.listItem().title('Etiquetas (tipo e papel)').child(S.documentTypeList('etiqueta').title('Etiquetas')),
             S.divider(),
             S.listItem().title('Atlas · Configurações').id('configAtlas').child(S.document().schemaType('configAtlas').documentId('configAtlas')),

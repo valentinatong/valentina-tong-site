@@ -1,4 +1,7 @@
 ---
-// por enquanto só a Curadoria foi migrada: a raiz leva para ela
-return Astro.redirect('/curadoria/')
+import Base from '../layouts/Base.astro'
+import Home from '../components/Home.astro'
 ---
+<Base titulo="Valentina Tong" ativo="home" lang="pt" outraLingua="/en/" semMenu classe="home">
+  <Home lang="pt" />
+</Base>

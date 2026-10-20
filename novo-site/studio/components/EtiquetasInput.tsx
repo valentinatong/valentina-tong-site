@@ -4,6 +4,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
 import {Linha} from './Ficha'
+import {MapaCoordenadas} from './MapaCoordenadas'
 import {insert, set, setIfMissing, unset, useClient, type ArrayOfObjectsInputProps, type ObjectInputProps} from 'sanity'
 
 const API = {apiVersion: '2025-01-01'}
@@ -123,6 +124,8 @@ export function MunicipioInput(props: ObjectInputProps) {
   const client = useClient(API)
   const [itens, setItens] = useState<Lugar[]>([])
   const [estadoLivre, setEstadoLivre] = useState('')
+  const [mapaAberto, setMapaAberto] = useState(false)
+  const [usos, setUsos] = useState<number | null>(null)
   const carregar = useCallback(() => client.fetch<Lugar[]>(`*[_type=="lugar" && !(_id in path("drafts.**"))]{_id, "nome": municipio, "detalhe": estado, estado, lat, lon} | order(nome asc)`).then(setItens), [client])
   useEffect(() => { carregar() }, [carregar])
   const ref = (props.value as any)?._ref as string | undefined
@@ -137,6 +140,16 @@ export function MunicipioInput(props: ObjectInputProps) {
     await client.createIfNotExists({_id: id, _type: 'lugar', municipio: nome, estado})
     await carregar()
     escolher(id)
+  }
+  // quantas fotos usam este município (a coordenada vale para todas)
+  useEffect(() => {
+    if (!mapaAberto || !atual) return
+    client.fetch<number>(`count(*[_type=="fotograma" && lugar._ref==$id && !(_id in path("drafts.**"))])`, {id: atual._id}).then(setUsos)
+  }, [mapaAberto, atual?._id])
+  const fixar = async (lat: number, lon: number) => {
+    if (!atual) return
+    await client.patch(atual._id).set({lat, lon}).commit()
+    await carregar()
   }
   const coord = async (campo: 'lat' | 'lon', txt: string) => {
     if (!atual) return
@@ -165,9 +178,16 @@ export function MunicipioInput(props: ObjectInputProps) {
       {atual && (
         <Linha rotulo="Coordenadas">
           <Flex gap={2} align="center">
-            <Box style={{width: 120}}><TextInput key={`lat-${atual._id}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="lat -6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
-            <Box style={{width: 120}}><TextInput key={`lon-${atual._id}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="lon -37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
+            <Box style={{width: 120}}><TextInput key={`lat-${atual._id}-${atual.lat}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="lat -6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
+            <Box style={{width: 120}}><TextInput key={`lon-${atual._id}-${atual.lon}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="lon -37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
+            <Button fontSize={1} mode={mapaAberto ? 'default' : 'ghost'} text={mapaAberto ? 'Fechar mapa' : 'Mapa'} onClick={() => setMapaAberto(!mapaAberto)} />
           </Flex>
+          {mapaAberto && (
+            <Box paddingTop={3}>
+              <MapaCoordenadas key={atual._id} lat={atual.lat} lon={atual.lon} busca={`${atual.nome}, ${atual.estado || ''}`} readOnly={props.readOnly} onFixar={fixar}
+                aviso={usos && usos > 1 ? `A coordenada é do município: vale para as ${usos} fotos de ${atual.nome}.` : undefined} />
+            </Box>
+          )}
         </Linha>
       )}
     </>

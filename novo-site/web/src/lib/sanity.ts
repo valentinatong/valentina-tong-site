@@ -91,7 +91,7 @@ export async function atlasDados(lang: Lang) {
       codigo, foto, ano,
       "locais": locais[]->nome, "geologias": geologias[]->nome, "contextos": contextos[]->nome,
       "publicacoes": publicacoes[]->nome, "exposicoes": exposicoes[]->nome,
-      "projeto": projeto->nome, "municipio": lugar->municipio, "estado": lugar->estado, "lat": lugar->lat, "lon": lugar->lon
+      "projeto": projeto->nome, "municipio": lugar->municipio, "estado": lugar->estado, "lat": coalesce(coordenadas.lat, lugar->lat), "lon": coalesce(coordenadas.lng, lugar->lon)
     }`),
   ])
   const campos = ((config && config.campos) || []).filter((c: any) => c.ativo !== false && c.campo)

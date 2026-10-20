@@ -5,7 +5,7 @@ import {PinIcon} from '@sanity/icons/Pin'
 import {CogIcon} from '@sanity/icons/Cog'
 import {TagIcon} from '@sanity/icons/Tag'
 import {FichaInput} from '../components/Ficha'
-import {etiquetasInput, MunicipioInput, ProjetoInput} from '../components/EtiquetasInput'
+import {CoordenadasInput, etiquetasInput, MunicipioInput, ProjetoInput} from '../components/EtiquetasInput'
 
 const hex = (r: any) => r.regex(/^#?[0-9a-fA-F]{6}$/, {name: 'cor hex'}).warning('Use 6 dígitos, ex.: 080d63')
 
@@ -66,6 +66,7 @@ export const fotograma = defineType({
     defineField({name: 'codigo', title: 'Código', type: 'string', validation: (r) => r.required()}),
     defineField({name: 'projeto', title: 'Projeto', type: 'reference', to: [{type: 'projeto'}], components: {input: ProjetoInput}}),
     defineField({name: 'lugar', title: 'Estado e município', type: 'reference', to: [{type: 'lugar'}], components: {input: MunicipioInput}}),
+    defineField({name: 'coordenadas', title: 'Coordenadas', type: 'geopoint', components: {input: CoordenadasInput}}),
     defineField({name: 'locais', title: 'Local', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"local\"'}})], components: {input: etiquetasInput('local')}}),
     defineField({name: 'ano', title: 'Ano', type: 'string'}),
     defineField({name: 'geologias', title: 'Geologia', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == \"geologia\"'}})], components: {input: etiquetasInput('geologia')}}),

@@ -8,6 +8,8 @@
     return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
   }
   function chave(estado, municipio){ return norm(municipio) + "|" + norm(estado); }
+  // cada ponto do mapa = município + coordenada (fotos com coordenada própria viram pontos separados)
+  function chavePonto(x){ return chave(x.estado, x.municipio) + "@" + (+x.lat).toFixed(5) + "," + (+x.lon).toFixed(5); }
 
   const STYLES = {
     topo: { version:8,
@@ -105,10 +107,10 @@
     const DADOS = JSON.parse(document.getElementById("atlas-dados").textContent);
     let ITEMS = DADOS.fotos || [];
 
-    const LOCAIS = new Map(); // chave -> {estado, municipio, lat, lon, fotos:[]}
+    const LOCAIS = new Map(); // chavePonto -> {estado, municipio, lat, lon, fotos:[]}
     ITEMS.forEach(f => {
       if (f.lat == null || f.lon == null) return;
-      const k = chave(f.estado, f.municipio);
+      const k = chavePonto(f);
       if (!LOCAIS.has(k)) LOCAIS.set(k, { estado: f.estado, municipio: f.municipio, lat: f.lat, lon: f.lon, fotos: [] });
       LOCAIS.get(k).fotos.push(f);
     });
@@ -122,7 +124,7 @@
       l.fotos.forEach(f => {
         const rotulo = (!f.projeto || f.projeto === "-") ? OUTROS_REGISTROS : f.projeto;
         if (!porProjeto.has(rotulo)) porProjeto.set(rotulo, new Set());
-        porProjeto.get(rotulo).add(chave(l.estado, l.municipio));
+        porProjeto.get(rotulo).add(chavePonto(l));
         contagemProjeto.set(rotulo, (contagemProjeto.get(rotulo) || 0) + 1);
         if (!fotosPorProjeto.has(rotulo)) fotosPorProjeto.set(rotulo, []);
         fotosPorProjeto.get(rotulo).push(f);
@@ -131,7 +133,7 @@
 
     const markers = new Map(); // chaveLocal -> maplibregl.Marker
     locaisArr.forEach(l => {
-      const k = chave(l.estado, l.municipio);
+      const k = chavePonto(l);
       const el = criarElementoIcone(false);
       el.addEventListener("click", ev => { ev.stopPropagation(); selectLocal(k, false); });
       const m = new maplibregl.Marker({ element: el, anchor: "center" }).setLngLat([l.lon, l.lat]).addTo(map);
@@ -163,7 +165,7 @@
           map.fitBounds(bbox, { padding: 40, maxZoom: 10 });
         }
         const fotos = fotosPorProjeto.get(activeProjeto) || [];
-        const thumbs = fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.municipio}, ${f.estado} — ${f.code}" data-chave="${chave(f.estado, f.municipio)}">`).join("");
+        const thumbs = fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.municipio}, ${f.estado} — ${f.code}" data-chave="${f.lat == null ? "" : chavePonto(f)}">`).join("");
         results.innerHTML = `<p class="loc">${activeProjeto}</p>` +
           `<div class="sub">${fotos.length} ${fotos.length > 1 ? "registros" : "registro"}</div>` +
           `<div class="grid">${thumbs}</div>`;
@@ -208,8 +210,8 @@
     const qs = new URL(location.href).searchParams;
     const qMunicipio = qs.get("municipio"), qEstado = qs.get("estado");
     if (qMunicipio && qEstado) {
-      const k = chave(qEstado, qMunicipio);
-      if (LOCAIS.has(k)) selectLocal(k, true);
+      const k = [...LOCAIS.keys()].find(x => x.startsWith(chave(qEstado, qMunicipio) + "@"));
+      if (k) selectLocal(k, true);
     }
   })();
 

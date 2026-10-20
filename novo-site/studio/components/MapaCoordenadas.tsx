@@ -7,8 +7,9 @@ import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
 type Resultado = {nome: string; lat: number; lon: number}
 const arred = (n: number) => Math.round(n * 1e6) / 1e6
 
-export function MapaCoordenadas({lat, lon, busca, aviso, onFixar, readOnly}: {
-  lat?: number; lon?: number; busca: string; aviso?: string; onFixar: (lat: number, lon: number) => Promise<void>; readOnly?: boolean
+// fixada = a coordenada mostrada já está gravada na foto (senão é só a sugestão do município)
+export function MapaCoordenadas({lat, lon, busca, fixada = true, onFixar, readOnly}: {
+  lat?: number; lon?: number; busca: string; fixada?: boolean; onFixar: (lat: number, lon: number) => Promise<void>; readOnly?: boolean
 }) {
   const div = useRef<HTMLDivElement>(null)
   const mapa = useRef<maplibregl.Map | null>(null)
@@ -65,7 +66,7 @@ export function MapaCoordenadas({lat, lon, busca, aviso, onFixar, readOnly}: {
       setRes(lista)
     } catch { setRes([]) } finally { setOcupado(false) }
   }
-  const mudou = !!pos && (!salvo || pos[0] !== salvo[0] || pos[1] !== salvo[1])
+  const mudou = !!pos && (!fixada || !salvo || pos[0] !== salvo[0] || pos[1] !== salvo[1])
   const fixar = async () => { if (!pos) return; setOcupado(true); try { await onFixar(pos[1], pos[0]) } finally { setOcupado(false) } }
 
   return (
@@ -92,7 +93,7 @@ export function MapaCoordenadas({lat, lon, busca, aviso, onFixar, readOnly}: {
         <Text size={1} muted>{pos ? `${pos[1]}, ${pos[0]}` : 'Sem ponto: busque um lugar ou clique no mapa.'}</Text>
         {!readOnly && <Button fontSize={1} tone="positive" text={mudou ? 'Fixar coordenada' : 'Coordenada fixada'} disabled={!mudou || ocupado} onClick={fixar} />}
       </Flex>
-      {!readOnly && <Text size={0} muted>Arraste o pin ou clique no mapa para ajustar. {aviso}</Text>}
+      {!readOnly && <Text size={0} muted>Arraste o pin ou clique no mapa para ajustar.</Text>}
     </Stack>
   )
 }

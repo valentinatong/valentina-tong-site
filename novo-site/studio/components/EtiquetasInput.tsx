@@ -5,7 +5,7 @@ import {useCallback, useEffect, useMemo, useState} from 'react'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
 import {Linha} from './Ficha'
 import {MapaCoordenadas} from './MapaCoordenadas'
-import {insert, set, setIfMissing, unset, useClient, type ArrayOfObjectsInputProps, type ObjectInputProps} from 'sanity'
+import {insert, set, setIfMissing, unset, useClient, useFormValue, type ArrayOfObjectsInputProps, type ObjectInputProps} from 'sanity'
 
 const API = {apiVersion: '2025-01-01'}
 const slug = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80)
@@ -124,9 +124,7 @@ export function MunicipioInput(props: ObjectInputProps) {
   const client = useClient(API)
   const [itens, setItens] = useState<Lugar[]>([])
   const [estadoLivre, setEstadoLivre] = useState('')
-  const [mapaAberto, setMapaAberto] = useState(false)
-  const [usos, setUsos] = useState<number | null>(null)
-  const carregar = useCallback(() => client.fetch<Lugar[]>(`*[_type=="lugar" && !(_id in path("drafts.**"))]{_id, "nome": municipio, "detalhe": estado, estado, lat, lon} | order(nome asc)`).then(setItens), [client])
+  const carregar = useCallback(() => client.fetch<Lugar[]>(`*[_type=="lugar" && !(_id in path("drafts.**"))]{_id, "nome": municipio, "detalhe": estado, estado} | order(nome asc)`).then(setItens), [client])
   useEffect(() => { carregar() }, [carregar])
   const ref = (props.value as any)?._ref as string | undefined
   const atual = itens.find((i) => i._id === ref)
@@ -141,22 +139,6 @@ export function MunicipioInput(props: ObjectInputProps) {
     await carregar()
     escolher(id)
   }
-  // quantas fotos usam este município (a coordenada vale para todas)
-  useEffect(() => {
-    if (!mapaAberto || !atual) return
-    client.fetch<number>(`count(*[_type=="fotograma" && lugar._ref==$id && !(_id in path("drafts.**"))])`, {id: atual._id}).then(setUsos)
-  }, [mapaAberto, atual?._id])
-  const fixar = async (lat: number, lon: number) => {
-    if (!atual) return
-    await client.patch(atual._id).set({lat, lon}).commit()
-    await carregar()
-  }
-  const coord = async (campo: 'lat' | 'lon', txt: string) => {
-    if (!atual) return
-    const n = parseFloat(txt.replace(',', '.'))
-    await (Number.isFinite(n) ? client.patch(atual._id).set({[campo]: n}) : client.patch(atual._id).unset([campo])).commit()
-    carregar()
-  }
   return (
     <>
       <Linha rotulo="Estado">
@@ -166,30 +148,56 @@ export function MunicipioInput(props: ObjectInputProps) {
       </Linha>
       <Linha rotulo="Município">
         {ref ? (
-          <Flex>
-            <Chip texto={atual?.nome || '…'} aviso={atual && (atual.lat == null || atual.lon == null) ? 'sem coordenadas, fora do mapa' : undefined} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} />
-          </Flex>
+          <Flex><Chip texto={atual?.nome || '…'} readOnly={props.readOnly} onRemover={() => props.onChange(unset())} /></Flex>
         ) : estado ? (
           <Busca itens={municipios} escolhidos={[]} onEscolher={escolher} onCriar={criar} placeholder="Escolher ou criar…" readOnly={props.readOnly} />
         ) : (
           <Box paddingTop={2}><Text size={1} muted>Escolha o estado primeiro.</Text></Box>
         )}
       </Linha>
-      {atual && (
-        <Linha rotulo="Coordenadas">
-          <Flex gap={2} align="center">
-            <Box style={{width: 120}}><TextInput key={`lat-${atual._id}-${atual.lat}`} fontSize={1} defaultValue={atual.lat ?? ''} placeholder="lat -6.459" readOnly={props.readOnly} onBlur={(e) => coord('lat', e.currentTarget.value)} /></Box>
-            <Box style={{width: 120}}><TextInput key={`lon-${atual._id}-${atual.lon}`} fontSize={1} defaultValue={atual.lon ?? ''} placeholder="lon -37.097" readOnly={props.readOnly} onBlur={(e) => coord('lon', e.currentTarget.value)} /></Box>
-            <Button fontSize={1} mode={mapaAberto ? 'default' : 'ghost'} text={mapaAberto ? 'Fechar mapa' : 'Mapa'} onClick={() => setMapaAberto(!mapaAberto)} />
-          </Flex>
-          {mapaAberto && (
-            <Box paddingTop={3}>
-              <MapaCoordenadas key={atual._id} lat={atual.lat} lon={atual.lon} busca={`${atual.nome}, ${atual.estado || ''}`} readOnly={props.readOnly} onFixar={fixar}
-                aviso={usos && usos > 1 ? `A coordenada é do município: vale para as ${usos} fotos de ${atual.nome}.` : undefined} />
-            </Box>
-          )}
-        </Linha>
-      )}
     </>
+  )
+}
+
+// Coordenadas da foto (geopoint). Sem coordenada própria, a foto usa a do município (no site também).
+export function CoordenadasInput(props: ObjectInputProps) {
+  const client = useClient(API)
+  const lugarRef = (useFormValue(['lugar']) as any)?._ref as string | undefined
+  const [lugar, setLugar] = useState<Lugar | null>(null)
+  const [mapaAberto, setMapaAberto] = useState(false)
+  useEffect(() => {
+    if (!lugarRef) { setLugar(null); return }
+    client.fetch<Lugar>(`*[_id==$id][0]{_id, "nome": municipio, estado, lat, lon}`, {id: lugarRef}).then(setLugar)
+  }, [client, lugarRef])
+  const v = props.value as {lat?: number; lng?: number} | undefined
+  const propria = v?.lat != null && v?.lng != null
+  const lat = propria ? v!.lat : lugar?.lat
+  const lon = propria ? v!.lng : lugar?.lon
+  const gravar = (la: number, lo: number) => props.onChange(set({_type: 'geopoint', lat: la, lng: lo}))
+  const campo = (qual: 'lat' | 'lng', txt: string) => {
+    const n = parseFloat(txt.replace(',', '.'))
+    if (!Number.isFinite(n)) return
+    const outro = qual === 'lat' ? lon : lat
+    if (outro == null) return
+    qual === 'lat' ? gravar(n, outro) : gravar(outro, n)
+  }
+  return (
+    <Stack gap={2}>
+      <Flex gap={2} align="center" wrap="wrap">
+        <Box style={{width: 120}}><TextInput key={`lat-${lat}`} fontSize={1} defaultValue={lat ?? ''} placeholder="lat" readOnly={props.readOnly} onBlur={(e) => campo('lat', e.currentTarget.value)} /></Box>
+        <Box style={{width: 120}}><TextInput key={`lng-${lon}`} fontSize={1} defaultValue={lon ?? ''} placeholder="lon" readOnly={props.readOnly} onBlur={(e) => campo('lng', e.currentTarget.value)} /></Box>
+        <Button fontSize={1} mode={mapaAberto ? 'default' : 'ghost'} text={mapaAberto ? 'Fechar mapa' : 'Mapa'} onClick={() => setMapaAberto(!mapaAberto)} />
+        {propria && !props.readOnly && lugar?.lat != null && <Button fontSize={1} mode="bleed" text="Usar a do município" onClick={() => props.onChange(unset())} />}
+      </Flex>
+      {!propria && (
+        <Text size={0} muted>
+          {lat != null ? `Usando a coordenada do município${lugar ? ` (${lugar.nome})` : ''}. Abra o mapa para marcar o ponto exato da foto.` : 'Sem coordenada: a foto fica fora do mapa. Abra o mapa para marcar o ponto.'}
+        </Text>
+      )}
+      {mapaAberto && (
+        <MapaCoordenadas lat={lat} lon={lon} fixada={propria} busca={lugar ? `${lugar.nome}, ${lugar.estado || ''}` : ''} readOnly={props.readOnly}
+          onFixar={async (la, lo) => gravar(la, lo)} />
+      )}
+    </Stack>
   )
 }

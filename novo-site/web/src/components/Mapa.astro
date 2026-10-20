@@ -1,0 +1,55 @@
+---
+// Mapa do Atlas: um ponto por município com fotos; legenda por projeto; painel com as fotos do lugar.
+// A lógica é a da página antiga (public/mapa.js); os dados vêm embutidos, gerados no build.
+import {atlasDados, simples, type Lang} from '../lib/sanity'
+import {menu} from '../lib/menu'
+interface Props { lang: Lang; outraLingua: string }
+const {lang, outraLingua} = Astro.props
+const pre = lang === 'en' ? '/en' : ''
+const {config, fotos} = await atlasDados(lang)
+const descPadrao = lang === 'en'
+  ? 'The map gathers the places covered by the Geological Journey research. Each point marks a municipality with photographs in the Atlas. Select a point to explore the related images.'
+  : 'O mapa reúne os lugares percorridos pela pesquisa Viagem Geológica. Cada ponto indica um município com fotografias no Atlas. Selecione um ponto para explorar as imagens relacionadas.'
+const desc = simples(config.aberturaMapa, lang) || descPadrao
+const dados = JSON.stringify({fotos, base: pre, lang}).replace(/</g, '\\u003c')
+---
+<header class="top">
+  <a class="brand" href={`${pre}/atlas/`} aria-label="Atlas">
+    <div class="seal">VIAGEM<br>GEOLÓGICA<br>VALENTINA<br>TONG</div>
+    <div><div class="kick">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div><div class="h">{lang === 'en' ? 'Map' : 'Mapa'}</div></div>
+  </a>
+  <nav class="main">
+    {menu(lang).map((m) => <a href={m.href} class={m.id === 'atlas' ? 'on' : undefined}>{m[lang]}</a>)}
+    <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <aside class="panel">
+    <h1>{lang === 'en' ? 'MAP' : 'MAPA'}</h1>
+    <p class="desc" id="desc">{desc}</p>
+    <div class="rule"></div>
+    <div class="legtitle">{lang === 'en' ? 'Projects' : 'Projetos'}</div>
+    <div class="leg" id="leg"></div>
+    <div class="rule"></div>
+    <div class="total" id="total"></div>
+    <div class="rule"></div>
+    <div class="results" id="results"><p class="hint">{lang === 'en' ? 'Select a point on the map. Scroll to zoom and drag to move around.' : 'Selecione um ponto no mapa. Use a roda do mouse para dar zoom e arraste para navegar.'}</p></div>
+  </aside>
+  <div class="mapbox" id="mapbox">
+    <div id="map"></div>
+    <div class="basemapctl" id="basemapctl">
+      <button class="pill on" data-layer="topo">{lang === 'en' ? 'TOPOGRAPHIC' : 'TOPOGRÁFICO'}</button>
+      <button class="pill" data-layer="satelite">{lang === 'en' ? 'SATELLITE' : 'SATÉLITE'}</button>
+      <button class="pill" data-layer="relevo3d">{lang === 'en' ? '3D RELIEF' : 'RELEVO 3D'}</button>
+    </div>
+    <div class="zoomctl">
+      <button id="zin" aria-label="+">+</button>
+      <button id="zout" aria-label="−">−</button>
+      <button id="zreset" class="reset" aria-label="Reset">⤢</button>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="atlas-dados" set:html={dados} />
+<script is:inline src="/mapa.js"></script>

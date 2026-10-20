@@ -75,3 +75,37 @@ export function coresProjeto(p: any): Record<string, string> {
   if (fonte) c['--opening-color'] = fonte
   return c
 }
+
+// texto rico → texto simples (para filtros e etiquetas da ficha do Atlas)
+export function simples(campo: any, lang: Lang): string {
+  const blocos = (campo && ((campo[lang] && campo[lang].length ? campo[lang] : campo.pt) || [])) || []
+  return blocos.filter((b: any) => b._type === 'block').map((b: any) => (b.children || []).map((c: any) => c.text).join('')).join('\n').trim()
+}
+
+// Dados do Atlas no MESMO formato da antiga /api/arquivo-fotos ({campos, fotos}),
+// gerados no build — assim os filtros, a ficha e o mapa funcionam como antes.
+export async function atlasDados(lang: Lang) {
+  const [config, fotos] = await Promise.all([
+    client.fetch(`*[_id=="configAtlas"][0]`),
+    client.fetch(`*[_type=="fotograma" && publicado != false && defined(foto.asset)] | order(orderRank) {
+      codigo, foto, local, ano, geologia, contexto, publicacoes, exposicoes,
+      "projeto": projeto->nome, "municipio": lugar->municipio, "estado": lugar->estado, "lat": lugar->lat, "lon": lugar->lon
+    }`),
+  ])
+  const campos = ((config && config.campos) || []).filter((c: any) => c.ativo !== false && c.campo)
+    .map((c: any, i: number) => ({campo: c.campo, rotulo: t(c.rotulo, lang) || c.campo, ordem: i}))
+  const itens = fotos.map((f: any) => {
+    const valores: Record<string, any> = {
+      'Projeto': f.projeto || '', 'Estado': f.estado || '', 'Município': f.municipio || '', 'Local': f.local || '', 'Ano': f.ano || '',
+      'Geologia': simples(f.geologia, lang), 'Contexto': simples(f.contexto, lang),
+      'Publicação': f.publicacoes || [], 'Exposição': f.exposicoes || [],
+    }
+    return {
+      code: f.codigo, projeto: f.projeto || '', valores,
+      thumb: img(f.foto).width(480).height(480).url(),
+      web: img(f.foto).width(1400).url(),
+      estado: f.estado || '', municipio: f.municipio || '', lat: f.lat ?? null, lon: f.lon ?? null,
+    }
+  })
+  return {config: config || {}, campos, fotos: itens}
+}

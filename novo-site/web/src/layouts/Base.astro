@@ -1,18 +1,11 @@
 ---
 // Página-mestre: cabeçalho, menu, PT/EN, fontes e cores — usada por todas as páginas.
-// sem 'cabecalho': menu flutuante no canto (páginas de Projetos), sem a faixa de título
-interface Props { titulo: string; cabecalho?: string; ativo: string; lang: 'pt' | 'en'; outraLingua: string; cores?: Record<string, string> }
-const {titulo, cabecalho, ativo, lang, outraLingua, cores = {}} = Astro.props
-const pre = lang === 'en' ? '/en' : ''
-// páginas ainda não migradas apontam para o site antigo
-const ANTIGO = 'https://valentina-tong-site.vercel.app'
-const menu = [
-  {id: 'home', pt: 'HOME', en: 'HOME', href: `${ANTIGO}/index.html`},
-  {id: 'projetos', pt: 'PROJETOS', en: 'PROJECTS', href: `${pre}/projetos/`},
-  {id: 'atlas', pt: 'ATLAS FOTOGRÁFICO', en: 'PHOTOGRAPHIC ATLAS', href: `${ANTIGO}/arquivo.html`},
-  {id: 'curadoria', pt: 'CURADORIA', en: 'CURATORSHIP', href: `${pre}/curadoria/`},
-  {id: 'bio', pt: 'BIO', en: 'BIO', href: `${ANTIGO}/bio.html`},
-]
+// sem 'cabecalho': menu flutuante no canto (páginas de Projetos), sem a faixa de título.
+// semMenu: a página desenha o próprio topo (Atlas e Mapa).
+import {menu as menuDe} from '../lib/menu'
+interface Props { titulo: string; cabecalho?: string; ativo: string; lang: 'pt' | 'en'; outraLingua: string; cores?: Record<string, string>; semMenu?: boolean; classe?: string }
+const {titulo, cabecalho, ativo, lang, outraLingua, cores = {}, semMenu = false, classe} = Astro.props
+const menu = menuDe(lang)
 const estilo = Object.entries(cores).map(([k, v]) => `${k}:${v}`).join(';')
 // horário da geração do site (para conferir se o Publicar do Sanity reconstruiu)
 const geradoEm = new Date().toISOString()
@@ -28,6 +21,7 @@ const geradoEm = new Date().toISOString()
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="preconnect" href="https://cdn.sanity.io" />
+<slot name="head" />
 <style is:global>
   :root{
     --bg:#ffffff; --ink:#201D19; --stone:#6f6a5c; --stone-dim:#a49d8f; --oxide:#9A4A2C; --card:#ffffff; --cell:transparent;
@@ -53,8 +47,8 @@ const geradoEm = new Date().toISOString()
   @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
 </style>
 </head>
-<body>
-  {cabecalho ? (
+<body class={classe}>
+  {semMenu ? null : cabecalho ? (
     <header class="top">
       <div class="h">{cabecalho}</div>
       <nav class="main">

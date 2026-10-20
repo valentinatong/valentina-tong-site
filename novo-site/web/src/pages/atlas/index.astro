@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro'
+import Atlas from '../../components/Atlas.astro'
+import {client} from '../../lib/sanity'
+import {coresAtlas} from '../../lib/atlasCores'
+const config = await client.fetch(`*[_id=="configAtlas"][0]{corFundo, corTag}`)
+---
+<Base titulo="Atlas Fotográfico" ativo="atlas" lang="pt" outraLingua="/en/atlas/" cores={coresAtlas(config)} semMenu classe="atlas">
+  <link slot="head" rel="stylesheet" href="/atlas.css" />
+  <Atlas lang="pt" outraLingua="/en/atlas/" />
+</Base>

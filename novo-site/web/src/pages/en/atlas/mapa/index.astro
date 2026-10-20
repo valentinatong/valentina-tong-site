@@ -1,0 +1,10 @@
+---
+import Base from '../../../../layouts/Base.astro'
+import Mapa from '../../../../components/Mapa.astro'
+---
+<Base titulo="Map" ativo="atlas" lang="en" outraLingua="/atlas/mapa/" semMenu classe="mapa">
+  <link slot="head" rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" />
+  <script slot="head" is:inline src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <link slot="head" rel="stylesheet" href="/mapa.css" />
+  <Mapa lang="en" outraLingua="/atlas/mapa/" />
+</Base>

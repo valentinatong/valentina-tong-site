@@ -1,0 +1,39 @@
+---
+// Atlas Fotográfico: topo com selo, filtros em cascata, grade de fotogramas e ficha.
+// A lógica é a mesma da página antiga (public/atlas.js); os dados vêm embutidos, gerados no build.
+import {atlasDados, rico, temTexto, type Lang} from '../lib/sanity'
+import {menu} from '../lib/menu'
+interface Props { lang: Lang; outraLingua: string }
+const {lang, outraLingua} = Astro.props
+const pre = lang === 'en' ? '/en' : ''
+const {config, campos, fotos} = await atlasDados(lang)
+const statement = `<h3>${lang === 'en' ? 'About the archive' : 'Sobre o arquivo'}</h3>` + (temTexto(config.abertura) ? rico(config.abertura, lang, {paragrafos: true}) : '')
+const dados = JSON.stringify({campos, fotos, base: pre}).replace(/</g, '\\u003c')
+---
+<header class="topbar">
+  <a class="brand" href={`${pre}/projetos/`} aria-label={lang === 'en' ? 'Home' : 'Início'}>
+    <div class="seal">VIAGEM<br>GEOLÓGICA<br>VALENTINA<br>TONG</div>
+    <div><div class="kick">{lang === 'en' ? 'Geological Journey' : 'Viagem Geológica'}</div><div class="h">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div></div>
+  </a>
+  <nav class="main">
+    {menu(lang).map((m) => <a href={m.href} class={m.id === 'atlas' ? 'on' : undefined}>{m[lang]}</a>)}
+    <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+  </nav>
+</header>
+
+<div class="filters" id="filters">
+  <a class="mapbtn" href={`${pre}/atlas/mapa/`} id="mapLink">◍ {lang === 'en' ? 'MAP' : 'MAPA'}</a>
+  <a class="mapbtn" href="#" id="aboutBtn">{lang === 'en' ? 'ABOUT' : 'SOBRE'}</a>
+</div>
+
+<main class="wrap">
+  <section class="grid" id="grid"></section>
+  <aside class="ficha" id="ficha"></aside>
+</main>
+
+<script type="application/json" id="atlas-dados" set:html={dados} />
+<script is:inline define:vars={{lang, statement}}>
+  window.__arquivoLang = lang;
+  window.__arquivo = { statementHTML: statement, renderFicha: null };
+</script>
+<script is:inline src="/atlas.js"></script>

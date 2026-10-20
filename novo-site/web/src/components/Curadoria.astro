@@ -1,0 +1,156 @@
+---
+// Lista da Curadoria: título | tipo · papel + "ano | local" | miniatura.
+// Ao abrir: texto, outras sedes e a fileira de fotos/vídeos (zoom e player em /curadoria.js).
+import {client, img, t, rico, temTexto, frase, esc, youtubeId, type Lang} from '../lib/sanity'
+interface Props { lang: Lang }
+const {lang} = Astro.props
+
+const itens = await client.fetch(`*[_type=="curadoria"] | order(orderRank) {
+  _id, titulo, "tipos": tipos[]->nome, "papeis": papeis[]->nome, local, ano, link, texto, sedes,
+  miniatura{asset->{_id, metadata{hasAlpha}}},
+  galeria[]{_type, _key, legenda, link, url, asset->{_id, metadata{hasAlpha}}, capa{asset->{_id}}}
+}`)
+
+const lugar = (local: string, ano: string) => [local, ano].filter(Boolean).join(' — ')
+// legenda já em HTML; com link vira <a> com ↗
+const legendaHtml = (cap: string, link?: string) => {
+  const texto = `<span class="cz-cap">${cap}</span>${link ? '<span class="cz-ext">↗</span>' : ''}`
+  return link ? `<a href="${esc(link)}" target="_blank" rel="noopener">${texto}</a>` : texto
+}
+const venueHtml = (ano: string, local: string, link?: string) =>
+  `<div class="cz-v"><span class="y">${esc(ano)}</span><span class="l">${link ? `<a href="${esc(link)}" target="_blank" rel="noopener"><span class="cz-cap">${esc(local)}</span><span class="cz-ext">↗</span></a>` : esc(local)}</span></div>`
+
+const lista = itens.map((c: any) => {
+  const titulo = t(c.titulo, lang)
+  const tipos = (c.tipos || []).map((n: any) => t(n, lang))
+  const papeis = (c.papeis || []).map((n: any) => t(n, lang))
+  const tipoTxt = frase(tipos, lang), papelTxt = frase(papeis, lang, tipos.length > 0)
+  const tr = [tipoTxt && `<b>${esc(tipoTxt)}</b>`, papelTxt && esc(papelTxt)].filter(Boolean).join(' · ')
+  const padrao = esc(lugar(c.local, c.ano))
+  const galeria = (c.galeria || []).map((g: any) => {
+    const cap = temTexto(g.legenda) ? rico(g.legenda, lang) : padrao
+    if (g._type === 'video') {
+      const id = youtubeId(g.url)
+      if (!id) return null
+      const thumb = g.capa?.asset ? img(g.capa).height(340).url() : `https://i.ytimg.com/vi/${id}/mqdefault.jpg`
+      const web = g.capa?.asset ? img(g.capa).width(1800).fit('max').url() : `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+      return {video: id, thumb, web, cap: legendaHtml(cap, g.link), link: g.link}
+    }
+    if (!g.asset) return null
+    return {thumb: img(g).height(340).url(), web: img(g).width(1800).height(1800).fit('max').url(), cap: legendaHtml(cap, g.link), link: g.link, alfa: g.asset.metadata?.hasAlpha}
+  }).filter(Boolean)
+  const mini = c.miniatura?.asset ? {src: img(c.miniatura).width(288).height(192).fit('max').url(), alfa: c.miniatura.asset.metadata?.hasAlpha}
+    : (c.galeria || []).find((g: any) => g._type === 'foto' && g.asset) ? (() => { const g = c.galeria.find((x: any) => x._type === 'foto' && x.asset); return {src: img(g).width(288).height(192).fit('max').url(), alfa: g.asset.metadata?.hasAlpha} })()
+    : galeria[0] ? {src: galeria[0].thumb, alfa: false} : null
+  return {
+    titulo, tr,
+    desc: temTexto(c.texto) ? rico(c.texto, lang) : '',
+    principal: (c.local || c.ano) ? venueHtml(c.ano || '', c.local || '', c.link) : '',
+    sedes: (c.sedes || []).map((s: any) => venueHtml(s.ano || '', s.local || '', s.link)).join(''),
+    mini, galeria,
+  }
+})
+---
+<main class="cz-list" id="list" data-lang={lang}>
+  {lista.map((c: any) => (
+    <article class="cz-item">
+      <div class="cz-row">
+        <div>
+          <div class="cz-title">{c.titulo}</div>
+          {c.desc && <div class="cz-fold"><div><p class="cz-desc" set:html={c.desc} /></div></div>}
+        </div>
+        <div>
+          {c.tr && <div class="cz-tr" set:html={c.tr} />}
+          <Fragment set:html={c.principal} />
+          {c.sedes && <div class="cz-fold"><div class="cz-sedes" set:html={c.sedes} /></div>}
+        </div>
+        <div class="cz-thumb">{c.mini && <img src={c.mini.src} class={c.mini.alfa ? 'cz-alfa' : undefined} alt={c.titulo} />}</div>
+      </div>
+      {c.galeria.length > 0 && (
+        <div class="cz-fold"><div><div class="cz-strip">
+          {c.galeria.map((g: any) => g.video
+            ? <span class="cz-vid" data-video={g.video} data-web={g.web} data-cap={g.cap} data-link={g.link}><img src={g.thumb} alt={c.titulo} loading="lazy" /><span class="cz-play"></span></span>
+            : <img src={g.thumb} alt={c.titulo} loading="lazy" data-web={g.web} data-cap={g.cap} data-link={g.link} class={g.alfa ? 'cz-alfa' : undefined} />)}
+        </div></div></div>
+      )}
+    </article>
+  ))}
+</main>
+<script is:inline src="/curadoria.js"></script>
+
+<style is:global>
+  .cz-list{ padding:0 40px 12vh; }
+  .cz-item{ border-top:1px solid var(--line); cursor:pointer; }
+  .cz-item.open{ cursor:default; }
+  .cz-item:last-child{ border-bottom:1px solid var(--line); }
+  .cz-row{ display:grid; grid-template-columns:48% 1fr 144px; gap:32px; align-items:start; padding:14px 0 16px; }
+  .cz-title{ font:500 18px/24px var(--title-font); cursor:pointer; transition:color .2s; }
+  .cz-item.open .cz-title{ color:var(--oxide); }
+  .cz-item:not(.open) .cz-row{ cursor:pointer; }
+  .cz-item:not(.open) .cz-row:hover .cz-title, .cz-title:hover{ color:rgba(154,74,44,.8); }
+  .cz-tr{ font:italic 15px/24px var(--body-font); color:var(--stone); margin:0 0 4px; }
+  .cz-tr b{ font-weight:500; color:var(--ink); }
+  .cz-v{ display:grid; grid-template-columns:50px 1fr; gap:8px; padding:2px 0; }
+  .cz-v .y{ font:12px/21px var(--mono-font); letter-spacing:.04em; color:var(--stone); font-variant-numeric:tabular-nums; }
+  .cz-v .l{ font:14px/21px var(--body-font); }
+  .cz-v .l a:hover{ color:var(--oxide); }
+  .cz-v .l a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cz-sedes .cz-v{ border-top:1px solid rgba(32,29,25,.07); }
+  .cz-thumb{ justify-self:end; width:144px; height:96px; margin-top:2px; }
+  .cz-thumb img{ width:144px; height:96px; object-fit:contain; object-position:right top; display:block; transition:opacity .3s; }
+  .cz-item.open .cz-thumb img{ opacity:0; }
+  .cz-fold{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+  .cz-item.open .cz-fold{ grid-template-rows:1fr; }
+  .cz-fold > div{ overflow:hidden; min-height:0; }
+  .cz-list strong{ font-weight:600; }
+  .cz-desc{ margin:14px 0 0; font:15.5px/1.6 var(--body-font); max-width:64ch; }
+  .cz-desc a{ text-decoration:underline; text-underline-offset:3px; }
+  .cz-strip{ display:flex; gap:10px; overflow-x:auto; padding:6px 0 30px; scrollbar-width:thin; }
+  .cz-strip img, .cz-zoom img, .cz-thumb img.cz-alfa{ background-color:var(--cell); }
+  .cz-strip img{ height:170px; width:auto; display:block; cursor:zoom-in; flex:0 0 auto; }
+  .cz-vid{ position:relative; flex:0 0 auto; cursor:pointer; }
+  .cz-strip .cz-vid img{ cursor:pointer; }
+  .cz-play{ position:absolute; left:50%; top:50%; width:46px; height:46px; margin:-23px 0 0 -23px; border-radius:50%;
+    background:rgba(255,255,255,.92); box-shadow:0 2px 10px rgba(32,29,25,.18); pointer-events:none; }
+  .cz-play::before{ content:""; position:absolute; left:18px; top:14px; border-style:solid;
+    border-width:9px 0 9px 14px; border-color:transparent transparent transparent var(--ink); }
+  .cz-strip::-webkit-scrollbar{ height:6px; } .cz-strip::-webkit-scrollbar-thumb{ background:var(--line); }
+  .cz-zoom{ position:fixed; z-index:60; margin:0; left:0; top:0; pointer-events:none; opacity:0; transition:opacity .2s;
+    background:var(--card); padding:0 0 10px; box-shadow:0 18px 50px rgba(32,29,25,.18); }
+  .cz-zoom.on{ opacity:1; }
+  .cz-zoom img{ display:block; max-height:62vh; max-width:80vw; }
+  .cz-zi{ position:relative; }
+  .cz-zoom .cz-play{ display:none; transform:scale(1.35); }
+  .cz-zoom.video .cz-play{ display:block; }
+  .cz-zoom.on.video{ pointer-events:auto; }
+  .cz-zoom.video .cz-zi{ cursor:pointer; }
+  .cz-zoom figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); width:0; min-width:100%; }
+  .cz-zoom.on.link{ pointer-events:auto; }
+  .cz-zoom figcaption a{ display:block; color:inherit; }
+  .cz-zoom figcaption strong, .cz-player figcaption strong{ font-weight:600; }
+  .cz-zoom figcaption a:hover{ color:var(--oxide); }
+  .cz-zoom figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cz-ext{ display:inline-block; margin-left:5px; font:12px/1 var(--mono-font); }
+  .cz-zoom figcaption a:hover .cz-ext{ color:var(--oxide); }
+  .cz-player{ position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.94); padding:16px; }
+  .cz-player.on{ display:flex; }
+  .cz-player figure{ margin:0; width:min(1100px, 88vw, calc((100vh - 150px) * 16 / 9)); background:var(--card);
+    box-shadow:0 18px 50px rgba(32,29,25,.18); padding:0 0 12px; }
+  .cz-player .cz-frame{ position:relative; aspect-ratio:16/9; background:#000; }
+  .cz-player iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .cz-player figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); }
+  .cz-player figcaption a:hover{ color:var(--oxide); }
+  .cz-player figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  .cz-close{ position:absolute; top:18px; right:22px; border:0; background:none; cursor:pointer;
+    font:22px/1 var(--mono-font); color:var(--stone); padding:6px; }
+  .cz-close:hover{ color:var(--ink); }
+  @media (max-width:760px){
+    .cz-player figure{ width:100%; }
+    .cz-list{ padding:0 22px 12vh; }
+    .cz-row{ grid-template-columns:1fr; gap:10px; }
+    .cz-thumb{ display:none; }
+    .cz-strip img{ cursor:default; }
+    .cz-zoom{ display:none; }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro'
+import Curadoria from '../components/Curadoria.astro'
+import {configuracoes, hex} from '../lib/sanity'
+const c = await configuracoes()
+const cores = {'--bg': hex(c.corFundoCuradoria, '#ffffff'), '--card': hex(c.corLegendaCuradoria, '#ffffff'), '--cell': hex(c.corImagemCuradoria, 'transparent')}
+---
+<Base titulo="Curadoria, Pesquisa e Edição" cabecalho="CURADORIA, PESQUISA E EDIÇÃO" ativo="curadoria" lang="pt" outraLingua="/en/curadoria/" cores={cores}>
+  <Curadoria lang="pt" />
+</Base>

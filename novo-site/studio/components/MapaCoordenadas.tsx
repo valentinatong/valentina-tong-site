@@ -1,8 +1,19 @@
 // Escolher a coordenada num mapa: busca um lugar (OpenStreetMap, via Photon / Nominatim), escolhe um resultado,
-// ajusta arrastando o pin (ou clicando no mapa) e fixa. Mapa de fundo: OpenFreeMap (grátis, sem chave).
+// ajusta arrastando o pin (ou clicando no mapa) e fixa. Mapa de fundo: satélite da Esri com nomes (grátis, sem chave).
 import {useEffect, useRef, useState} from 'react'
 import type maplibregl from 'maplibre-gl'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
+
+// Satélite (Esri World Imagery) com nomes de lugares e limites por cima (Esri Reference); grátis, sem chave
+const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services'
+const SATELITE: maplibregl.StyleSpecification = {
+  version: 8,
+  sources: {
+    satelite: {type: 'raster', tiles: [`${ESRI}/World_Imagery/MapServer/tile/{z}/{y}/{x}`], tileSize: 256, maxzoom: 19, attribution: 'Imagens © Esri, Maxar, Earthstar Geographics'},
+    nomes: {type: 'raster', tiles: [`${ESRI}/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}`], tileSize: 256, maxzoom: 19, attribution: 'Nomes © Esri'},
+  },
+  layers: [{id: 'satelite', type: 'raster', source: 'satelite'}, {id: 'nomes', type: 'raster', source: 'nomes'}],
+}
 
 type Resultado = {nome: string; lat: number; lon: number}
 const arred = (n: number) => Math.round(n * 1e6) / 1e6
@@ -26,11 +37,11 @@ export function MapaCoordenadas({lat, lon, busca, fixada = true, onFixar, readOn
     Promise.all([import('maplibre-gl'), import('maplibre-gl/dist/maplibre-gl.css')]).then(([{default: maplibregl}]) => {
     if (!vivo) return
     m = new maplibregl.Map({
-      container: div.current!, style: 'https://tiles.openfreemap.org/styles/positron',
+      container: div.current!, style: SATELITE,
       center: (salvo as [number, number]) ?? [-47.9, -15.8], zoom: salvo ? 11 : 3.5, attributionControl: {compact: true},
     })
     m.addControl(new maplibregl.NavigationControl({showCompass: false}), 'top-right')
-    const mk = new maplibregl.Marker({draggable: !readOnly, color: '#080d63'})
+    const mk = new maplibregl.Marker({draggable: !readOnly, color: '#ffcc00'})
     mk.on('dragend', () => { const p = mk.getLngLat(); setPos([arred(p.lng), arred(p.lat)]) })
     if (salvo) mk.setLngLat(salvo as [number, number]).addTo(m)
     m.on('click', (e) => {

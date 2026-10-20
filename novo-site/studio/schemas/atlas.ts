@@ -25,7 +25,7 @@ export const lugar = defineType({
 // Fotograma do Atlas Fotográfico (antes: tabela Fotogramas).
 export const fotograma = defineType({
   name: 'fotograma',
-  title: 'Atlas · Fotogramas',
+  title: 'Fotogramas',
   type: 'document',
   icon: ImageIcon,
   fields: [
@@ -51,7 +51,7 @@ export const fotograma = defineType({
 // Configuração da página do Atlas e do Mapa (antes: tabelas Configurações e Configuração de Campos).
 export const configAtlas = defineType({
   name: 'configAtlas',
-  title: 'Atlas · Configurações',
+  title: 'Configurações do Atlas',
   type: 'document',
   icon: CogIcon,
   fields: [
@@ -75,5 +75,5 @@ export const configAtlas = defineType({
       })],
     }),
   ],
-  preview: {prepare: () => ({title: 'Atlas · Configurações'})},
+  preview: {prepare: () => ({title: 'Configurações do Atlas'})},
 })

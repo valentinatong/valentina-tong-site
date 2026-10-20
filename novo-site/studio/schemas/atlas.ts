@@ -34,11 +34,11 @@ export const tagAtlas = defineType({
   },
 })
 
-// Lugar do mapa: um município com coordenadas. Os fotogramas escolhem o lugar
+// Município (lista fixa, como as etiquetas): nome, estado e coordenadas do mapa. Os fotogramas escolhem o município
 // (antes: tabela Mapa do Airtable, unida por nome — erros de digitação tiravam a foto do mapa).
 export const lugar = defineType({
   name: 'lugar',
-  title: 'Lugares (mapa)',
+  title: 'Municípios',
   type: 'document',
   icon: PinIcon,
   fields: [
@@ -47,6 +47,7 @@ export const lugar = defineType({
     defineField({name: 'lat', title: 'Latitude', type: 'number', description: 'Ex.: -6.459'}),
     defineField({name: 'lon', title: 'Longitude', type: 'number', description: 'Ex.: -37.097'}),
   ],
+  orderings: [{title: 'Nome', name: 'municipio', by: [{field: 'municipio', direction: 'asc'}]}],
   preview: {select: {title: 'municipio', subtitle: 'estado', lat: 'lat'}, prepare: ({title, subtitle, lat}) => ({title, subtitle: `${subtitle}${lat == null ? ' · sem coordenadas' : ''}`})},
 })
 
@@ -62,7 +63,7 @@ export const fotograma = defineType({
     defineField({name: 'foto', title: 'Foto', type: 'image', options: {hotspot: true}, validation: (r) => r.required()}),
     defineField({name: 'publicado', title: 'Publicado no site', type: 'boolean', initialValue: true}),
     defineField({name: 'projeto', title: 'Projeto', type: 'reference', to: [{type: 'projeto'}], description: 'Série a que a foto pertence (filtro do Atlas). Opcional.'}),
-    defineField({name: 'lugar', title: 'Lugar (município)', type: 'reference', to: [{type: 'lugar'}], description: 'Define estado, município e a posição no mapa.'}),
+    defineField({name: 'lugar', title: 'Município', type: 'reference', to: [{type: 'lugar'}], options: {disableNew: false}, description: 'Escolha da lista de Municípios (ou crie um novo). Define o estado e a posição no mapa.'}),
     defineField({name: 'locais', title: 'Local', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "local"', disableNew: false}})]}),
     defineField({name: 'ano', title: 'Ano', type: 'string'}),
     defineField({name: 'geologias', title: 'Geologia', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "geologia"', disableNew: false}})]}),

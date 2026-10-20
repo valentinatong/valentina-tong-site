@@ -25,7 +25,7 @@ export default defineConfig({
             S.listItem().title('Atlas Fotográfico').id('pasta-atlas').child(
               S.list().title('Atlas Fotográfico').items([
                 orderableDocumentListDeskItem({type: 'fotograma', title: 'Fotogramas', S, context}),
-                S.listItem().title('Lugares (mapa)').id('lugares').child(S.documentTypeList('lugar').title('Lugares (mapa)')),
+                S.listItem().title('Municípios').id('lugares').child(S.documentTypeList('lugar').title('Municípios').defaultOrdering([{field: 'municipio', direction: 'asc'}])),
                 S.divider(),
                 // etiquetas do Atlas: uma lista por grupo; criar dentro de cada lista já preenche o grupo
                 ...GRUPOS_TAG.map((g) => S.listItem().title(g.title).id(`tags-${g.value}`).child(

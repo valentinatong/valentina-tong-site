@@ -16,3 +16,11 @@
 /index_pilares_backup.html
 /home_grid_zoom_v7.jsx
 /layout.pdf
+
+# exportações do Airtable para a migração (não versionar)
+AIRTABLE CSV/
+
+# novo site (Sanity + Astro)
+node_modules/
+novo-site/**/dist/
+novo-site/**/.sanity/

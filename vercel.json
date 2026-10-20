@@ -1,0 +1,19 @@
+{
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)novo-site'",
+  "images": {
+    "remotePatterns": [
+      {
+        "protocol": "https",
+        "hostname": "v5.airtableusercontent.com"
+      },
+      {
+        "protocol": "https",
+        "hostname": "dl.airtable.com"
+      }
+    ],
+    "formats": [
+      "image/webp"
+    ],
+    "minimumCacheTTL": 14400
+  }
+}

@@ -3,8 +3,36 @@ import {orderRankField} from '@sanity/orderable-document-list'
 import {ImageIcon} from '@sanity/icons/Image'
 import {PinIcon} from '@sanity/icons/Pin'
 import {CogIcon} from '@sanity/icons/Cog'
+import {TagIcon} from '@sanity/icons/Tag'
 
 const hex = (r: any) => r.regex(/^#?[0-9a-fA-F]{6}$/, {name: 'cor hex'}).warning('Use 6 dígitos, ex.: 080d63')
+
+// Grupos de etiquetas do Atlas (cada um vira uma lista no Studio e um filtro no site)
+export const GRUPOS_TAG = [
+  {value: 'local', title: 'Locais', campo: 'locais', rotulo: 'Local'},
+  {value: 'geologia', title: 'Geologia', campo: 'geologias', rotulo: 'Geologia'},
+  {value: 'contexto', title: 'Contexto', campo: 'contextos', rotulo: 'Contexto'},
+  {value: 'publicacao', title: 'Publicações', campo: 'publicacoes', rotulo: 'Publicação'},
+  {value: 'exposicao', title: 'Exposições', campo: 'exposicoes', rotulo: 'Exposição'},
+]
+
+// Etiqueta do Atlas: item de uma lista fixa (Local, Geologia, Contexto, Publicação ou Exposição), com nome PT/EN.
+// Mudar o nome aqui muda em todas as fotos que usam a etiqueta.
+export const tagAtlas = defineType({
+  name: 'tagAtlas',
+  title: 'Etiquetas do Atlas',
+  type: 'document',
+  icon: TagIcon,
+  fields: [
+    defineField({name: 'grupo', title: 'Lista', type: 'string', options: {list: GRUPOS_TAG.map(({value, title}) => ({value, title})), layout: 'radio', direction: 'horizontal'}, validation: (r) => r.required()}),
+    defineField({name: 'nome', title: 'Nome', type: 'textoCurto', validation: (r) => r.required()}),
+  ],
+  orderings: [{title: 'Nome', name: 'nome', by: [{field: 'nome.pt', direction: 'asc'}]}],
+  preview: {
+    select: {pt: 'nome.pt', en: 'nome.en'},
+    prepare: ({pt, en}) => ({title: pt, subtitle: en || 'falta EN'}),
+  },
+})
 
 // Lugar do mapa: um município com coordenadas. Os fotogramas escolhem o lugar
 // (antes: tabela Mapa do Airtable, unida por nome — erros de digitação tiravam a foto do mapa).
@@ -35,12 +63,12 @@ export const fotograma = defineType({
     defineField({name: 'publicado', title: 'Publicado no site', type: 'boolean', initialValue: true}),
     defineField({name: 'projeto', title: 'Projeto', type: 'reference', to: [{type: 'projeto'}], description: 'Série a que a foto pertence (filtro do Atlas). Opcional.'}),
     defineField({name: 'lugar', title: 'Lugar (município)', type: 'reference', to: [{type: 'lugar'}], description: 'Define estado, município e a posição no mapa.'}),
-    defineField({name: 'local', title: 'Local', type: 'string', description: 'Ex.: Viaduto 13'}),
+    defineField({name: 'locais', title: 'Local', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "local"', disableNew: false}})]}),
     defineField({name: 'ano', title: 'Ano', type: 'string'}),
-    defineField({name: 'geologia', title: 'Geologia', type: 'textoRico'}),
-    defineField({name: 'contexto', title: 'Contexto', type: 'textoRico'}),
-    defineField({name: 'publicacoes', title: 'Publicação', type: 'array', of: [defineArrayMember({type: 'string'})], options: {layout: 'tags'}}),
-    defineField({name: 'exposicoes', title: 'Exposição', type: 'array', of: [defineArrayMember({type: 'string'})], options: {layout: 'tags'}}),
+    defineField({name: 'geologias', title: 'Geologia', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "geologia"', disableNew: false}})]}),
+    defineField({name: 'contextos', title: 'Contexto', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "contexto"', disableNew: false}})]}),
+    defineField({name: 'publicacoes', title: 'Publicação', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "publicacao"', disableNew: false}})]}),
+    defineField({name: 'exposicoes', title: 'Exposição', type: 'array', of: [defineArrayMember({type: 'reference', to: [{type: 'tagAtlas'}], options: {filter: 'grupo == "exposicao"', disableNew: false}})]}),
   ],
   preview: {
     select: {title: 'codigo', municipio: 'lugar.municipio', ano: 'ano', media: 'foto', publicado: 'publicado'},

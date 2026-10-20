@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 import {schemaTypes} from './schemas'
+import {GRUPOS_TAG} from './schemas/atlas'
 
 export default defineConfig({
   name: 'default',
@@ -25,6 +26,13 @@ export default defineConfig({
               S.list().title('Atlas Fotográfico').items([
                 orderableDocumentListDeskItem({type: 'fotograma', title: 'Fotogramas', S, context}),
                 S.listItem().title('Lugares (mapa)').id('lugares').child(S.documentTypeList('lugar').title('Lugares (mapa)')),
+                S.divider(),
+                // etiquetas do Atlas: uma lista por grupo; criar dentro de cada lista já preenche o grupo
+                ...GRUPOS_TAG.map((g) => S.listItem().title(g.title).id(`tags-${g.value}`).child(
+                  S.documentTypeList('tagAtlas').title(g.title).filter('_type == "tagAtlas" && grupo == $g').params({g: g.value})
+                    .defaultOrdering([{field: 'nome.pt', direction: 'asc'}])
+                    .initialValueTemplates([S.initialValueTemplateItem(`tag-${g.value}`)]),
+                )),
                 S.divider(),
                 unico('Configurações do Atlas', 'configAtlas', 'configAtlas'),
               ]),
@@ -54,7 +62,8 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     templates: (t) => [
-      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'etiqueta'].includes(x.schemaType)),
+      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'etiqueta', 'tagAtlas'].includes(x.schemaType)),
+      ...GRUPOS_TAG.map((g) => ({id: `tag-${g.value}`, title: g.title, schemaType: 'tagAtlas', value: {grupo: g.value}})),
       {id: 'etiqueta-tipo', title: 'Tipo de projeto', schemaType: 'etiqueta', value: {grupo: 'tipo'}},
       {id: 'etiqueta-papel', title: 'Papel', schemaType: 'etiqueta', value: {grupo: 'papel'}},
     ],

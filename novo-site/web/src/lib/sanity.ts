@@ -88,17 +88,21 @@ export async function atlasDados(lang: Lang) {
   const [config, fotos] = await Promise.all([
     client.fetch(`*[_id=="configAtlas"][0]`),
     client.fetch(`*[_type=="fotograma" && publicado != false && defined(foto.asset)] | order(orderRank) {
-      codigo, foto, local, ano, geologia, contexto, publicacoes, exposicoes,
+      codigo, foto, ano,
+      "locais": locais[]->nome, "geologias": geologias[]->nome, "contextos": contextos[]->nome,
+      "publicacoes": publicacoes[]->nome, "exposicoes": exposicoes[]->nome,
       "projeto": projeto->nome, "municipio": lugar->municipio, "estado": lugar->estado, "lat": lugar->lat, "lon": lugar->lon
     }`),
   ])
   const campos = ((config && config.campos) || []).filter((c: any) => c.ativo !== false && c.campo)
     .map((c: any, i: number) => ({campo: c.campo, rotulo: t(c.rotulo, lang) || c.campo, ordem: i}))
+  const nomes = (l: any[]) => (l || []).filter(Boolean).map((n: any) => t(n, lang)).filter(Boolean)
   const itens = fotos.map((f: any) => {
     const valores: Record<string, any> = {
-      'Projeto': f.projeto || '', 'Estado': f.estado || '', 'Município': f.municipio || '', 'Local': f.local || '', 'Ano': f.ano || '',
-      'Geologia': simples(f.geologia, lang), 'Contexto': simples(f.contexto, lang),
-      'Publicação': f.publicacoes || [], 'Exposição': f.exposicoes || [],
+      'Projeto': f.projeto || '', 'Estado': f.estado || '', 'Município': f.municipio || '', 'Ano': f.ano || '',
+      // etiquetas: cada uma é um item (filtro e ficha), no idioma da página (EN cai para PT)
+      'Local': nomes(f.locais), 'Geologia': nomes(f.geologias), 'Contexto': nomes(f.contextos),
+      'Publicação': nomes(f.publicacoes), 'Exposição': nomes(f.exposicoes),
     }
     return {
       code: f.codigo, projeto: f.projeto || '', valores,

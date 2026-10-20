@@ -1,8 +1,7 @@
 // Escolher a coordenada num mapa: busca um lugar (OpenStreetMap, via Photon / Nominatim), escolhe um resultado,
 // ajusta arrastando o pin (ou clicando no mapa) e fixa. Mapa de fundo: OpenFreeMap (grátis, sem chave).
 import {useEffect, useRef, useState} from 'react'
-import maplibregl from 'maplibre-gl'
-import 'maplibre-gl/dist/maplibre-gl.css'
+import type maplibregl from 'maplibre-gl'
 import {Box, Button, Card, Flex, Stack, Text, TextInput} from '@sanity/ui'
 
 type Resultado = {nome: string; lat: number; lon: number}
@@ -21,7 +20,11 @@ export function MapaCoordenadas({lat, lon, busca, aviso, onFixar, readOnly}: {
   const [ocupado, setOcupado] = useState(false)
 
   useEffect(() => {
-    const m = new maplibregl.Map({
+    // carregado só quando o mapa abre (o deploy do Studio lê os schemas fora do navegador)
+    let m: maplibregl.Map | undefined, vivo = true
+    Promise.all([import('maplibre-gl'), import('maplibre-gl/dist/maplibre-gl.css')]).then(([{default: maplibregl}]) => {
+    if (!vivo) return
+    m = new maplibregl.Map({
       container: div.current!, style: 'https://tiles.openfreemap.org/styles/positron',
       center: (salvo as [number, number]) ?? [-47.9, -15.8], zoom: salvo ? 11 : 3.5, attributionControl: {compact: true},
     })
@@ -35,7 +38,8 @@ export function MapaCoordenadas({lat, lon, busca, aviso, onFixar, readOnly}: {
       setPos([arred(e.lngLat.lng), arred(e.lngLat.lat)])
     })
     mapa.current = m; pin.current = mk
-    return () => m.remove()
+    })
+    return () => { vivo = false; m?.remove() }
   }, [])
 
   const ir = (r: Resultado) => {

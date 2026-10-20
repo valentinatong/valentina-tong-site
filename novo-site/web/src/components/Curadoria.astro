@@ -27,20 +27,21 @@ const lista = itens.map((c: any) => {
   const tipoTxt = frase(tipos, lang), papelTxt = frase(papeis, lang, tipos.length > 0)
   const tr = [tipoTxt && `<b>${esc(tipoTxt)}</b>`, papelTxt && esc(papelTxt)].filter(Boolean).join(' · ')
   const padrao = esc(lugar(c.local, c.ano))
+  // sempre só a ALTURA: pedir largura + altura faz o Sanity recortar a foto (parâmetro rect)
   const galeria = (c.galeria || []).map((g: any) => {
     const cap = temTexto(g.legenda) ? rico(g.legenda, lang) : padrao
     if (g._type === 'video') {
       const id = youtubeId(g.url)
       if (!id) return null
       const thumb = g.capa?.asset ? img(g.capa).height(340).url() : `https://i.ytimg.com/vi/${id}/mqdefault.jpg`
-      const web = g.capa?.asset ? img(g.capa).width(1800).fit('max').url() : `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+      const web = g.capa?.asset ? img(g.capa).height(1400).fit('max').url() : `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
       return {video: id, thumb, web, cap: legendaHtml(cap, g.link), link: g.link}
     }
     if (!g.asset) return null
-    return {thumb: img(g).height(340).url(), web: img(g).width(1800).height(1800).fit('max').url(), cap: legendaHtml(cap, g.link), link: g.link, alfa: g.asset.metadata?.hasAlpha}
+    return {thumb: img(g).height(340).url(), web: img(g).height(1400).fit('max').url(), cap: legendaHtml(cap, g.link), link: g.link, alfa: g.asset.metadata?.hasAlpha}
   }).filter(Boolean)
-  const mini = c.miniatura?.asset ? {src: img(c.miniatura).width(288).height(192).fit('max').url(), alfa: c.miniatura.asset.metadata?.hasAlpha}
-    : (c.galeria || []).find((g: any) => g._type === 'foto' && g.asset) ? (() => { const g = c.galeria.find((x: any) => x._type === 'foto' && x.asset); return {src: img(g).width(288).height(192).fit('max').url(), alfa: g.asset.metadata?.hasAlpha} })()
+  const mini = c.miniatura?.asset ? {src: img(c.miniatura).height(192).fit('max').url(), alfa: c.miniatura.asset.metadata?.hasAlpha}
+    : (c.galeria || []).find((g: any) => g._type === 'foto' && g.asset) ? (() => { const g = c.galeria.find((x: any) => x._type === 'foto' && x.asset); return {src: img(g).height(192).fit('max').url(), alfa: g.asset.metadata?.hasAlpha} })()
     : galeria[0] ? {src: galeria[0].thumb, alfa: false} : null
   return {
     titulo, tr,

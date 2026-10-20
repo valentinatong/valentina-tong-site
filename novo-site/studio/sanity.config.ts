@@ -32,7 +32,15 @@ export default defineConfig({
             S.listItem().title('Curadoria').id('pasta-curadoria').child(
               S.list().title('Curadoria').items([
                 orderableDocumentListDeskItem({type: 'curadoria', title: 'Projetos de curadoria', S, context}),
-                S.listItem().title('Etiquetas (tipo e papel)').id('etiquetas').child(S.documentTypeList('etiqueta').title('Etiquetas')),
+                // tipos e papéis em listas separadas; criar dentro de cada uma já preenche o grupo
+                S.listItem().title('Tipos de projeto').id('etiquetas-tipo').child(
+                  S.documentTypeList('etiqueta').title('Tipos de projeto').filter('_type == "etiqueta" && grupo == "tipo"')
+                    .initialValueTemplates([S.initialValueTemplateItem('etiqueta-tipo')]),
+                ),
+                S.listItem().title('Papéis').id('etiquetas-papel').child(
+                  S.documentTypeList('etiqueta').title('Papéis').filter('_type == "etiqueta" && grupo == "papel"')
+                    .initialValueTemplates([S.initialValueTemplateItem('etiqueta-papel')]),
+                ),
                 S.divider(),
                 unico('Configurações da Curadoria', 'configuracoes', 'configuracoes'),
               ]),
@@ -45,6 +53,10 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
-    templates: (t) => t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes'].includes(x.schemaType)),
+    templates: (t) => [
+      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'etiqueta'].includes(x.schemaType)),
+      {id: 'etiqueta-tipo', title: 'Tipo de projeto', schemaType: 'etiqueta', value: {grupo: 'tipo'}},
+      {id: 'etiqueta-papel', title: 'Papel', schemaType: 'etiqueta', value: {grupo: 'papel'}},
+    ],
   },
 })

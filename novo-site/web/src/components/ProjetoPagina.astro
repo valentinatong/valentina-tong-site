@@ -5,15 +5,18 @@ import {img, rico, temTexto, type Lang} from '../lib/sanity'
 interface Props { p: any; lista: any[]; lang: Lang }
 const {p, lista, lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
+// retângulo atrás das publicações (PNG recortado): cor do projeto, ligado imagem a imagem
+const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : ''
 
 const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: number) => ({
   src: img(g).url(),
   cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
   cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
   lazy: i > 1,
+  ret: !!g.retangulo && !!ret,
 }))
 ---
-<div class="pj">
+<div class="pj" style={ret ? `--ret:${ret}` : undefined}>
   <div class="rail-left">
     <div class="title" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
@@ -24,7 +27,7 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
     {paginas.map((g: any, i: number) => (
       <section class="spread">
         <div class="spread-media">
-          <img src={g.src} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
+          <img src={g.src} class={g.ret ? 'com-ret' : undefined} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
           {g.cap2
             ? <div class="cap-row"><div class="cap-half"><div class="cap-block" set:html={g.cap} /></div><div class="cap-half"><div class="cap-block" set:html={g.cap2} /></div></div>
             : g.cap && <div class="cap" set:html={g.cap} />}
@@ -94,6 +97,8 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
   .pj .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
   .pj .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
   .pj .spread img{ max-height:88vh; max-width:calc(100vw - 480px); width:auto; height:auto; display:block; }
+  /* mesmo formato do Pedra Paulista: altura inteira, 36px de margem dos lados numa imagem de 2400px (97%) */
+  .pj .spread img.com-ret{ background:linear-gradient(var(--ret), var(--ret)) center / 97% 100% no-repeat; }
   .pj .spread .cap{ font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }
   .pj .spread .cap-row{ display:flex; padding:0 4%; }
   .pj .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }

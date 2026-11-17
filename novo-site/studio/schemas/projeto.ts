@@ -43,15 +43,15 @@ export const projeto = defineType({
           defineField({name: 'legenda2', title: 'Legenda 2 (metade direita do díptico)', type: 'textoRico'}),
           defineField({
             name: 'retangulo', title: 'Com retângulo atrás (publicações)', type: 'boolean', initialValue: false,
-            description: 'Retângulo de altura inteira, com margem dos lados, na "Cor do retângulo" do projeto (aba Cores e fonte).',
+            description: 'Para publicações recortadas. Ligado: o livro aparece sobre uma "mesa" (a cor de fundo um pouco mais escura). Desligado: direto sobre o fundo.',
           }),
         ],
       })],
     }),
     defineField({name: 'corFundo', title: 'Cor de fundo', type: 'string', group: 'visual', validation: hex}),
     defineField({
-      name: 'corRetangulo', title: 'Cor do retângulo (publicações)', type: 'string', group: 'visual', validation: hex,
-      description: 'Aparece atrás das imagens marcadas com "Com retângulo atrás".',
+      name: 'corRetangulo', title: 'Cor do retângulo (opcional)', type: 'string', group: 'visual', validation: hex,
+      description: 'Vazio = automático (a cor de fundo 10% mais escura). Preencha só para usar outra cor.',
     }),
     defineField({name: 'corFonte', title: 'Cor do texto de abertura (opcional)', type: 'string', group: 'visual', validation: hex}),
     defineField({

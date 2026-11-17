@@ -5,18 +5,19 @@ import {img, rico, temTexto, type Lang} from '../lib/sanity'
 interface Props { p: any; lista: any[]; lang: Lang }
 const {p, lista, lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
-// retângulo atrás das publicações (PNG recortado): cor do projeto, ligado imagem a imagem
-const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : ''
+// retângulo ("mesa") atrás das publicações recortadas, ligado imagem a imagem.
+// Cor: a de fundo 10% mais escura, no mesmo tom; "Cor do retângulo" no Sanity substitui, se preenchida.
+const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
 
 const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: number) => ({
   src: img(g).url(),
   cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
   cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
   lazy: i > 1,
-  ret: !!g.retangulo && !!ret,
+  ret: !!g.retangulo,
 }))
 ---
-<div class="pj" style={ret ? `--ret:${ret}` : undefined}>
+<div class="pj" style={`--ret:${ret}`}>
   <div class="rail-left">
     <div class="title" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}

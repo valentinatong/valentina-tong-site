@@ -2,6 +2,7 @@
 // Página de um projeto: título (empilhado) à esquerda, ano à direita, texto de abertura,
 // imagens em sequência com legenda (ou duas, nos dípticos), créditos e linha do tempo no rodapé.
 import {img, rico, temTexto, type Lang} from '../lib/sanity'
+import {recorteCelular} from '../lib/recorte'
 interface Props { p: any; lista: any[]; lang: Lang }
 const {p, lista, lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
@@ -17,8 +18,13 @@ String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: stri
 })
 const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')
 
-const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: number) => ({
+const bgHex = String(p.corFundo || 'ebebeb').trim().replace(/^#/, '')
+const validas = (p.paginas || []).filter((g: any) => g.asset)
+// celular: foto única (não díptico) ganha uma versão recortada, sem tanta margem em volta
+const recortes = await Promise.all(validas.map((g: any) => g.retangulo ? null : recorteCelular(g, bgHex)))
+const paginas = validas.map((g: any, i: number) => ({
   src: img(g).url(),
+  srcCel: recortes[i] ? img(g).rect(...(recortes[i] as [number, number, number, number])).url() : '',
   cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
   cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
   lazy: i > 1,
@@ -41,7 +47,10 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
     {paginas.map((g: any, i: number) => (
       <section class="spread">
         <div class="spread-media">
-          <img src={g.src} class={g.ret ? 'com-ret' : undefined} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
+          <picture>
+            {g.srcCel && <source media="(max-width:760px)" srcset={g.srcCel} />}
+            <img src={g.src} class={g.ret ? 'com-ret' : undefined} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
+          </picture>
           {g.cap2
             ? <div class="cap-row"><div class="cap-half"><div class="cap-block" set:html={g.cap} /></div><div class="cap-half"><div class="cap-block" set:html={g.cap2} /></div></div>
             : g.cap && <div class="cap" set:html={g.cap} />}

@@ -45,7 +45,7 @@ const paginas = validas.map((g: any, i: number) => ({
 
   <main class="stage" id="stage">
     {paginas.map((g: any, i: number) => (
-      <section class="spread">
+      <section class={g.ret ? 'spread ret' : 'spread'}>
         <div class="spread-media">
           <picture>
             {g.srcCel && <source media="(max-width:760px)" srcset={g.srcCel} />}
@@ -156,6 +156,8 @@ const paginas = validas.map((g: any, i: number) => ({
     .pj .mhead::after{ content:''; position:absolute; left:0; right:0; top:100%; height:18px; background:linear-gradient(var(--bg), transparent); pointer-events:none; }
     .pj .mhead .mt{ flex:1; text-align:right; } .pj .mhead .md{ flex:1; text-align:left; }
     .pj .spread{ min-height:auto; padding:8vh 0; }
+    /* publicações com retângulo em sequência ficam mais próximas (espaço original) */
+    .pj .spread.ret + .spread.ret{ padding-top:2vh; } .pj .spread.ret:has(+ .spread.ret){ padding-bottom:2vh; }
     .pj .spread img{ max-width:calc(100vw - 32px); }
   }
 </style>

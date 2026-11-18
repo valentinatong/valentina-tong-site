@@ -23,6 +23,11 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
   </div>
   <div class="rail-right"><div class="date">{p.ano}</div></div>
+  <!-- celular: título à esquerda e ano à direita numa faixa que fica presa no topo -->
+  <div class="mhead" id="mhead" aria-hidden="true">
+    <div class="mt" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
+    <div class="md">{p.ano}</div>
+  </div>
 
   <main class="stage" id="stage">
     {paginas.map((g: any, i: number) => (
@@ -75,6 +80,20 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
     var nav = Math.max(topF, botF);
     [footer, pillars].forEach(function (el) { if (!el) return; el.style.opacity = nav.toFixed(3); el.style.pointerEvents = nav < 0.05 ? 'none' : 'auto'; });
   }
+  // celular: a faixa título/ano fica logo abaixo do menu e sobe até o topo quando o menu some
+  var mh = document.getElementById('mhead'), pj = mh && mh.parentNode, pb = 0;
+  function measure() {
+    if (!mh) return;
+    var o = pillars ? pillars.style.opacity : ''; if (pillars) pillars.style.opacity = 1;
+    pb = pillars ? pillars.getBoundingClientRect().bottom : 0; if (pillars) pillars.style.opacity = o;
+    pj.style.setProperty('--pb', pb + 'px'); pj.style.setProperty('--mh', mh.offsetHeight + 'px');
+  }
+  var _on = onScroll; onScroll = function () {
+    _on(); if (!mh) return;
+    var y = scrollY, vh = innerHeight, topF = Math.max(0, 1 - y / (vh * 0.42));
+    mh.style.top = (pb * topF).toFixed(1) + 'px';
+  };
+  measure(); addEventListener('resize', function () { measure(); onScroll(); });
   addEventListener('scroll', onScroll, {passive: true}); onScroll();
 })();
 </script>
@@ -109,10 +128,16 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
   .pj .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .pj .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
   .pj .credits strong{ font-weight:600; }
+  .pj .mhead{ display:none; }
   @media (max-width:760px){
     .pj .rail-left, .pj .rail-right{ position:static; width:auto; }
-    .pj .rail-left .title, .pj .rail-left .opening, .pj .rail-right .date{ position:static; transform:none; padding:0 16px; max-width:none; }
-    .pj .rail-left{ padding-top:100px; }
+    .pj .rail-left .title, .pj .rail-right{ display:none; }
+    .pj .rail-left .opening{ position:static; transform:none; padding:0 16px; max-width:none; }
+    .pj .rail-left{ padding-top:calc(var(--pb, 56px) + var(--mh, 60px) + 6px); }
+    .pj .mhead{ display:flex; justify-content:space-between; align-items:flex-start; position:fixed; left:0; right:0; top:var(--pb, 56px); z-index:35;
+      padding:14px 16px 12px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
+    .pj .mhead::after{ content:''; position:absolute; left:0; right:0; top:100%; height:18px; background:linear-gradient(var(--bg), transparent); pointer-events:none; }
+    .pj .mhead .md{ text-align:right; }
     .pj .spread{ min-height:auto; padding:4vh 0; }
     .pj .spread img{ max-width:calc(100vw - 32px); }
   }

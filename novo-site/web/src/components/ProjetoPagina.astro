@@ -9,6 +9,14 @@ const pre = lang === 'en' ? '/en' : ''
 // Cor: a de fundo 10% mais escura, no mesmo tom; "Cor do retângulo" no Sanity substitui, se preenchida.
 const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
 
+// título empilhado, uma palavra por linha; palavras curtas seguidas (ex.: "Zé dos") ficam juntas na mesma linha
+const linhas: string[] = []
+String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: string[]) => {
+  if (i > 0 && w.length <= 3 && a[i - 1].length <= 3) linhas[linhas.length - 1] += ' ' + w
+  else linhas.push(w)
+})
+const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')
+
 const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: number) => ({
   src: img(g).url(),
   cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
@@ -19,13 +27,13 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
 ---
 <div class="pj" style={`--ret:${ret}`}>
   <div class="rail-left">
-    <div class="title" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
+    <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
   </div>
   <div class="rail-right"><div class="date">{p.ano}</div></div>
   <!-- celular: título à esquerda e ano à direita numa faixa que fica presa no topo -->
   <div class="mhead" id="mhead" aria-hidden="true">
-    <div class="mt" set:html={String(p.nome).split(' ').map((w: string) => w.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')} />
+    <div class="mt" set:html={tituloHtml} />
     <div class="md">{p.ano}</div>
   </div>
 
@@ -134,10 +142,10 @@ const paginas = (p.paginas || []).filter((g: any) => g.asset).map((g: any, i: nu
     .pj .rail-left .title, .pj .rail-right{ display:none; }
     .pj .rail-left .opening{ position:static; transform:none; padding:0 16px; max-width:none; }
     .pj .rail-left{ padding-top:calc(var(--pb, 56px) + var(--mh, 60px) + 6px); }
-    .pj .mhead{ display:flex; justify-content:space-between; align-items:flex-start; position:fixed; left:0; right:0; top:var(--pb, 56px); z-index:35;
+    .pj .mhead{ display:flex; justify-content:center; align-items:flex-end; gap:16px; position:fixed; left:0; right:0; top:var(--pb, 56px); z-index:35;
       padding:14px 16px 12px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
     .pj .mhead::after{ content:''; position:absolute; left:0; right:0; top:100%; height:18px; background:linear-gradient(var(--bg), transparent); pointer-events:none; }
-    .pj .mhead .md{ text-align:right; }
+    .pj .mhead .mt{ flex:1; text-align:right; } .pj .mhead .md{ flex:1; text-align:left; }
     .pj .spread{ min-height:auto; padding:4vh 0; }
     .pj .spread img{ max-width:calc(100vw - 32px); }
   }

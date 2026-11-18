@@ -34,9 +34,9 @@ const paginas = validas.map((g: any, i: number) => ({
 <div class="pj" style={`--ret:${ret}`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
-    {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
   </div>
   <div class="rail-right"><div class="date">{p.ano}</div></div>
+  <!-- texto de abertura: retângulo na cor das publicações entre a 1ª e a 2ª foto (computador: preso no meio da tela; celular: no fluxo) -->
   <!-- celular: título à esquerda e ano à direita numa faixa que fica presa no topo -->
   <div class="mhead" id="mhead" aria-hidden="true">
     <div class="mt" set:html={tituloHtml} />
@@ -45,6 +45,8 @@ const paginas = validas.map((g: any, i: number) => ({
 
   <main class="stage" id="stage">
     {paginas.map((g: any, i: number) => (
+      <Fragment>
+      {i === 1 && temTexto(p.abertura) && <div class="apausa" id="apausa"><div class="abox" id="abox" set:html={rico(p.abertura, lang, {paragrafos: true})} /></div>}
       <section class={g.ret ? 'spread ret' : 'spread'}>
         <div class="spread-media">
           <picture>
@@ -56,6 +58,7 @@ const paginas = validas.map((g: any, i: number) => ({
             : g.cap && <div class="cap" set:html={g.cap} />}
         </div>
       </section>
+      </Fragment>
     ))}
     {temTexto(p.creditos) && (
       <section class="credits"><h3>{lang === 'en' ? 'Credits' : 'Créditos'}</h3><Fragment set:html={rico(p.creditos, lang, {paragrafos: true})} /></section>
@@ -89,7 +92,7 @@ const paginas = validas.map((g: any, i: number) => ({
   stage.querySelectorAll('.spread-media img').forEach(function (im) { if (im.complete) sync(); else im.addEventListener('load', sync); });
   addEventListener('resize', sync);
   // texto de abertura some ao rolar; menu e rodapé aparecem no começo e no fim da página
-  var op = document.getElementById('opening'), footer = document.getElementById('footer'), pillars = document.getElementById('pillars');
+  var op = null, footer = document.getElementById('footer'), pillars = document.getElementById('pillars');
   function onScroll() {
     var y = scrollY, vh = innerHeight, doc = document.documentElement.scrollHeight;
     var topF = Math.max(0, 1 - y / (vh * 0.42)), botF = Math.max(0, 1 - (doc - (y + vh)) / (vh * 0.42));
@@ -109,6 +112,25 @@ const paginas = validas.map((g: any, i: number) => ({
     _on(); if (!mh) return;
     var y = scrollY, vh = innerHeight, topF = Math.max(0, 1 - y / (vh * 0.42));
     mh.style.top = (pb * topF).toFixed(1) + 'px';
+  };
+  // retângulo da abertura: entra com o começo do scroll e some quando a 2ª foto chega perto do meio da tela
+  var ab = document.getElementById('abox'), ap = document.getElementById('apausa');
+  var im2 = ap && ap.nextElementSibling && ap.nextElementSibling.querySelector('img');
+  var im1 = ap && ap.previousElementSibling && ap.previousElementSibling.querySelector('img');
+  var _on2 = onScroll; onScroll = function () {
+    _on2(); if (!ab) return;
+    var vh = innerHeight, fin = Math.min(1, Math.max(0, (scrollY - vh * 0.04) / (vh * 0.34)));
+    var cel = matchMedia('(max-width:760px)').matches, fout = 1; if (im2 && !cel) { var t = im2.getBoundingClientRect().top; fout = Math.min(1, Math.max(0, (t - vh * 0.18) / (vh * 0.4))); }
+    var o = Math.min(fin, fout);
+    // computador: descentralizado, passando ~17% da largura da foto para fora pela direita
+    if (!cel && im1) {
+      var r = im1.getBoundingClientRect(), w = ab.offsetWidth;
+      var cx = Math.min(r.right + r.width * 0.17 - w / 2, innerWidth - 150 - w / 2);
+      ab.style.left = cx.toFixed(1) + 'px';
+    } else ab.style.left = '';
+    ab.style.opacity = o.toFixed(3);
+    ab.style.transform = cel ? 'none' : 'translate(-50%, calc(-50% + ' + ((1 - o) * 14).toFixed(1) + 'px))';
+    ab.style.visibility = o < 0.01 ? 'hidden' : 'visible';
   };
   measure(); addEventListener('resize', function () { measure(); onScroll(); });
   addEventListener('scroll', onScroll, {passive: true}); onScroll();
@@ -145,6 +167,13 @@ const paginas = validas.map((g: any, i: number) => ({
   .pj .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .pj .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
   .pj .credits strong{ font-weight:600; }
+  .pj .abox{ position:fixed; left:50%; top:50%; transform:translate(-50%, -50%); z-index:30;
+    width:min(440px, calc(100vw - 480px)); padding:50px 54px 58px; background:var(--ret); color:var(--ink);
+    opacity:0; visibility:hidden; pointer-events:none; transition:opacity .35s ease-out, transform .35s ease-out; }
+  .pj .abox p{ font-family:var(--body-font); font-size:16px; line-height:1.5; margin:0 0 1em; hyphens:manual; text-wrap:pretty; }
+  /* a 2ª foto chega mais perto da 1ª, para o retângulo se sobrepor às duas */
+  .pj .apausa{ height:0; }
+  .pj .apausa + .spread{ min-height:auto; justify-content:flex-start; padding-top:4vh; }
   .pj .mhead{ display:none; }
   @media (max-width:760px){
     .pj .rail-left, .pj .rail-right{ position:static; width:auto; }
@@ -159,5 +188,10 @@ const paginas = validas.map((g: any, i: number) => ({
     /* publicações com retângulo em sequência ficam mais próximas (espaço original) */
     .pj .spread.ret + .spread.ret{ padding-top:2vh; } .pj .spread.ret:has(+ .spread.ret){ padding-bottom:2vh; }
     .pj .spread img{ max-width:calc(100vw - 32px); }
+    .pj .abox{ position:relative; left:auto; top:auto; width:auto; max-height:none; margin:0 12.5vw; padding:0; background:none; transform:none; transition:opacity .35s ease-out; }
+    .pj .abox p{ font-size:15px; line-height:1.55; }
+    .pj .abox p:last-child{ margin-bottom:0; }
+    .pj .apausa{ height:auto; padding:2vh 0; }
+    .pj .apausa + .spread{ padding-top:8vh; }
   }
 </style>

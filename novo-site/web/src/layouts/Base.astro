@@ -52,26 +52,96 @@ const geradoEm = new Date().toISOString()
   .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
   .pillars .atlas-btn, .top .atlas-btn{ margin-left:auto; }
   @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
+  /* menu nos quatro cantos (home, Curadoria, Bio) */
+  .hc{ position:fixed; z-index:45; font-family:var(--mono-font); font-size:11px; letter-spacing:.16em; color:var(--stone); transition:color .2s; }
+  .hc:hover, .hc.on{ color:var(--ink); }
+  .hc.on{ border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+  .hc-tl{ top:30px; left:40px; color:var(--ink); }
+  .hc-tr{ top:30px; right:calc(var(--spine, 0px) + 32px); }
+  .hc-bl{ bottom:30px; left:40px; }
+  .hc-br{ bottom:30px; right:calc(var(--spine, 0px) + 32px); }
+  .cantos-pg{ padding-top:70px; padding-bottom:70px; }
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  /* faixas no topo e no pé para o conteúdo passar por baixo dos cantos */
+  .cantos-pg::before, .cantos-pg::after{ content:''; position:fixed; left:0; right:var(--spine, 0px); z-index:44; pointer-events:none; }
+  .cantos-pg::before{ top:0; height:66px; background:linear-gradient(var(--bg) 70%, transparent); }
+  .cantos-pg::after{ bottom:0; height:76px; background:linear-gradient(to top, var(--bg) 62%, transparent); }
+  @media (max-width:760px){
+    .hc-tl{ top:20px; left:16px; } .hc-tr{ top:20px; right:16px; }
+    .hc-bl{ bottom:16px; left:16px; } .hc-br{ bottom:16px; right:16px; }
+    .cantos-pg{ padding-top:52px; }
+    .cantos-pg::before{ height:50px; } .cantos-pg::after{ height:56px; }
+    .cantos-pg.com-portal .hc-bl, .cantos-pg.com-portal .hc-br{ bottom:66px; }
+    .cantos-pg.com-portal::after{ bottom:52px; }
+    .cantos-pg.com-portal{ padding-bottom:120px; }
+  }
+  /* faixa do Atlas na borda direita (computador): ao clicar, cresce para a esquerda como um portal */
+  body.com-portal{ --spine:40px; padding-right:var(--spine); }
+  body.com-portal .atlas-btn{ display:none; }
+  body.com-portal .pillars{ right:calc(var(--spine) + 26px); }
+  .portal{ position:fixed; z-index:60; top:0; right:0; bottom:0; width:var(--spine, 40px); background:#080D63; color:#EDEAE2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; overflow:hidden;
+    transition:width 1.5s cubic-bezier(.65,0,.25,1), background .2s; }
+  .portal:hover{ background:#0d1478; }
+  .portal .pt-txt{ writing-mode:vertical-rl; text-orientation:upright; font-family:var(--mono-font); font-size:12px; letter-spacing:.02em; line-height:1; white-space:nowrap; transition:opacity .25s; }
+  .portal .pt-seta{ font-family:var(--mono-font); font-size:13px; transition:transform .25s, opacity .25s; }
+  .portal:hover .pt-seta{ transform:translateX(3px); }
+  .portal.abrindo{ width:100vw; background:#080D63; }
+  .portal.abrindo .pt-txt, .portal.abrindo .pt-seta{ opacity:0; }
+  .portal.fechando .pt-txt, .portal.fechando .pt-seta{ transition-delay:1.15s; }
+  @media (max-width:760px){
+    body.com-portal{ --spine:0px; padding-right:0; }
+    body.com-portal .atlas-btn{ display:inline-flex; }
+    body.com-portal .pillars{ right:16px; }
+    .portal{ display:none; }
+    body.home .portal, body.cantos-pg .portal{ display:flex; top:auto; left:0; width:auto; height:52px; flex-direction:row; transition:height 1.5s cubic-bezier(.65,0,.25,1); }
+    body.home .portal .pt-seta, body.cantos-pg .portal .pt-seta{ order:1; }
+    body.home .portal .pt-txt, body.cantos-pg .portal .pt-txt{ writing-mode:horizontal-tb; letter-spacing:.24em; font-size:11px; }
+    body.home .portal.abrindo, body.cantos-pg .portal.abrindo{ width:auto; height:100vh; }
+  }
 </style>
 </head>
-<body class={classe}>
+<body class={[classe, ativo === 'home' && 'com-portal', cabecalho && !semMenu && 'cantos-pg'].filter(Boolean).join(' ')}>
   {semMenu ? null : cabecalho ? (
-    <header class="top">
-      <nav class="main">
-        {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
-        <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
-      </nav>
-      <a class="atlas-btn" href={atlas.href}>{atlas.nome}<span aria-hidden="true">→</span></a>
-      <div class="h">{cabecalho}</div>
-    </header>
+    <Fragment>
+      <a class="hc hc-tl" href={lang === 'en' ? '/en/' : '/'}>VALENTINA TONG</a>
+      <a class="hc hc-tr" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      <a class={ativo === 'curadoria' ? 'hc hc-bl on' : 'hc hc-bl'} href={lang === 'en' ? '/en/curadoria/' : '/curadoria/'}>{lang === 'en' ? 'CURATORSHIP' : 'CURADORIA'}</a>
+      <a class={ativo === 'bio' ? 'hc hc-br on' : 'hc hc-br'} href={lang === 'en' ? '/en/bio/' : '/bio/'}>BIO</a>
+      <h1 class="sr-only">{cabecalho}</h1>
+    </Fragment>
   ) : (
     <nav class="pillars" id="pillars" aria-label={lang === 'en' ? 'Sections' : 'Pilares'}>
       {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
       <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
-      <a class="atlas-btn" href={atlas.href}>{atlas.nome}<span aria-hidden="true">→</span></a>
     </nav>
   )}
   <slot />
+  {ativo === 'home' && (
+    <a class="portal" id="portal" href={atlas.href}><span class="pt-seta" aria-hidden="true">→</span><span class="pt-txt">{atlas.nome}</span></a>
+    <script is:inline>
+    (function () {
+      var portal = document.getElementById('portal');
+      // vindo do Atlas pelo "← Valentina Tong": a página abre com o portal aberto e ele se fecha para a direita
+      try {
+        if (sessionStorage.getItem('vt-fecha')) {
+          sessionStorage.removeItem('vt-fecha');
+          portal.style.transition = 'none'; portal.classList.add('abrindo'); portal.offsetWidth;
+          portal.classList.add('fechando');
+          requestAnimationFrame(function () { requestAnimationFrame(function () { portal.style.transition = ''; portal.classList.remove('abrindo'); }); });
+          setTimeout(function () { portal.classList.remove('fechando'); }, 1700);
+        }
+      } catch (e) {}
+      portal.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || getComputedStyle(portal).display === 'none') return;
+        e.preventDefault(); portal.classList.add('abrindo');
+        setTimeout(function () { location.href = portal.href; }, 1520);
+      });
+      addEventListener('pageshow', function (e) { if (e.persisted) portal.classList.remove('abrindo'); });
+      var l = document.createElement('link'); l.rel = 'prefetch'; l.href = portal.href; document.head.appendChild(l);
+    })();
+    </script>
+  )}
   <script is:inline src="/no-drag.js"></script>
 </body>
 </html>

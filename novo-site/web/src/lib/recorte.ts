@@ -8,9 +8,10 @@ import {img} from './sanity'
 const cache = new Map<string, [number, number, number, number] | null>()
 let sharpMod: any
 
-export async function recorteCelular(g: any, bgHex: string): Promise<[number, number, number, number] | null> {
+// caixa justa da foto dentro da prancha (x, y, w, h em pixels da imagem original), sem margem
+export async function caixaFoto(g: any, bgHex: string): Promise<[number, number, number, number] | null> {
   const ref: string = g?.asset?._ref || ''
-  const chave = ref + bgHex
+  const chave = 'cx' + ref + bgHex
   if (cache.has(chave)) return cache.get(chave)!
   let r: [number, number, number, number] | null = null
   try {
@@ -29,7 +30,24 @@ export async function recorteCelular(g: any, bgHex: string): Promise<[number, nu
     }
     if (x1 < 0) throw 0
     const k = W / info.width
-    const bx = x0 * k, bw = (x1 - x0 + 1) * k, by = y0 * k, bh = (y1 - y0 + 1) * k
+    const H0 = +m[2]
+    const rx = Math.max(0, Math.round(x0 * k)), ry = Math.max(0, Math.round(y0 * k))
+    r = [rx, ry, Math.min(W - rx, Math.round((x1 - x0 + 1) * k)), Math.min(H0 - ry, Math.round((y1 - y0 + 1) * k))]
+  } catch { r = null }
+  cache.set(chave, r)
+  return r
+}
+
+export async function recorteCelular(g: any, bgHex: string): Promise<[number, number, number, number] | null> {
+  const ref: string = g?.asset?._ref || ''
+  const chave = ref + bgHex
+  if (cache.has(chave)) return cache.get(chave)!
+  let r: [number, number, number, number] | null = null
+  try {
+    const m = ref.match(/-(\d+)x(\d+)-/); if (!m) throw 0
+    const W = +m[1], H = +m[2]
+    const cx0 = await caixaFoto(g, bgHex); if (!cx0) throw 0
+    const [bx, by, bw, bh] = cx0
     if (bw > W * 0.62) throw 0                       // díptico / foto larga: fica como está
     const cw = Math.min(W, bw / 0.75), ch = Math.min(H, bh + H * 0.04)
     const cx = Math.max(0, Math.min(W - cw, bx + bw / 2 - cw / 2))

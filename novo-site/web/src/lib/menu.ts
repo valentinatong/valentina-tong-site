@@ -3,7 +3,7 @@
 export function menu(lang: 'pt' | 'en') {
   const pre = lang === 'en' ? '/en' : ''
   return [
-    {id: 'home', pt: 'VALENTINA TONG', en: 'VALENTINA TONG', href: `${pre}/`},
+    {id: 'home', pt: 'PROJETOS', en: 'PROJECTS', href: `${pre}/`},
     {id: 'projetos', pt: 'PROJETOS', en: 'PROJECTS', href: `${pre}/projetos/`},
     {id: 'curadoria', pt: 'CURADORIA', en: 'CURATORSHIP', href: `${pre}/curadoria/`},
     {id: 'bio', pt: 'BIO', en: 'BIO', href: `${pre}/bio/`},

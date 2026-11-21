@@ -21,33 +21,43 @@ const t = lang === 'en'
   ? {cur: 'CURATORSHIP', bio: 'BIO', outra: 'PT', outraHref: '/', atlas: 'PHOTOGRAPHIC ATLAS'}
   : {cur: 'CURADORIA', bio: 'BIO', outra: 'EN', outraHref: '/en/', atlas: 'ATLAS FOTOGRÁFICO'}
 ---
-<a class="hc hc-tl on" href={`${pre}/`} aria-current="page">VALENTINA TONG</a>
-<a class="hc hc-tr" href={t.outraHref}>{t.outra}</a>
-<a class="hc hc-bl" href={`${pre}/curadoria/`}>{t.cur}</a>
-<a class="hc hc-br" href={`${pre}/bio/`}>{t.bio}</a>
+<nav class="linha" aria-label="Menu">
+  <a class="on" href={`${pre}/`} aria-current="page">{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
+  <a href={`${pre}/curadoria/`}>{t.cur}</a>
+  <a href={`${pre}/bio/`}>{t.bio}</a>
+  <a href={t.outraHref}>{t.outra}</a>
+</nav>
 
 <main class="hm">
-  <div class="hm-foto" aria-hidden="true"><img id="hmFoto" src={lista[0]?.foto} alt="" /></div>
+  <div class="hm-centro">
+  <div class="hm-foto" aria-hidden="true"><img id="hmFoto" alt="" /></div>
   <ul class="hm-lista" id="hmLista" aria-label={lang === 'en' ? 'Projects' : 'Projetos'}>
     {lista.map((p: any) => (
       <li><a href={`${pre}/projetos/${p.slug}/`} data-foto={p.foto} data-bg={p.bg} data-ink={p.ink}><span class="yr">{p.ano}</span><span class="nm">{p.nome}</span></a></li>
     ))}
   </ul>
+  </div>
 </main>
-<nav class="hm-rodape"><a class="hc" href={`${pre}/curadoria/`}>{t.cur}</a><a class="hc" href={`${pre}/bio/`}>{t.bio}</a></nav>
 
 
 <script is:inline>
 (function () {
   // foto troca ao passar o mouse num projeto
-  var lista = document.getElementById('hmLista'), foto = document.getElementById('hmFoto'), atual = foto.getAttribute('src');
+  var lista = document.getElementById('hmLista'), foto = document.getElementById('hmFoto'), atual = null;
   var links = lista.querySelectorAll('a');
   links.forEach(function (a) { if (a.dataset.foto) new Image().src = a.dataset.foto; });
+  // a home abre só com a lista; a foto aparece ao passar o mouse e some ao sair da lista
+  var vez = 0;
   function mostra(src) {
-    if (!src || src === atual) return; atual = src;
+    if (!src || src === atual) return; atual = src; var v = ++vez;
     foto.style.opacity = 0;
-    setTimeout(function () { foto.src = src; foto.onload = function () { foto.style.opacity = 1; }; }, 160);
+    setTimeout(function () {
+      if (v !== vez) return;
+      foto.onload = function () { if (v === vez) foto.style.opacity = 1; };
+      foto.src = src; if (foto.complete && foto.naturalWidth) foto.style.opacity = 1;
+    }, 160);
   }
+  function esconde() { vez++; atual = null; foto.style.opacity = 0; }
   // o fundo da página assume a cor do projeto
   var raiz = document.body.style;
   function cor(a) { raiz.setProperty('--bg', a.dataset.bg); raiz.setProperty('--ink', a.dataset.ink); raiz.setProperty('--stone', a.dataset.ink); }
@@ -56,7 +66,7 @@ const t = lang === 'en'
     a.addEventListener('mouseenter', function () { mostra(a.dataset.foto); cor(a); });
     a.addEventListener('focus', function () { mostra(a.dataset.foto); cor(a); });
   });
-  lista.addEventListener('mouseleave', volta);
+  lista.addEventListener('mouseleave', function () { volta(); esconde(); });
 })();
 </script>
 
@@ -65,8 +75,10 @@ const t = lang === 'en'
   body.home .hc, body.home .hm-lista a, body.home .hm-lista .yr{ transition:color .45s ease, opacity .25s; }
 
   .hm{ min-height:100vh; display:flex; align-items:center; justify-content:center; gap:6vw; padding:90px calc(var(--spine) + 60px) 90px 60px; box-sizing:border-box; }
-  .hm-foto{ width:min(34vw, 64vh); height:min(34vw, 64vh); flex:none; display:flex; align-items:center; justify-content:center; }
-  .hm-foto img{ max-width:100%; max-height:100%; display:block; transition:opacity .25s ease; }
+  /* a lista fica no centro; a foto surge à esquerda dela, sem empurrar a lista */
+  .hm-centro{ position:relative; transform:translateX(11vw); }  /* um pouco à direita, para a foto caber equilibrada à esquerda */
+  .hm-foto{ position:absolute; right:calc(100% + 5vw); top:50%; transform:translateY(-50%); width:min(30vw, 60vh); height:min(30vw, 60vh); display:flex; align-items:center; justify-content:flex-end; pointer-events:none; }
+  .hm-foto img{ max-width:100%; max-height:100%; display:block; opacity:0; transition:opacity .25s ease; }
   .hm-lista{ list-style:none; margin:0; padding:0; }
   .hm-lista a{ display:grid; grid-template-columns:62px auto; align-items:baseline; width:max-content; padding:1px 0; color:var(--ink); transition:opacity .25s; }
   .hm-lista:hover a{ opacity:.3; } .hm-lista a:hover, .hm-lista a:focus-visible{ opacity:1; outline:none; }
@@ -78,7 +90,8 @@ const t = lang === 'en'
     .hc-bl, .hc-br{ display:none; }
     .hm-rodape .hc{ position:static; }
     .hm{ flex-direction:column; align-items:stretch; gap:28px; padding:70px 16px 40px; }
-    .hm-foto{ width:100%; height:62vw; }
+    .hm-foto{ display:none; }
+    .hm-centro{ transform:none; }
     .hm-lista a{ width:auto; grid-template-columns:52px 1fr; padding:3px 0; }
     .hm-lista .nm{ white-space:normal; font-size:20px; }
     .hm-rodape{ display:flex; justify-content:space-between; padding:0 16px 90px; }

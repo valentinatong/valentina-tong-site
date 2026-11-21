@@ -53,6 +53,13 @@ const geradoEm = new Date().toISOString()
   .pillars .atlas-btn, .top .atlas-btn{ margin-left:auto; }
   @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
   /* menu nos quatro cantos (home, Curadoria, Bio) */
+  /* menu numa linha só, no topo à esquerda (home, Curadoria, Bio; nos projetos: Projetos + EN) */
+  .linha, .pillars{ position:fixed; top:28px; left:40px; z-index:45; display:flex; align-items:center; gap:30px;
+    font-family:var(--mono-font); font-size:12px; letter-spacing:.16em; }
+  .linha a, .pillars a{ color:var(--ink); transition:color .45s ease, opacity .2s; }
+  .linha a:hover, .pillars a:hover{ opacity:.6; }
+  .linha a.on{ border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+  @media (max-width:760px){ .linha, .pillars{ top:20px; left:16px; right:16px; gap:10px 20px; flex-wrap:wrap; font-size:11px; } }
   .hc{ position:fixed; z-index:45; font-family:var(--mono-font); font-size:11px; letter-spacing:.16em; color:var(--stone); transition:color .2s; }
   .hc:hover, .hc.on{ color:var(--ink); }
   .hc.on{ border-bottom:1px solid var(--oxide); padding-bottom:3px; }
@@ -104,16 +111,18 @@ const geradoEm = new Date().toISOString()
 <body class={[classe, ativo === 'home' && 'com-portal', cabecalho && !semMenu && 'cantos-pg'].filter(Boolean).join(' ')}>
   {semMenu ? null : cabecalho ? (
     <Fragment>
-      <a class="hc hc-tl" href={lang === 'en' ? '/en/' : '/'}>VALENTINA TONG</a>
-      <a class="hc hc-tr" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
-      <a class={ativo === 'curadoria' ? 'hc hc-bl on' : 'hc hc-bl'} href={lang === 'en' ? '/en/curadoria/' : '/curadoria/'}>{lang === 'en' ? 'CURATORSHIP' : 'CURADORIA'}</a>
-      <a class={ativo === 'bio' ? 'hc hc-br on' : 'hc hc-br'} href={lang === 'en' ? '/en/bio/' : '/bio/'}>BIO</a>
+      <nav class="linha" aria-label={lang === 'en' ? 'Menu' : 'Menu'}>
+        <a href={lang === 'en' ? '/en/' : '/'}>{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
+        <a class={ativo === 'curadoria' ? 'on' : undefined} href={lang === 'en' ? '/en/curadoria/' : '/curadoria/'}>{lang === 'en' ? 'CURATORSHIP' : 'CURADORIA'}</a>
+        <a class={ativo === 'bio' ? 'on' : undefined} href={lang === 'en' ? '/en/bio/' : '/bio/'}>BIO</a>
+        <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      </nav>
       <h1 class="sr-only">{cabecalho}</h1>
     </Fragment>
   ) : (
     <nav class="pillars" id="pillars" aria-label={lang === 'en' ? 'Sections' : 'Pilares'}>
-      {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
-      <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      <a href={lang === 'en' ? '/en/' : '/'}>{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
+      <a class="pl-lang" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
     </nav>
   )}
   <slot />

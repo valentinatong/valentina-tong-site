@@ -15,7 +15,7 @@ const dados = JSON.stringify({campos, fotos, base: pre}).replace(/</g, '\\u003c'
     <div><div class="kick">{lang === 'en' ? 'Geological Journey' : 'Viagem Geológica'}</div><div class="h">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div></div>
   </a>
   <nav class="main">
-    <a href={`${pre}/`} onclick="try{sessionStorage.setItem('vt-fecha','1')}catch(e){}">← VALENTINA TONG</a>
+    <a href={`${pre}/`} onclick="try{sessionStorage.setItem('vt-fecha','1')}catch(e){}">← {lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
     <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
   </nav>
 </header>

@@ -2,10 +2,11 @@
 // Página-mestre: cabeçalho, menu, PT/EN, fontes e cores — usada por todas as páginas.
 // sem 'cabecalho': menu flutuante no canto (páginas de Projetos), sem a faixa de título.
 // semMenu: a página desenha o próprio topo (Atlas e Mapa).
-import {menu as menuDe} from '../lib/menu'
+import {menu as menuDe, atlasLink} from '../lib/menu'
 interface Props { titulo: string; cabecalho?: string; ativo: string; lang: 'pt' | 'en'; outraLingua: string; cores?: Record<string, string>; semMenu?: boolean; classe?: string }
 const {titulo, cabecalho, ativo, lang, outraLingua, cores = {}, semMenu = false, classe} = Astro.props
 const menu = menuDe(lang)
+const atlas = atlasLink(lang)
 const estilo = Object.entries(cores).map(([k, v]) => `${k}:${v}`).join(';')
 // horário da geração do site (para conferir se o Publicar do Sanity reconstruiu)
 const geradoEm = new Date().toISOString()
@@ -34,32 +35,40 @@ const geradoEm = new Date().toISOString()
   html,body{margin:0;padding:0;}
   body{ background:var(--bg); color:var(--ink); font-family:var(--body-font); -webkit-font-smoothing:antialiased; }
   a{color:inherit;text-decoration:none;}
-  .top{ display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding:26px 40px 22px; }
-  .top .h{ font-family:var(--mono-font); font-size:12px; letter-spacing:.2em; color:var(--ink); }
+  .top{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px 24px; padding:20px 40px 22px; }
+  .top .h{ flex-basis:100%; font-family:var(--mono-font); font-size:12px; letter-spacing:.2em; color:var(--ink); margin-top:14px; }
+  /* Atlas Fotográfico: botão no azul do Atlas, separado do menu, sempre à direita — porta para outro universo */
+  .atlas-btn{ display:inline-flex; align-items:center; gap:12px; background:#080D63; color:#EDEAE2 !important; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em;
+    padding:9px 14px; line-height:1; white-space:nowrap; transition:background .2s ease; }
+  .atlas-btn:hover{ background:#141b8a; }
+  .atlas-btn span{ transition:transform .2s ease; } .atlas-btn:hover span{ transform:translateX(3px); }
   nav.main{ display:flex; gap:26px; font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; }
   nav.main a{ color:var(--stone); } nav.main a:hover{ color:var(--ink); } nav.main a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
-  @media (max-width:800px){ .top{ flex-direction:column; gap:14px; padding:20px 22px; } }
+  @media (max-width:800px){ .top{ padding:18px 16px; } .top nav.main{ flex-wrap:wrap; gap:10px 16px; } }
   /* menu flutuante (Projetos) */
-  .pillars{ position:fixed; top:16px; right:26px; z-index:41; display:flex; gap:22px;
+  .pillars{ position:fixed; top:16px; left:26px; right:26px; z-index:41; display:flex; align-items:center; gap:22px;
     font-family:var(--mono-font); font-size:11px; letter-spacing:.14em; transition:opacity .18s linear; }
   .pillars a{ color:var(--stone); } .pillars a:hover{ color:var(--ink); }
   .pillars a.on{ color:var(--ink); border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+  .pillars .atlas-btn, .top .atlas-btn{ margin-left:auto; }
   @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
 </style>
 </head>
 <body class={classe}>
   {semMenu ? null : cabecalho ? (
     <header class="top">
-      <div class="h">{cabecalho}</div>
       <nav class="main">
         {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
         <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
       </nav>
+      <a class="atlas-btn" href={atlas.href}>{atlas.nome}<span aria-hidden="true">→</span></a>
+      <div class="h">{cabecalho}</div>
     </header>
   ) : (
     <nav class="pillars" id="pillars" aria-label={lang === 'en' ? 'Sections' : 'Pilares'}>
       {menu.map((m) => <a href={m.href} class={m.id === ativo ? 'on' : undefined}>{m[lang]}</a>)}
       <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      <a class="atlas-btn" href={atlas.href}>{atlas.nome}<span aria-hidden="true">→</span></a>
     </nav>
   )}
   <slot />

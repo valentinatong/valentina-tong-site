@@ -1,11 +1,16 @@
-// Menu principal do site (o mesmo em todas as páginas).
+// Menu principal do site (o mesmo em todas as páginas). O Atlas fica fora: é um projeto à parte,
+// com botão próprio (azul do Atlas) à direita — ver atlasLink.
 export function menu(lang: 'pt' | 'en') {
   const pre = lang === 'en' ? '/en' : ''
   return [
     {id: 'home', pt: 'HOME', en: 'HOME', href: `${pre}/`},
     {id: 'projetos', pt: 'PROJETOS', en: 'PROJECTS', href: `${pre}/projetos/`},
-    {id: 'atlas', pt: 'ATLAS FOTOGRÁFICO', en: 'PHOTOGRAPHIC ATLAS', href: `${pre}/atlas/`},
     {id: 'curadoria', pt: 'CURADORIA', en: 'CURATORSHIP', href: `${pre}/curadoria/`},
     {id: 'bio', pt: 'BIO', en: 'BIO', href: `${pre}/bio/`},
   ]
+}
+
+// botão do Atlas Fotográfico, separado do menu
+export function atlasLink(lang: 'pt' | 'en') {
+  return {nome: lang === 'en' ? 'PHOTOGRAPHIC ATLAS' : 'ATLAS FOTOGRÁFICO', href: `${lang === 'en' ? '/en' : ''}/atlas/`}
 }

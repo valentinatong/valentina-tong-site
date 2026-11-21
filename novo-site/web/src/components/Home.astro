@@ -7,8 +7,8 @@ const pre = lang === 'en' ? '/en' : ''
 const h = await client.fetch(`*[_id=="home"][0]{foto}`)
 const foto = h?.foto?.asset ? h.foto : null
 const itens = lang === 'en'
-  ? [['Projects', '/projetos/'], ['Photographic Atlas', '/atlas/'], ['Curatorship', '/curadoria/'], ['Bio', '/bio/']]
-  : [['Projetos', '/projetos/'], ['Atlas Fotográfico', '/atlas/'], ['Curadoria', '/curadoria/'], ['Bio', '/bio/']]
+  ? [['Projects', '/projetos/'], ['Curatorship', '/curadoria/'], ['Bio', '/bio/']]
+  : [['Projetos', '/projetos/'], ['Curadoria', '/curadoria/'], ['Bio', '/bio/']]
 ---
 {foto && (
   <picture>
@@ -20,6 +20,7 @@ const itens = lang === 'en'
 <nav class="vt-center" aria-label={lang === 'en' ? 'Main menu' : 'Menu principal'}>
   {itens.map(([nome, href]) => <a href={`${pre}${href}`}>{nome}</a>)}
 </nav>
+<a class="atlas-btn vt-atlas" href={`${pre}/atlas/`}>{lang === 'en' ? 'PHOTOGRAPHIC ATLAS' : 'ATLAS FOTOGRÁFICO'}<span aria-hidden="true">→</span></a>
 <a class="vt-lang" href={lang === 'en' ? '/' : '/en/'}>{lang === 'en' ? 'PT' : 'EN'}</a>
 
 <style is:global>
@@ -31,5 +32,6 @@ const itens = lang === 'en'
   nav.vt-center a, .vt-lang{ font-family:var(--mono-font); font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:#FBFAF7; transition:color .2s ease; white-space:nowrap; }
   nav.vt-center a:hover, .vt-lang:hover{ color:var(--oxide); }
   .vt-lang{ position:fixed; top:18px; right:24px; z-index:2; font-size:11px; opacity:.8; }
-  @media (max-width:640px){ nav.vt-center{ flex-direction:column; gap:18px; text-align:center; } }
+  .vt-atlas{ position:fixed; right:24px; top:50%; transform:translateY(-50%); z-index:2; font-size:12px; padding:11px 16px; }
+  @media (max-width:640px){ .vt-atlas{ top:auto; bottom:32px; right:50%; transform:translateX(50%); } nav.vt-center{ flex-direction:column; gap:18px; text-align:center; } }
 </style>

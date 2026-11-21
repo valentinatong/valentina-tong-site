@@ -2,7 +2,6 @@
 // Atlas Fotográfico: topo com selo, filtros em cascata, grade de fotogramas e ficha.
 // A lógica é a mesma da página antiga (public/atlas.js); os dados vêm embutidos, gerados no build.
 import {atlasDados, rico, temTexto, type Lang} from '../lib/sanity'
-import {menu} from '../lib/menu'
 interface Props { lang: Lang; outraLingua: string }
 const {lang, outraLingua} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
@@ -16,7 +15,7 @@ const dados = JSON.stringify({campos, fotos, base: pre}).replace(/</g, '\\u003c'
     <div><div class="kick">{lang === 'en' ? 'Geological Journey' : 'Viagem Geológica'}</div><div class="h">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div></div>
   </a>
   <nav class="main">
-    {menu(lang).map((m) => <a href={m.href} class={m.id === 'atlas' ? 'on' : undefined}>{m[lang]}</a>)}
+    <a href={`${pre}/`}>← VALENTINA TONG</a>
     <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
   </nav>
 </header>

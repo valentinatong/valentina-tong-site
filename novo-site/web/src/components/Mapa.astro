@@ -2,7 +2,6 @@
 // Mapa do Atlas: um ponto por município com fotos; legenda por projeto; painel com as fotos do lugar.
 // A lógica é a da página antiga (public/mapa.js); os dados vêm embutidos, gerados no build.
 import {atlasDados, simples, type Lang} from '../lib/sanity'
-import {menu} from '../lib/menu'
 interface Props { lang: Lang; outraLingua: string }
 const {lang, outraLingua} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
@@ -19,7 +18,7 @@ const dados = JSON.stringify({fotos, base: pre, lang}).replace(/</g, '\\u003c')
     <div><div class="kick">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div><div class="h">{lang === 'en' ? 'Map' : 'Mapa'}</div></div>
   </a>
   <nav class="main">
-    {menu(lang).map((m) => <a href={m.href} class={m.id === 'atlas' ? 'on' : undefined}>{m[lang]}</a>)}
+    <a href={`${pre}/`}>← VALENTINA TONG</a>
     <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
   </nav>
 </header>

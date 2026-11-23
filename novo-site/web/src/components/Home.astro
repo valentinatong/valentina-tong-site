@@ -50,7 +50,6 @@ const t = lang === 'en'
   var lista = document.getElementById('hmLista'), foto = document.getElementById('hmFoto'), atual = null;
   var links = lista.querySelectorAll('a');
   links.forEach(function (a) { if (a.dataset.foto) new Image().src = a.dataset.foto; });
-  // a home abre só com a lista; a foto aparece ao passar o mouse e some ao sair da lista
   var vez = 0;
   function mostra(src) {
     if (!src || src === atual) return; atual = src; var v = ++vez;
@@ -70,7 +69,11 @@ const t = lang === 'en'
     a.addEventListener('mouseenter', function () { mostra(a.dataset.foto); cor(a); });
     a.addEventListener('focus', function () { mostra(a.dataset.foto); cor(a); });
   });
-  lista.addEventListener('mouseleave', function () { volta(); esconde(); });
+  // a home abre já com o primeiro projeto (foto e cor de fundo); ao sair da lista, volta para ele
+  var primeiro = links[0];
+  function capa() { if (primeiro) { mostra(primeiro.dataset.foto); cor(primeiro); } }
+  capa();
+  lista.addEventListener('mouseleave', function () { capa(); });
 })();
 </script>
 

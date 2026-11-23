@@ -144,7 +144,7 @@ const lista = itens.map((c: any) => {
   .cz-zoom figcaption a:hover .cz-ext{ color:var(--oxide); }
   .cz-player{ position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
     background:rgba(255,255,255,.94); padding:16px; }
-  .cz-player.on{ display:flex; }
+  .cz-player.on{ display:flex; z-index:90; }
   .cz-player figure{ margin:0; width:min(1100px, 88vw, calc((100vh - 150px) * 16 / 9)); background:var(--card);
     box-shadow:0 18px 50px rgba(32,29,25,.18); padding:0 0 12px; }
   .cz-player .cz-frame{ position:relative; aspect-ratio:16/9; background:#000; }
@@ -152,6 +152,22 @@ const lista = itens.map((c: any) => {
   .cz-player figcaption{ padding:10px 12px 0; font:14px/1.4 var(--body-font); color:var(--ink); }
   .cz-player figcaption a:hover{ color:var(--oxide); }
   .cz-player figcaption a:hover .cz-cap{ text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  /* celular: galeria em tela cheia (uma foto por vez, legenda embaixo, arrastar para o lado) */
+  .cz-galeria{ position:fixed; inset:0; z-index:70; display:none; background:var(--bg); }
+  .cz-galeria.on{ display:block; }
+  html.cz-trava, html.cz-trava body{ overflow:hidden; }
+  .cz-trilho{ position:absolute; inset:0; display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior:contain; }
+  .cz-trilho::-webkit-scrollbar{ display:none; }
+  .cz-slide{ flex:0 0 100%; scroll-snap-align:center; margin:0; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center;
+    padding:calc(56px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px)); overflow-y:auto; }
+  .cz-sbox{ position:relative; display:flex; justify-content:center; }
+  .cz-slide img{ display:block; max-width:100%; max-height:68vh; width:auto; height:auto; background-color:var(--cell); }
+  .cz-slide.video .cz-sbox{ cursor:pointer; }
+  .cz-slide figcaption{ margin-top:12px; font:14px/1.45 var(--body-font); color:var(--ink); }
+  .cz-slide figcaption a{ color:inherit; }
+  .cz-gcont{ position:absolute; z-index:2; top:calc(24px + env(safe-area-inset-top, 0px)); left:18px; font:11px/1 var(--mono-font); letter-spacing:.1em; color:var(--stone); }
+  .cz-galeria .cz-close{ z-index:2; top:calc(12px + env(safe-area-inset-top, 0px)); right:10px; font-size:28px; }
+  .cz-player{ z-index:80; }
   .cz-close{ position:absolute; top:18px; right:22px; border:0; background:none; cursor:pointer;
     font:22px/1 var(--mono-font); color:var(--stone); padding:6px; }
   .cz-close:hover{ color:var(--ink); }

@@ -1,5 +1,6 @@
 // Interações da lista de Curadoria (a lista já vem pronta no HTML, gerada a partir do Sanity):
-// abrir/fechar itens, zoom ao passar o mouse, setas ← →, player de vídeo do YouTube.
+// abrir/fechar itens, zoom ao passar o mouse, setas ← →, player de vídeo do YouTube,
+// e no celular uma galeria em tela cheia ao tocar numa foto.
 (function () {
   const list = document.getElementById("list");
   if (!list) return;
@@ -100,12 +101,61 @@
     next.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     if (canHover.matches) show(next); else current = next;
   });
-  // vídeo na fileira abre o player; no celular, tocar numa foto com link abre o site
+  // celular: tocar numa foto abre a galeria em tela cheia (foto + legenda; arrastar para o lado passa)
+  const gv = document.createElement("div");
+  gv.className = "cz-galeria";
+  gv.setAttribute("role", "dialog");
+  gv.setAttribute("aria-modal", "true");
+  gv.innerHTML = '<button class="cz-close" aria-label="' + (lang === "en" ? "Close" : "Fechar") + '">×</button><div class="cz-gcont"></div><div class="cz-trilho"></div>';
+  document.body.appendChild(gv);
+  const trilho = gv.querySelector(".cz-trilho"), cont = gv.querySelector(".cz-gcont");
+  let itens = [], aberta = false;
+  const conta = () => {
+    const i = Math.round(trilho.scrollLeft / (trilho.clientWidth || 1));
+    cont.textContent = itens.length > 1 ? (i + 1) + " / " + itens.length : "";
+  };
+  function abreGaleria(m) {
+    itens = [...m.parentElement.children];
+    trilho.innerHTML = "";
+    itens.forEach((t, i) => {
+      const f = document.createElement("figure");
+      f.className = "cz-slide" + (t.dataset.video ? " video" : "");
+      const img = document.createElement("img");
+      img.alt = ""; img.decoding = "async";
+      if (Math.abs(i - itens.indexOf(m)) <= 1) img.src = t.dataset.web; else img.dataset.src = t.dataset.web;
+      const box = document.createElement("div"); box.className = "cz-sbox"; box.appendChild(img);
+      if (t.dataset.video) { const p = document.createElement("span"); p.className = "cz-play"; box.appendChild(p); box.addEventListener("click", () => play(t)); }
+      const c = document.createElement("figcaption"); c.innerHTML = t.dataset.cap || "";
+      f.append(box, c); trilho.appendChild(f);
+    });
+    gv.classList.add("on"); aberta = true;
+    document.documentElement.classList.add("cz-trava");
+    trilho.scrollLeft = itens.indexOf(m) * trilho.clientWidth;
+    conta();
+    try { history.pushState({czGaleria: 1}, ""); } catch (e) {}
+  }
+  function fechaGaleria(viaHistorico) {
+    if (!aberta) return;
+    aberta = false; gv.classList.remove("on"); trilho.innerHTML = "";
+    document.documentElement.classList.remove("cz-trava");
+    if (!viaHistorico && history.state && history.state.czGaleria) history.back();
+  }
+  // carrega a foto quando ela chega perto da tela
+  trilho.addEventListener("scroll", () => {
+    conta();
+    const i = Math.round(trilho.scrollLeft / (trilho.clientWidth || 1));
+    [i - 1, i, i + 1].forEach(j => { const im = trilho.children[j] && trilho.children[j].querySelector("img[data-src]"); if (im) { im.src = im.dataset.src; im.removeAttribute("data-src"); } });
+  }, { passive: true });
+  gv.querySelector(".cz-close").addEventListener("click", () => fechaGaleria(false));
+  addEventListener("popstate", () => fechaGaleria(true));
+  addEventListener("keydown", e => { if (aberta && e.key === "Escape") fechaGaleria(false); });
+
+  // vídeo na fileira abre o player; no celular, foto abre a galeria
   list.addEventListener("click", e => {
     const m = stripItem(e.target);
     if (!m) return;
     if (m.dataset.video) play(m);
-    else if (!canHover.matches && m.dataset.link) open(m.dataset.link, "_blank", "noopener");
+    else if (!canHover.matches) abreGaleria(m);
   });
   addEventListener("scroll", () => { if (keyNav) place(); else hide(); }, { passive: true, capture: true });
 })();

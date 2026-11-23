@@ -9,14 +9,20 @@ const foto = b.foto?.asset ? img(b.foto).width(900).fit('max').url() : ''
 const ig = String(b.instagram || '').trim()
 const igUser = ig.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/^@/, '').replace(/\/.*$/, '')
 const igHref = igUser ? `https://www.instagram.com/${igUser}/` : ''
+// telefone: o link abre a conversa no WhatsApp (wa.me só aceita os dígitos, com DDI; sem DDI, assume Brasil)
+const tel = String(b.telefone || '').trim()
+let telDig = tel.replace(/\D/g, '')
+if (telDig && !tel.startsWith('+') && telDig.length <= 11) telDig = '55' + telDig.replace(/^0/, '')
+const telHref = telDig ? `https://wa.me/${telDig}` : ''
 ---
 <main class="bio">
   <aside class="bio-lado">
     {foto && <img class="bio-foto" src={foto} alt={b.nome || 'Valentina Tong'} />}
-    {(b.email || igHref) && (
+    {(b.email || igHref || telHref) && (
       <dl class="contact">
         {b.email && <><dt>E-mail</dt><dd><a href={`mailto:${b.email}`}>{b.email}</a></dd></>}
         {igHref && <><dt>Instagram</dt><dd><a href={igHref} target="_blank" rel="noopener">@{igUser}</a></dd></>}
+        {telHref && <><dt>{lang === 'en' ? 'Phone' : 'Telefone'}</dt><dd><a href={telHref} target="_blank" rel="noopener">{tel}</a></dd></>}
       </dl>
     )}
   </aside>

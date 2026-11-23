@@ -29,6 +29,7 @@ export const bio = defineType({
     defineField({name: 'foto', title: 'Foto', description: 'Aparece à esquerda, acima do contato', type: 'image', options: {hotspot: true}}),
     defineField({name: 'email', title: 'E-mail de contato', type: 'string', initialValue: 'tongvalentina@gmail.com'}),
     defineField({name: 'instagram', title: 'Instagram', description: 'O nome de usuário (ex.: @valentinatong) ou o endereço completo', type: 'string'}),
+    defineField({name: 'telefone', title: 'Telefone (WhatsApp)', description: 'Com DDI e DDD, ex.: +55 11 91234-5678. No site, abre a conversa direto no WhatsApp.', type: 'string'}),
   ],
   preview: {prepare: () => ({title: 'Bio'})},
 })

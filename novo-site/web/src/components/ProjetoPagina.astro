@@ -129,7 +129,7 @@ const paginas = validas.map((g: any, i: number) => ({
   .pj .timeline a .nm{ font-family:var(--title-font); font-weight:500; font-size:12px; display:block; white-space:nowrap; }
   .pj .timeline a.current{ color:var(--ink); } .pj .timeline a.current .nm{ font-weight:600; }
   .pj .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
-  .pj .rail-left .title{ position:absolute; bottom:calc(50% - 16px + var(--opening-size) * 1.5); left:0;  /* base fixa uma linha em branco acima do texto de abertura: título maior cresce para cima */ width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:var(--tam-titulo, 14px); line-height:1.2; color:var(--ink); }
+  .pj .rail-left .title{ position:absolute; bottom:calc(50% - 8px); left:0;  /* base fixa meia linha acima do texto de abertura: título maior cresce para cima */ width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:var(--tam-titulo, 14px); line-height:1.2; color:var(--ink); }
   .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
   .pj .rail-left .opening p{ font-family:var(--opening-font); font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
   .pj .rail-right{ position:fixed; right:var(--spine, 0px); top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }

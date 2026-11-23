@@ -17,6 +17,9 @@
   /* top bar */
   .topbar{ display:flex; align-items:center; justify-content:space-between; gap:24px;
     padding:16px 26px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg); z-index:20; }
+  /* menu à esquerda, logo à direita (selo na ponta, texto alinhado à direita) */
+  .topbar{ flex-direction:row-reverse; }
+  .brand{ flex-direction:row-reverse; text-align:right; }
   .brand{ display:flex; align-items:center; gap:16px; }
   .seal{ width:54px; height:54px; border-radius:50%; border:1px solid var(--stone-dim); flex:0 0 auto;
     display:flex; align-items:center; justify-content:center; text-align:center;

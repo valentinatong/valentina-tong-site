@@ -22,6 +22,7 @@ export default defineConfig({
             S.divider(),
             // listas ordenáveis: arrastar muda a ordem no site
             orderableDocumentListDeskItem({type: 'projeto', title: 'Projetos', S, context}),
+            unico('Configurações dos Projetos', 'configProjetos', 'configProjetos'),
             S.listItem().title('Atlas Fotográfico').id('pasta-atlas').child(
               S.list().title('Atlas Fotográfico').items([
                 orderableDocumentListDeskItem({type: 'fotograma', title: 'Fotogramas', S, context}),
@@ -62,7 +63,7 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
     templates: (t) => [
-      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'etiqueta', 'tagAtlas'].includes(x.schemaType)),
+      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'configProjetos', 'etiqueta', 'tagAtlas'].includes(x.schemaType)),
       ...GRUPOS_TAG.map((g) => ({id: `tag-${g.value}`, title: g.title, schemaType: 'tagAtlas', value: {grupo: g.value}})),
       {id: 'etiqueta-tipo', title: 'Tipo de projeto', schemaType: 'etiqueta', value: {grupo: 'tipo'}},
       {id: 'etiqueta-papel', title: 'Papel', schemaType: 'etiqueta', value: {grupo: 'papel'}},

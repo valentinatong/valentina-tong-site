@@ -44,6 +44,9 @@ export const youtubeId = (u: string) => (String(u || '').match(/(?:youtu\.be\/|[
 export async function configuracoes() {
   return (await client.fetch(`*[_id=="configuracoes"][0]`)) || {}
 }
+export async function configProjetos() {
+  return (await client.fetch(`*[_id=="configProjetos"][0]`)) || {}
+}
 export const hex = (s: string, padrao: string) => (s ? '#' + String(s).trim().replace(/^#/, '') : padrao)
 
 // texto claro ou escuro, o que tiver mais contraste (WCAG) com a cor de fundo

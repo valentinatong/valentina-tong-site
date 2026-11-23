@@ -1,11 +1,14 @@
 ---
 // Página de um projeto: título (empilhado) à esquerda, ano à direita, texto de abertura,
 // imagens em sequência com legenda (ou duas, nos dípticos), créditos e linha do tempo no rodapé.
-import {img, rico, temTexto, type Lang} from '../lib/sanity'
+import {img, rico, temTexto, configProjetos, type Lang} from '../lib/sanity'
 import {recorteCelular} from '../lib/recorte'
 interface Props { p: any; lista: any[]; lang: Lang }
 const {p, lista, lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
+// tamanho do título (lateral esquerda) e do ano (lateral direita): "Configurações dos Projetos" no Sanity; padrão 14px
+const cfg = await configProjetos()
+const tamTit = Number(cfg.tamanhoTitulo) || 14, tamAno = Number(cfg.tamanhoAno) || 14
 // retângulo ("mesa") atrás das publicações recortadas, ligado imagem a imagem.
 // Cor: a de fundo 10% mais escura, no mesmo tom; "Cor do retângulo" no Sanity substitui, se preenchida.
 const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
@@ -31,7 +34,7 @@ const paginas = validas.map((g: any, i: number) => ({
   ret: !!g.retangulo,
 }))
 ---
-<div class="pj" style={`--ret:${ret}`}>
+<div class="pj" style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
@@ -126,11 +129,11 @@ const paginas = validas.map((g: any, i: number) => ({
   .pj .timeline a .nm{ font-family:var(--title-font); font-weight:500; font-size:12px; display:block; white-space:nowrap; }
   .pj .timeline a.current{ color:var(--ink); } .pj .timeline a.current .nm{ font-weight:600; }
   .pj .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
-  .pj .rail-left .title{ position:absolute; top:50%; transform:translateY(-50%); left:0; width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
+  .pj .rail-left .title{ position:absolute; bottom:calc(50% - 16px + var(--opening-size) * 1.5); left:0;  /* base fixa uma linha em branco acima do texto de abertura: título maior cresce para cima */ width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:var(--tam-titulo, 14px); line-height:1.2; color:var(--ink); }
   .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
   .pj .rail-left .opening p{ font-family:var(--opening-font); font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
   .pj .rail-right{ position:fixed; right:var(--spine, 0px); top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
-  .pj .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right; font-family:var(--title-font); font-weight:600; font-size:14px; color:var(--ink); }
+  .pj .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right; font-family:var(--title-font); font-weight:600; font-size:var(--tam-ano, 14px); color:var(--ink); }
   .pj .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
   .pj .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
   .pj .spread img{ max-height:88vh; max-width:calc(100vw - 480px); width:auto; height:auto; display:block; }

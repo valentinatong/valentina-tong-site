@@ -16,3 +16,16 @@ export const configuracoes = defineType({
   ],
   preview: {prepare: () => ({title: 'Configurações da Curadoria'})},
 })
+
+// Documento único com ajustes que valem para todas as páginas de projeto.
+export const configProjetos = defineType({
+  name: 'configProjetos',
+  title: 'Configurações dos Projetos',
+  type: 'document',
+  icon: CogIcon,
+  fields: [
+    defineField({name: 'tamanhoTitulo', title: 'Tamanho do título na lateral esquerda (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
+    defineField({name: 'tamanhoAno', title: 'Tamanho do ano na lateral direita (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
+  ],
+  preview: {prepare: () => ({title: 'Configurações dos Projetos'})},
+})

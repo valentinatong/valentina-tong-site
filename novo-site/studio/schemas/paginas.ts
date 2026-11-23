@@ -26,7 +26,9 @@ export const bio = defineType({
   fields: [
     defineField({name: 'nome', title: 'Nome', type: 'string', initialValue: 'Valentina Tong'}),
     defineField({name: 'texto', title: 'Texto', type: 'textoRico'}),
+    defineField({name: 'foto', title: 'Foto', description: 'Aparece à esquerda, acima do contato', type: 'image', options: {hotspot: true}}),
     defineField({name: 'email', title: 'E-mail de contato', type: 'string', initialValue: 'tongvalentina@gmail.com'}),
+    defineField({name: 'instagram', title: 'Instagram', description: 'O nome de usuário (ex.: @valentinatong) ou o endereço completo', type: 'string'}),
   ],
   preview: {prepare: () => ({title: 'Bio'})},
 })

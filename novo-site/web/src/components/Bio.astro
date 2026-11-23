@@ -1,23 +1,44 @@
 ---
-// Bio: nome, texto (PT/EN) e e-mail de contato.
-import {client, rico, temTexto, type Lang} from '../lib/sanity'
+// Bio: à esquerda a foto e, logo abaixo, o contato (e-mail e Instagram); à direita, o texto (PT/EN).
+import {client, img, rico, temTexto, type Lang} from '../lib/sanity'
 interface Props { lang: Lang }
 const {lang} = Astro.props
 const b = (await client.fetch(`*[_id=="bio"][0]`)) || {}
+const foto = b.foto?.asset ? img(b.foto).width(900).fit('max').url() : ''
+// Instagram: aceita "@usuario", "usuario" ou o endereço completo
+const ig = String(b.instagram || '').trim()
+const igUser = ig.replace(/^https?:\/\/(www\.)?instagram\.com\//, '').replace(/^@/, '').replace(/\/.*$/, '')
+const igHref = igUser ? `https://www.instagram.com/${igUser}/` : ''
 ---
 <main class="bio">
-  <h1>{b.nome || 'Valentina Tong'}</h1>
-  {temTexto(b.texto) && <Fragment set:html={rico(b.texto, lang, {paragrafos: true})} />}
-  {b.email && <div class="contact"><a href={`mailto:${b.email}`}>{b.email}</a></div>}
+  <aside class="bio-lado">
+    {foto && <img class="bio-foto" src={foto} alt={b.nome || 'Valentina Tong'} />}
+    {(b.email || igHref) && (
+      <dl class="contact">
+        {b.email && <><dt>E-mail</dt><dd><a href={`mailto:${b.email}`}>{b.email}</a></dd></>}
+        {igHref && <><dt>Instagram</dt><dd><a href={igHref} target="_blank" rel="noopener">@{igUser}</a></dd></>}
+      </dl>
+    )}
+  </aside>
+  <div class="bio-texto">
+    {temTexto(b.texto) && <Fragment set:html={rico(b.texto, lang, {paragrafos: true})} />}
+  </div>
 </main>
 <style is:global>
-  main.bio{ max-width:60ch; margin:6vh auto 16vh; padding:0 40px; }
-  main.bio h1{ font-family:var(--title-font); font-weight:500; font-size:32px; margin:0 0 5vh; }
+  main.bio{ display:grid; grid-template-columns:minmax(200px, 320px) minmax(0, 76ch); gap:7vw; justify-content:center; align-items:start; margin:6vh auto 16vh; padding:0 40px; }
+  main.bio .bio-lado{ position:sticky; top:90px; }
+  main.bio .bio-foto{ display:block; width:100%; height:auto; margin:0 0 28px; }
   main.bio p{ font-size:16px; line-height:1.7; margin:0 0 1.4em; }
   main.bio p em{ color:var(--stone); }
   main.bio a{ text-decoration:underline; text-underline-offset:3px; }
-  main.bio .contact{ margin-top:5vh; padding-top:3vh; border-top:1px solid var(--line); font-family:var(--mono-font); font-size:12px; letter-spacing:.06em; color:var(--stone); }
+  main.bio .contact{ margin:0; font-family:var(--mono-font); font-size:12px; letter-spacing:.06em; color:var(--stone); }
+  main.bio .contact dt{ text-transform:uppercase; letter-spacing:.16em; font-size:10px; margin:0 0 4px; }
+  main.bio .contact dd{ margin:0 0 16px; }
   main.bio .contact a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); }
   main.bio .contact a:hover{ color:var(--oxide); border-color:var(--oxide); }
-  @media (max-width:800px){ main.bio{ padding:0 22px; } }
+  @media (max-width:800px){
+    main.bio{ grid-template-columns:1fr; gap:36px; padding:0 22px; }
+    main.bio .bio-lado{ position:static; }
+    main.bio .bio-foto{ max-width:320px; }
+  }
 </style>

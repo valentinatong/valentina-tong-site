@@ -2,11 +2,15 @@
 // Home: menu nos quatro cantos (nome, EN, Curadoria, Bio), lista de projetos no centro com a foto ao lado
 // (troca ao passar o mouse) e o Atlas Fotográfico como uma faixa azul na borda direita — ao clicar, ela
 // cresce para a esquerda até cobrir a tela, como um portal, e só então abre o Atlas (que tem o mesmo azul).
-import {projetos, img, hex, tintaPara, type Lang} from '../lib/sanity'
+import {projetos, img, hex, tintaPara, configProjetos, type Lang} from '../lib/sanity'
 import {caixaFoto} from '../lib/recorte'
 interface Props { lang: Lang }
 const {lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
+// tamanhos da lista (nomes e datas): "Configurações dos Projetos" no Sanity
+const cfg = await configProjetos()
+const tamNome = Number(cfg.tamanhoListaHome) ? `${Number(cfg.tamanhoListaHome)}px` : 'clamp(17px, 1.65vw, 24px)'
+const tamData = `${Number(cfg.tamanhoDataHome) || 12}px`
 const lista = await Promise.all((await projetos()).map(async (p: any) => {
   const g = p.capa?.asset ? p.capa : p.primeira
   let foto = ''
@@ -28,7 +32,7 @@ const t = lang === 'en'
   <a href={t.outraHref}>{t.outra}</a>
 </nav>
 
-<main class="hm">
+<main class="hm" style={`--tam-nome:${tamNome}; --tam-data:${tamData}`}>
   <div class="hm-centro">
   <div class="hm-foto" aria-hidden="true"><img id="hmFoto" alt="" /></div>
   <ul class="hm-lista" id="hmLista" aria-label={lang === 'en' ? 'Projects' : 'Projetos'}>
@@ -80,10 +84,10 @@ const t = lang === 'en'
   .hm-foto{ position:absolute; right:calc(100% + 5vw); top:50%; transform:translateY(-50%); width:min(30vw, 60vh); height:min(30vw, 60vh); display:flex; align-items:center; justify-content:flex-end; pointer-events:none; }
   .hm-foto img{ max-width:100%; max-height:100%; display:block; opacity:0; transition:opacity .25s ease; }
   .hm-lista{ list-style:none; margin:0; padding:0; }
-  .hm-lista a{ display:grid; grid-template-columns:62px auto; align-items:baseline; width:max-content; padding:1px 0; color:var(--ink); transition:opacity .25s; }
+  .hm-lista a{ display:grid; grid-template-columns:calc(var(--tam-data, 12px) * 5 + 12px) auto; align-items:baseline; width:max-content; padding:1px 0; color:var(--ink); transition:opacity .25s; }
   .hm-lista:hover a{ opacity:.3; } .hm-lista a:hover, .hm-lista a:focus-visible{ opacity:1; outline:none; }
-  .hm-lista .yr{ font-family:var(--mono-font); font-size:10px; letter-spacing:.04em; color:var(--stone); }
-  .hm-lista .nm{ font-family:var(--title-font); font-weight:400; font-size:clamp(17px, 1.65vw, 24px); line-height:1.3; letter-spacing:-.005em; white-space:nowrap; }
+  .hm-lista .yr{ font-family:var(--mono-font); font-size:var(--tam-data, 12px); letter-spacing:.04em; color:var(--stone); }
+  .hm-lista .nm{ font-family:var(--title-font); font-weight:400; font-size:var(--tam-nome, clamp(17px, 1.65vw, 24px)); line-height:1.3; letter-spacing:-.005em; white-space:nowrap; }
 
   @media (max-width:760px){
     .hc-tl{ top:20px; left:16px; } .hc-tr{ top:20px; right:16px; }

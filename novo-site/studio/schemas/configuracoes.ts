@@ -28,6 +28,8 @@ export const configProjetos = defineType({
   fields: [
     defineField({name: 'tamanhoTitulo', title: 'Tamanho do título na lateral esquerda (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
     defineField({name: 'tamanhoAno', title: 'Tamanho do ano na lateral direita (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
+    defineField({name: 'tamanhoListaHome', title: 'Página inicial · tamanho dos nomes na lista de projetos (px)', description: 'Vazio: ajusta sozinho à largura da tela (entre 17 e 24)', type: 'number', validation: (r) => r.min(10).max(60)}),
+    defineField({name: 'tamanhoDataHome', title: 'Página inicial · tamanho das datas na lista de projetos (px)', description: 'Padrão: 12 (antes era 10)', type: 'number', initialValue: 12, validation: (r) => r.min(8).max(40)}),
   ],
   preview: {prepare: () => ({title: 'Configurações dos Projetos'})},
 })

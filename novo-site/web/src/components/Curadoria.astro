@@ -1,9 +1,13 @@
 ---
 // Lista da Curadoria: título | tipo · papel + "ano | local" | miniatura.
 // Ao abrir: texto, outras sedes e a fileira de fotos/vídeos (zoom e player em /curadoria.js).
-import {client, img, t, rico, temTexto, frase, esc, youtubeId, type Lang} from '../lib/sanity'
+import {client, img, t, rico, temTexto, frase, esc, youtubeId, configuracoes, type Lang} from '../lib/sanity'
 interface Props { lang: Lang }
 const {lang} = Astro.props
+// texto de abertura acima da lista ("Configurações da Curadoria" no Sanity)
+const cfg = await configuracoes()
+const abertura = temTexto(cfg.aberturaCuradoria) ? rico(cfg.aberturaCuradoria, lang, {paragrafos: true}) : ''
+const tamAbertura = Number(cfg.tamanhoAberturaCuradoria) || 17
 
 const itens = await client.fetch(`*[_type=="curadoria"] | order(orderRank) {
   _id, titulo, "tipos": tipos[]->nome, "papeis": papeis[]->nome, local, ano, link, texto, sedes,
@@ -53,6 +57,7 @@ const lista = itens.map((c: any) => {
 })
 ---
 <main class="cz-list" id="list" data-lang={lang}>
+  {abertura && <div class="cz-abertura" style={`--tam-abertura:${tamAbertura}px`} set:html={abertura} />}
   {lista.map((c: any) => (
     <article class="cz-item">
       <div class="cz-row">
@@ -81,6 +86,10 @@ const lista = itens.map((c: any) => {
 
 <style is:global>
   .cz-list{ padding:0 40px 12vh; }
+  /* texto de abertura: na coluna dos títulos, mesma fonte, um pouco maior; respiro antes da lista */
+  .cz-abertura{ max-width:calc(48% - 16px); padding-top:28px; margin-bottom:64px; font-family:var(--title-font); font-size:var(--tam-abertura, 17px); line-height:1.55; color:var(--ink); }
+  .cz-abertura p{ margin:0 0 .8em; } .cz-abertura p:last-child{ margin-bottom:0; }
+  .cz-abertura a{ color:inherit; text-decoration:underline; text-underline-offset:3px; }
   .cz-item{ border-top:1px solid var(--line); cursor:pointer; }
   .cz-item.open{ cursor:default; }
   .cz-item:last-child{ border-bottom:1px solid var(--line); }
@@ -149,6 +158,7 @@ const lista = itens.map((c: any) => {
   @media (max-width:760px){
     .cz-player figure{ width:100%; }
     .cz-list{ padding:0 22px 12vh; }
+    .cz-abertura{ max-width:none; padding-top:8px; margin-bottom:40px; }
     .cz-row{ grid-template-columns:1fr; gap:10px; }
     .cz-thumb{ display:none; }
     .cz-strip img{ cursor:default; }

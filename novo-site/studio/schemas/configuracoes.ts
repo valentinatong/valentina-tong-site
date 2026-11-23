@@ -13,6 +13,8 @@ export const configuracoes = defineType({
     defineField({name: 'corFundoCuradoria', title: 'Curadoria · cor de fundo da página', type: 'string', validation: hex}),
     defineField({name: 'corLegendaCuradoria', title: 'Curadoria · cor da caixa da legenda', type: 'string', validation: hex}),
     defineField({name: 'corImagemCuradoria', title: 'Curadoria · cor atrás de imagens transparentes', type: 'string', validation: hex}),
+    defineField({name: 'aberturaCuradoria', title: 'Curadoria · texto de abertura', description: 'Aparece acima da lista, abaixo do menu. De 3 a 5 frases.', type: 'textoRico'}),
+    defineField({name: 'tamanhoAberturaCuradoria', title: 'Curadoria · tamanho da fonte do texto de abertura (px)', description: 'Padrão: 17', type: 'number', initialValue: 17, validation: (r) => r.min(10).max(40)}),
   ],
   preview: {prepare: () => ({title: 'Configurações da Curadoria'})},
 })

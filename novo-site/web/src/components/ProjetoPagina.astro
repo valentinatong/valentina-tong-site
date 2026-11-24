@@ -34,9 +34,9 @@ const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt
 const ficha = (p.tipoLegenda || 'ficha') === 'ficha'
 const legenda = (campo: any) => temTexto(campo) ? rico(campo, lang) : ''
 
-// celular: setas para o projeto anterior e o próximo (na ordem da linha do tempo; dá a volta nas pontas)
+// setas para o projeto mais recente (acima na lista) e o mais antigo (abaixo); nas pontas a seta fica escondida
 const idx = lista.findIndex((x: any) => x.slug === p.slug.current)
-const anterior = lista[(idx - 1 + lista.length) % lista.length], proximo = lista[(idx + 1) % lista.length]
+const anterior = lista[idx - 1] || null, proximo = lista[idx + 1] || null
 
 const bgHex = String(p.corFundo || 'ebebeb').trim().replace(/^#/, '')
 // celular: foto única (não díptico) ganha uma versão recortada, sem tanta margem em volta
@@ -63,13 +63,19 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
   </div>
-  <div class="rail-right"><div class="date">{p.ano}</div></div>
+  <div class="rail-right">
+    <nav class="dsetas" id="dsetas" aria-label={lang === 'en' ? 'Other projects' : 'Outros projetos'}>
+      {anterior && <a class="cima" href={`${pre}/projetos/${anterior.slug}/`} title={anterior.nome} aria-label={`${lang === 'en' ? 'More recent project' : 'Projeto mais recente'}: ${anterior.nome}`}>↑</a>}
+      {proximo && <a class="baixo" href={`${pre}/projetos/${proximo.slug}/`} title={proximo.nome} aria-label={`${lang === 'en' ? 'Earlier project' : 'Projeto mais antigo'}: ${proximo.nome}`}>↓</a>}
+    </nav>
+    <div class="date">{p.ano}</div>
+  </div>
   <!-- celular: título à esquerda e ano à direita numa faixa que fica presa no topo -->
   <div class="mhead" id="mhead">
-    <a class="mseta ant" href={`${pre}/projetos/${anterior.slug}/`} aria-label={`${lang === 'en' ? 'Previous project' : 'Projeto anterior'}: ${anterior.nome}`}>←</a>
+    {anterior ? <a class="mseta ant" href={`${pre}/projetos/${anterior.slug}/`} aria-label={`${lang === 'en' ? 'More recent project' : 'Projeto mais recente'}: ${anterior.nome}`}>←</a> : <span class="mseta ant" />}
     <div class="mt" aria-hidden="true" set:html={tituloHtml} />
     <div class="md" aria-hidden="true">{p.ano}</div>
-    <a class="mseta prox" href={`${pre}/projetos/${proximo.slug}/`} aria-label={`${lang === 'en' ? 'Next project' : 'Próximo projeto'}: ${proximo.nome}`}>→</a>
+    {proximo ? <a class="mseta prox" href={`${pre}/projetos/${proximo.slug}/`} aria-label={`${lang === 'en' ? 'Earlier project' : 'Projeto mais antigo'}: ${proximo.nome}`}>→</a> : <span class="mseta prox" />}
   </div>
 
   <main class="stage" id="stage">
@@ -90,22 +96,10 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
     ))}
   </main>
 
-  <footer class="footer" id="footer">
-    <div class="footer-row">
-      <nav class="timeline" id="timeline" aria-label={lang === 'en' ? 'Project timeline' : 'Linha do tempo de projetos'}>
-        {lista.map((x: any) => (
-          <a href={`${pre}/projetos/${x.slug}/`} class={x.slug === p.slug.current ? 'current' : undefined}><span class="yr">{x.ano}</span><span class="nm">{x.nome}</span></a>
-        ))}
-      </nav>
-    </div>
-  </footer>
 </div>
 
 <script is:inline>
 (function () {
-  // linha do tempo centrada no projeto atual
-  var tl = document.getElementById('timeline'), cur = tl.querySelector('a.current');
-  if (cur) tl.scrollLeft = cur.offsetLeft - tl.clientWidth / 2 + cur.clientWidth / 2;
   // a legenda dupla (díptico) acompanha a largura real da imagem
   var stage = document.getElementById('stage');
   function sync() {
@@ -117,7 +111,7 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   stage.querySelectorAll('.spread-media img').forEach(function (im) { if (im.complete) sync(); else im.addEventListener('load', sync); });
   addEventListener('resize', sync);
   // texto de abertura some ao rolar; menu e rodapé aparecem no começo e no fim da página
-  var op = document.getElementById('opening'), footer = document.getElementById('footer'), pillars = document.getElementById('pillars');
+  var op = document.getElementById('opening'), footer = document.getElementById('dsetas'), pillars = document.getElementById('pillars');
   function onScroll() {
     var y = scrollY, vh = innerHeight, doc = document.documentElement.scrollHeight;
     var topF = Math.max(0, 1 - y / (vh * 0.42)), botF = Math.max(0, 1 - (doc - (y + vh)) / (vh * 0.42));
@@ -145,20 +139,17 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
 
 <style is:global>
   :root{ --band-left:292px; --band-right:140px; --nav-h:58px; --opening-font:var(--body-font); --opening-size:13.5px; --opening-color:var(--ink); }
-  .pj .footer{ position:fixed; left:0; right:var(--spine, 0px); bottom:0; z-index:40; background:linear-gradient(to top, var(--bg) 58%, transparent); padding-top:14px; transition:opacity .18s linear; }
-  .pj .footer-row{ display:flex; align-items:center; height:var(--nav-h); border-top:1px solid rgba(32,29,25,.20); }
-  .pj .timeline{ position:relative; flex:1 1 auto; min-width:0; display:flex; align-items:center; justify-content:space-between; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; padding-right:22px; }
-  .pj .timeline::-webkit-scrollbar{ display:none; }
-  .pj .timeline a{ flex:0 0 auto; color:var(--stone); padding:4px 15px; text-align:center; line-height:1.05; }
-  .pj .timeline a .yr{ font-family:var(--mono-font); font-size:10px; letter-spacing:.06em; display:block; }
-  .pj .timeline a .nm{ font-family:var(--title-font); font-weight:500; font-size:12px; display:block; white-space:nowrap; }
-  .pj .timeline a.current{ color:var(--ink); } .pj .timeline a.current .nm{ font-weight:600; }
   .pj .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
   .pj .rail-left .title{ position:absolute; bottom:calc(50% - 8px); left:0;  /* base fixa meia linha acima do texto de abertura: título maior cresce para cima */ width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:var(--tam-titulo, 14px); line-height:1.2; color:var(--ink); }
   .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:var(--band-left); transition:opacity .18s linear; }
   .pj .rail-left .opening p{ font-family:var(--opening-font); font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
   .pj .rail-right{ position:fixed; right:var(--spine, 0px); top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
   .pj .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right; font-family:var(--title-font); font-weight:600; font-size:var(--tam-ano, 14px); color:var(--ink); }
+  /* setas para o projeto anterior/próximo, logo abaixo do ano; aparecem junto com o menu (começo e fim da página) */
+  .pj .rail-right .dsetas{ transition:opacity .18s linear; }
+  .pj .rail-right .dsetas a{ position:absolute; right:24px; font-family:var(--mono-font); font-size:15px; line-height:1; color:var(--ink); padding:4px 2px; }
+  .pj .rail-right .dsetas a:hover{ opacity:.55; }
+  .pj .rail-right .dsetas .cima{ bottom:calc(50% + 16px); } .pj .rail-right .dsetas .baixo{ top:calc(50% + 16px); }
   .pj .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
   .pj .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
   .pj .spread img{ max-height:88vh; max-width:calc(100vw - 2 * var(--band-left)); width:auto; height:auto; display:block; }

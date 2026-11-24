@@ -53,12 +53,15 @@ const geradoEm = new Date().toISOString()
   .pillars .atlas-btn, .top .atlas-btn{ margin-left:auto; }
   @media (max-width:760px){ .pillars{ left:16px; right:16px; flex-wrap:wrap; gap:10px 16px; } }
   /* menu nos quatro cantos (home, Curadoria, Bio) */
-  /* menu numa linha só, no topo à esquerda (home, Curadoria, Bio; nos projetos: Projetos + EN) */
+  /* menu numa linha só, no topo à esquerda (o mesmo menu em todas as páginas) */
   .linha, .pillars{ position:fixed; top:28px; left:40px; z-index:45; display:flex; align-items:center; gap:30px;
     font-family:var(--mono-font); font-size:12px; letter-spacing:.16em; }
   .linha a, .pillars a{ color:var(--ink); transition:color .45s ease, opacity .2s; }
   .linha a:hover, .pillars a:hover{ opacity:.6; }
   .linha a.on{ border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+  /* troca de idioma (EN/PT): dentro de um círculo de linha leve */
+  .linha a.lingua, .pillars a.lingua{ display:inline-flex; align-items:center; justify-content:center; width:2.6em; height:2.6em; margin:-.8em 0; box-sizing:border-box;
+    padding-left:.16em; border:1px solid color-mix(in srgb, currentColor 35%, transparent); border-radius:50%; }
   @media (max-width:760px){ .linha, .pillars{ top:20px; left:16px; right:16px; gap:10px 20px; flex-wrap:wrap; font-size:11px; } }
   .hc{ position:fixed; z-index:45; font-family:var(--mono-font); font-size:11px; letter-spacing:.16em; color:var(--stone); transition:color .2s; }
   .hc:hover, .hc.on{ color:var(--ink); }
@@ -117,14 +120,16 @@ const geradoEm = new Date().toISOString()
         <a href={lang === 'en' ? '/en/' : '/'}>{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
         <a class={ativo === 'curadoria' ? 'on' : undefined} href={lang === 'en' ? '/en/curadoria/' : '/curadoria/'}>{lang === 'en' ? 'CURATORSHIP' : 'CURADORIA'}</a>
         <a class={ativo === 'bio' ? 'on' : undefined} href={lang === 'en' ? '/en/bio/' : '/bio/'}>BIO</a>
-        <a href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+        <a class="lingua" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
       </nav>
       <h1 class="sr-only">{cabecalho}</h1>
     </Fragment>
   ) : (
     <nav class="pillars" id="pillars" aria-label={lang === 'en' ? 'Sections' : 'Pilares'}>
       <a href={lang === 'en' ? '/en/' : '/'}>{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
-      <a class="pl-lang" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
+      <a href={lang === 'en' ? '/en/curadoria/' : '/curadoria/'}>{lang === 'en' ? 'CURATORSHIP' : 'CURADORIA'}</a>
+      <a href={lang === 'en' ? '/en/bio/' : '/bio/'}>BIO</a>
+      <a class="pl-lang lingua" href={outraLingua}>{lang === 'en' ? 'PT' : 'EN'}</a>
     </nav>
   )}
   <slot />

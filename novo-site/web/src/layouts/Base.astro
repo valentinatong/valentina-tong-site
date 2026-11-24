@@ -107,6 +107,8 @@ const geradoEm = new Date().toISOString()
     body.home .portal.abrindo, body.cantos-pg .portal.abrindo{ width:auto; height:100vh; }
   }
 </style>
+<!-- Vercel Web Analytics: contagem de visitas sem cookies (ativar em Vercel → projeto → Analytics) -->
+<script is:inline defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class={[classe, ativo === 'home' && 'com-portal', cabecalho && !semMenu && 'cantos-pg'].filter(Boolean).join(' ')}>
   {semMenu ? null : cabecalho ? (

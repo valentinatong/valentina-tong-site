@@ -69,7 +69,6 @@ export const projeto = defineType({
       name: 'fonteTipo', title: 'Fonte do texto de abertura', type: 'string', group: 'visual',
       options: {list: ['Newsreader', 'Fraunces', 'Space Mono'], layout: 'radio', direction: 'horizontal'},
     }),
-    defineField({name: 'fonteTamanho', title: 'Tamanho do texto de abertura (px)', type: 'number', group: 'visual'}),
   ],
   preview: {
     select: {title: 'nome', subtitle: 'ano', media: 'paginas.0'},

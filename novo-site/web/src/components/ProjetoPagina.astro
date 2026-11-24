@@ -8,7 +8,7 @@ const {p, lista, lang} = Astro.props
 const pre = lang === 'en' ? '/en' : ''
 // tamanho do título (lateral esquerda) e do ano (lateral direita): "Configurações dos Projetos" no Sanity; padrão 14px
 const cfg = await configProjetos()
-const tamTit = Number(cfg.tamanhoTitulo) || 14, tamAno = Number(cfg.tamanhoAno) || 14
+const tamTit = Number(cfg.tamanhoTitulo) || 14, tamAno = Number(cfg.tamanhoAno) || 14, tamAbe = Number(cfg.tamanhoAbertura) || 16
 // retângulo ("mesa") atrás das publicações recortadas, ligado imagem a imagem.
 // Cor: a de fundo 10% mais escura, no mesmo tom; "Cor do retângulo" no Sanity substitui, se preenchida.
 const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
@@ -41,7 +41,7 @@ const paginas = await montar(p.paginas, 0)
 const extras = await montar(p.extras, paginas.length)
 const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}] : []), ...extras]
 ---
-<div class={`pj pj-${p.slug.current}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px`}>
+<div class={`pj pj-${p.slug.current}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px; --opening-size:${tamAbe}px`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}

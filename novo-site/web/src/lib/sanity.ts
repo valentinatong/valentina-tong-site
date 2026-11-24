@@ -74,7 +74,6 @@ export function coresProjeto(p: any): Record<string, string> {
     '--stone': fonte ? `color-mix(in srgb, ${fonte} 65%, transparent)` : (escuro ? 'rgba(244,241,234,.7)' : '#86806F'),
   }
   if (p.fonteTipo && FONTES[p.fonteTipo]) c['--opening-font'] = FONTES[p.fonteTipo]
-  if (p.fonteTamanho) c['--opening-size'] = `${p.fonteTamanho}px`
   if (fonte) c['--opening-color'] = fonte
   return c
 }

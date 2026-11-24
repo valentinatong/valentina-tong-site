@@ -24,6 +24,11 @@ String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: stri
 })
 const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')
 
+// legendas: "ensaio" (texto corrido, faz parte do trabalho) ou "ficha" (ficha técnica: obra, medidas, exposição, publicação).
+// A ficha usa a fonte mono, em texto corrido (trechos separados por " | ").
+const ficha = (p.tipoLegenda || 'ficha') === 'ficha'
+const legenda = (campo: any) => temTexto(campo) ? rico(campo, lang) : ''
+
 const bgHex = String(p.corFundo || 'ebebeb').trim().replace(/^#/, '')
 // celular: foto única (não díptico) ganha uma versão recortada, sem tanta margem em volta
 async function montar(lista: any[], inicio: number) {
@@ -32,8 +37,8 @@ async function montar(lista: any[], inicio: number) {
   return validas.map((g: any, i: number) => ({
     src: img(g).url(),
     srcCel: recortes[i] ? img(g).rect(...(recortes[i] as [number, number, number, number])).url() : '',
-    cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
-    cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
+    cap: legenda(g.legenda),
+    cap2: legenda(g.legenda2),
     lazy: inicio + i > 1,
     ret: !!g.retangulo,
     n: inicio + i + 1,
@@ -44,7 +49,7 @@ const paginas = await montar(p.paginas, 0)
 const extras = await montar(p.extras, paginas.length)
 const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}] : []), ...extras]
 ---
-<div class={`pj pj-${p.slug.current}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px; --opening-size:${tamAbe}px`}>
+<div class={`pj pj-${p.slug.current}${ficha ? ' ficha' : ''}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px; --opening-size:${tamAbe}px`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
@@ -157,6 +162,9 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   .pj .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .pj .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
   .pj .credits strong{ font-weight:600; }
+  /* legenda tipo ficha técnica: tudo em mono pequeno, texto corrido */
+  .pj.ficha .spread .cap, .pj.ficha .spread .cap-row .cap-half .cap-block{ font-family:var(--mono-font); font-size:11px; line-height:1.7; letter-spacing:.02em; }
+  .pj.ficha .spread .cap{ max-width:72ch; }
   /* Seridó: legendas maiores e créditos sem linha em branco entre os itens */
   .pj-serido-potiguar .spread .cap, .pj-serido-potiguar .spread .cap-row .cap-half .cap-block{ font-size:16px; }
   .pj-serido-potiguar .credits p{ margin:0; }

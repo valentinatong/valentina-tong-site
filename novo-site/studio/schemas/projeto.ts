@@ -59,6 +59,11 @@ export const projeto = defineType({
       type: 'array', options: {layout: 'grid'},
       of: [pagina],
     }),
+    defineField({
+      name: 'tipoLegenda', title: 'Tipo de legenda', type: 'string', group: 'visual', initialValue: 'ficha',
+      description: 'Ensaio: texto corrido em serifa, faz parte do trabalho (ex.: Seridó). Ficha técnica: obra, medidas, exposição, em fonte mono pequena.',
+      options: {list: [{title: 'Ficha técnica', value: 'ficha'}, {title: 'Ensaio', value: 'ensaio'}], layout: 'radio', direction: 'horizontal'},
+    }),
     defineField({name: 'corFundo', title: 'Cor de fundo', type: 'string', group: 'visual', validation: hex}),
     defineField({
       name: 'corRetangulo', title: 'Cor do retângulo (opcional)', type: 'string', group: 'visual', validation: hex,

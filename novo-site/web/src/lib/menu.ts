@@ -10,6 +10,11 @@ export function menu(lang: 'pt' | 'en') {
   ]
 }
 
+// Atlas em edição: as páginas de verdade ficam em /atlas-rascunho/ (fora do menu, sem indexação).
+// /atlas/ mostra só o aviso "em construção". Quando ficar pronto: renomear de volta as pastas
+// pages/atlas-rascunho → pages/atlas (pt e en), trocar ATLAS para '/atlas' e apagar o aviso.
+export const ATLAS = '/atlas-rascunho'
+
 // botão do Atlas Fotográfico, separado do menu
 export function atlasLink(lang: 'pt' | 'en') {
   return {nome: lang === 'en' ? 'PHOTOGRAPHIC ATLAS' : 'ATLAS FOTOGRÁFICO', href: `${lang === 'en' ? '/en' : ''}/atlas/`}

@@ -1,6 +1,7 @@
 ---
 // Mapa do Atlas: um ponto por município com fotos; legenda por projeto; painel com as fotos do lugar.
 // A lógica é a da página antiga (public/mapa.js); os dados vêm embutidos, gerados no build.
+import {ATLAS} from '../lib/menu'
 import {atlasDados, simples, type Lang} from '../lib/sanity'
 interface Props { lang: Lang; outraLingua: string }
 const {lang, outraLingua} = Astro.props
@@ -10,10 +11,10 @@ const descPadrao = lang === 'en'
   ? 'The map gathers the places covered by the Geological Journey research. Each point marks a municipality with photographs in the Atlas. Select a point to explore the related images.'
   : 'O mapa reúne os lugares percorridos pela pesquisa Viagem Geológica. Cada ponto indica um município com fotografias no Atlas. Selecione um ponto para explorar as imagens relacionadas.'
 const desc = simples(config.aberturaMapa, lang) || descPadrao
-const dados = JSON.stringify({fotos, base: pre, lang}).replace(/</g, '\\u003c')
+const dados = JSON.stringify({fotos, base: pre + ATLAS, lang}).replace(/</g, '\\u003c')
 ---
 <header class="top">
-  <a class="brand" href={`${pre}/atlas/`} aria-label="Atlas">
+  <a class="brand" href={`${pre}${ATLAS}/`} aria-label="Atlas">
     <div class="seal">VIAGEM<br>GEOLÓGICA<br>VALENTINA<br>TONG</div>
     <div><div class="kick">{lang === 'en' ? 'Photographic Atlas' : 'Atlas Fotográfico'}</div><div class="h">{lang === 'en' ? 'Map' : 'Mapa'}</div></div>
   </a>

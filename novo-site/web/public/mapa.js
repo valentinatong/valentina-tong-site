@@ -193,7 +193,7 @@
       const l = LOCAIS.get(k);
       if (!l) return;
       const thumbs = l.fotos.map(f => `<img src="${f.thumb}" alt="${f.code}" title="${f.code}" data-chave="${k}">`).join("");
-      const href = `${DADOS.base}/atlas/?municipio=${encodeURIComponent(l.municipio)}`;
+      const href = `${DADOS.base}/?municipio=${encodeURIComponent(l.municipio)}`;
       results.innerHTML = `<p class="loc">${l.municipio}, ${l.estado}</p>` +
         `<div class="sub">${l.fotos.length} ${l.fotos.length > 1 ? "registros" : "registro"}</div>` +
         `<div class="grid">${thumbs}</div>` +

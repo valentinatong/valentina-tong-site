@@ -1,11 +1,12 @@
 ---
+// Atlas em construção: só o aviso, no azul do Atlas (o Atlas de verdade está em /atlas-rascunho/)
 import Base from '../../../layouts/Base.astro'
-import Atlas from '../../../components/Atlas.astro'
+import AtlasEmBreve from '../../../components/AtlasEmBreve.astro'
 import {client} from '../../../lib/sanity'
 import {coresAtlas} from '../../../lib/atlasCores'
 const config = await client.fetch(`*[_id=="configAtlas"][0]{corFundo, corTag}`)
+const cores = {...coresAtlas(config), '--ink': '#EDEAE2'}
 ---
-<Base titulo="Photographic Atlas" ativo="atlas" lang="en" outraLingua="/atlas/" cores={coresAtlas(config)} semMenu classe="atlas">
-  <link slot="head" rel="stylesheet" href="/atlas.css" />
-  <Atlas lang="en" outraLingua="/atlas/" />
+<Base titulo="Photographic Atlas" cabecalho="PHOTOGRAPHIC ATLAS" ativo="atlas" lang="en" outraLingua="/atlas/" cores={cores}>
+  <AtlasEmBreve lang="en" />
 </Base>

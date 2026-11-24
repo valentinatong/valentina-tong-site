@@ -1,0 +1,14 @@
+---
+// Aviso no lugar do Atlas enquanto ele é editado (as páginas de verdade estão em /atlas-rascunho/).
+interface Props { lang: 'pt' | 'en' }
+const {lang} = Astro.props
+---
+<main class="atlas-breve">
+  <p>{lang === 'en'
+    ? 'Viagem Geológica is a photographic archive under construction and will be available for consultation in 2027.'
+    : 'Viagem Geológica é um acervo fotográfico em construção e estará disponível para consulta em 2027.'}</p>
+</main>
+<style>
+  .atlas-breve{ min-height:calc(100vh - 160px); display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+  .atlas-breve p{ max-width:34ch; margin:0; text-align:center; font-family:var(--title-font); font-size:clamp(19px,2vw,26px); line-height:1.45; }
+</style>

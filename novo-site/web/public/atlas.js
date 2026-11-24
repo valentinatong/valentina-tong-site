@@ -140,9 +140,9 @@
   }
   function mapHref(it){
     if (it && it.municipio && it.estado) {
-      return `${DADOS.base}/atlas/mapa/?municipio=${encodeURIComponent(it.municipio)}&estado=${encodeURIComponent(it.estado)}`;
+      return `${DADOS.base}${DADOS.atlas}/mapa/?municipio=${encodeURIComponent(it.municipio)}&estado=${encodeURIComponent(it.estado)}`;
     }
-    return `${DADOS.base}/atlas/mapa/`;
+    return `${DADOS.base}${DADOS.atlas}/mapa/`;
   }
   function renderFicha(){
     if(!current){ fichaEl.innerHTML = `<div class="statement">${window.__arquivo.statementHTML}</div>`; return; }

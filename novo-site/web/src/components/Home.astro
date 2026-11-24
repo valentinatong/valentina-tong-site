@@ -26,6 +26,7 @@ const t = lang === 'en'
   : {cur: 'CURADORIA', bio: 'BIO', outra: 'EN', outraHref: '/en/', atlas: 'ATLAS FOTOGRÁFICO'}
 ---
 <nav class="linha" aria-label="Menu">
+  <h1 class="nome-site">Valentina Tong</h1>
   <a class="on" href={`${pre}/`} aria-current="page">{lang === 'en' ? 'PROJECTS' : 'PROJETOS'}</a>
   <a href={`${pre}/curadoria/`}>{t.cur}</a>
   <a href={`${pre}/bio/`}>{t.bio}</a>
@@ -81,6 +82,8 @@ const t = lang === 'en'
   body.home{ --bg:#e9e6df; background:var(--bg); min-height:100vh; padding-right:0; transition:background-color .45s ease, color .45s ease; }
   body.home .hc, body.home .hm-lista a, body.home .hm-lista .yr{ transition:color .45s ease, opacity .25s; }
 
+  /* nome no início do menu */
+  .linha .nome-site{ margin:0 14px 0 0; font-family:var(--title-font); font-weight:500; font-size:17px; letter-spacing:0; line-height:1; color:var(--ink); transition:color .45s ease; }
   .hm{ min-height:100vh; display:flex; align-items:center; justify-content:center; gap:6vw; padding:90px calc(var(--spine) + 60px) 90px 60px; box-sizing:border-box; }
   /* a lista fica no centro; a foto surge à esquerda dela, sem empurrar a lista */
   /* conjunto foto + lista centralizado: a lista anda para a direita metade da (largura da foto + espaço entre elas) */
@@ -97,8 +100,10 @@ const t = lang === 'en'
     .hc-tl{ top:20px; left:16px; } .hc-tr{ top:20px; right:16px; }
     .hc-bl, .hc-br{ display:none; }
     .hm-rodape .hc{ position:static; }
-    .hm{ flex-direction:column; align-items:stretch; gap:28px; padding:70px 16px 40px; }
-    .hm-foto{ display:none; }
+    .hm{ flex-direction:column; align-items:stretch; gap:28px; padding:104px 16px 40px; }
+    .hm-foto{ position:static; transform:none; width:100%; height:auto; justify-content:center; margin:0 0 4px; }
+    .hm-foto img{ max-height:42vh; }
+    .linha .nome-site{ flex-basis:100%; margin:0 0 2px; }
     .hm-centro{ transform:none; }
     .hm-lista a{ width:auto; grid-template-columns:52px 1fr; padding:3px 0; }
     .hm-lista .nm{ white-space:normal; font-size:20px; }

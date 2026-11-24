@@ -14,9 +14,12 @@ const tamTit = Number(cfg.tamanhoTitulo) || 14, tamAno = Number(cfg.tamanhoAno) 
 const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
 
 // título empilhado, uma palavra por linha; palavras curtas seguidas (ex.: "Zé dos") ficam juntas na mesma linha
+// pares que também ficam na mesma linha (pedido da Valentina)
+const JUNTAR = ['Serra da']
 const linhas: string[] = []
 String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: string[]) => {
-  if (i > 0 && w.length <= 3 && a[i - 1].length <= 3) linhas[linhas.length - 1] += ' ' + w
+  const juntar = i > 0 && w.length <= 3 && (a[i - 1].length <= 3 || JUNTAR.includes(a[i - 1] + ' ' + w))
+  if (juntar) linhas[linhas.length - 1] += ' ' + w
   else linhas.push(w)
 })
 const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')

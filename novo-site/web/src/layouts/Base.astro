@@ -62,7 +62,7 @@ const geradoEm = new Date().toISOString()
   /* troca de idioma (EN/PT): dentro de um círculo de linha leve */
   .linha a.lingua, .pillars a.lingua{ display:inline-flex; align-items:center; justify-content:center; width:2.6em; height:2.6em; margin:-.8em 0; box-sizing:border-box;
     padding-left:.16em; border:1px solid color-mix(in srgb, currentColor 35%, transparent); border-radius:50%; }
-  @media (max-width:760px){ .linha, .pillars{ top:20px; left:16px; right:16px; gap:10px 20px; flex-wrap:wrap; font-size:11px; } }
+  @media (max-width:760px){ .linha, .pillars{ top:20px; left:16px; right:16px; gap:10px 20px; flex-wrap:wrap; justify-content:center; font-size:11px; } }
   .hc{ position:fixed; z-index:45; font-family:var(--mono-font); font-size:11px; letter-spacing:.16em; color:var(--stone); transition:color .2s; }
   .hc:hover, .hc.on{ color:var(--ink); }
   .hc.on{ border-bottom:1px solid var(--oxide); padding-bottom:3px; }
@@ -81,9 +81,9 @@ const geradoEm = new Date().toISOString()
     .hc-bl{ bottom:16px; left:16px; } .hc-br{ bottom:16px; right:16px; }
     .cantos-pg{ padding-top:52px; }
     .cantos-pg::before{ height:50px; } .cantos-pg::after{ height:56px; }
-    .cantos-pg.com-portal .hc-bl, .cantos-pg.com-portal .hc-br{ bottom:66px; }
-    .cantos-pg.com-portal::after{ bottom:52px; }
-    .cantos-pg.com-portal{ padding-bottom:120px; }
+    .cantos-pg.com-portal .hc-bl, .cantos-pg.com-portal .hc-br{ bottom:50px; }
+    .cantos-pg.com-portal::after{ bottom:36px; }
+    .cantos-pg.com-portal{ padding-bottom:96px; }
   }
   /* faixa do Atlas na borda direita (computador): ao clicar, cresce para a esquerda como um portal */
   body.com-portal{ --spine:40px; padding-right:var(--spine); }
@@ -104,7 +104,7 @@ const geradoEm = new Date().toISOString()
     body.com-portal .atlas-btn{ display:inline-flex; }
     body.com-portal .pillars{ right:16px; }
     .portal{ display:none; }
-    body.home .portal, body.cantos-pg .portal{ display:flex; top:auto; left:0; width:auto; height:52px; flex-direction:row; transition:height 1.5s cubic-bezier(.65,0,.25,1); }
+    body.home .portal, body.cantos-pg .portal{ display:flex; top:auto; left:0; width:auto; height:36px; flex-direction:row; transition:height 1.5s cubic-bezier(.65,0,.25,1); }
     body.home .portal .pt-seta, body.cantos-pg .portal .pt-seta{ order:1; }
     body.home .portal .pt-txt, body.cantos-pg .portal .pt-txt{ writing-mode:horizontal-tb; letter-spacing:.24em; font-size:11px; }
     body.home .portal.abrindo, body.cantos-pg .portal.abrindo{ width:auto; height:100vh; }

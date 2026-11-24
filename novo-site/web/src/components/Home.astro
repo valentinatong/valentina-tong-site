@@ -87,9 +87,9 @@ const t = lang === 'en'
   .hm{ min-height:100vh; display:flex; align-items:center; justify-content:center; gap:6vw; padding:90px calc(var(--spine) + 60px) 90px 60px; box-sizing:border-box; }
   /* a lista fica no centro; a foto surge à esquerda dela, sem empurrar a lista */
   /* conjunto foto + lista centralizado: a lista anda para a direita metade da (largura da foto + espaço entre elas) */
-  /* assimetria: a lista fica 1/3 da altura da foto mais baixa que a foto (lista desce 1/6, foto sobe 1/6; o conjunto segue centralizado) */
+  /* assimetria: a lista fica 1/3 da altura da foto mais baixa que a foto (o deslocamento vertical da lista — 5/12 da foto menos 1/4 da própria altura — centraliza na tela o conjunto inteiro: do topo da foto ao pé da lista) */
   .hm{ --hm-f:min(30vw, 60vh); }
-  .hm-centro{ position:relative; transform:translate(calc((var(--hm-f) + 5vw) / 2), calc(var(--hm-f) / 6)); }
+  .hm-centro{ position:relative; transform:translate(calc((var(--hm-f) + 5vw) / 2), calc(var(--hm-f) * 5 / 12 - 25%)); }
   .hm-foto{ position:absolute; right:calc(100% + 5vw); top:50%; transform:translateY(calc(-50% - var(--hm-f) / 3)); width:min(30vw, 60vh); height:min(30vw, 60vh); display:flex; align-items:center; justify-content:flex-end; pointer-events:none; }
   .hm-foto img{ max-width:100%; max-height:100%; display:block; opacity:0; transition:opacity .25s ease; }
   .hm-lista{ list-style:none; margin:0; padding:0; }
@@ -105,7 +105,8 @@ const t = lang === 'en'
     .hm{ flex-direction:column; align-items:stretch; gap:28px; padding:104px 16px 40px; }
     .hm-foto{ position:static; transform:none; width:100%; height:auto; justify-content:center; margin:0 0 4px; }
     .hm-foto img{ max-height:42vh; }
-    .linha .nome-site{ flex-basis:100%; margin:0 0 2px; }
+    .linha .nome-site{ flex-basis:100%; margin:0 0 2px; text-align:center; }
+    body.home .linha{ position:absolute; }  /* no celular o menu rola junto, para não passar por cima da foto */
     .hm-centro{ transform:none; }
     .hm-lista a{ width:auto; grid-template-columns:52px 1fr; padding:3px 0; }
     .hm-lista .nm{ white-space:normal; font-size:20px; }

@@ -3,6 +3,7 @@ import {structureTool} from 'sanity/structure'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 import {schemaTypes} from './schemas'
 import {GRUPOS_TAG} from './schemas/atlas'
+import {PublicarSiteNavbar} from './components/PublicarSite'
 
 export default defineConfig({
   name: 'default',
@@ -60,10 +61,11 @@ export default defineConfig({
       },
     }),
   ],
+  studio: {components: {navbar: PublicarSiteNavbar}},
   schema: {
     types: schemaTypes,
     templates: (t) => [
-      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'configProjetos', 'etiqueta', 'tagAtlas'].includes(x.schemaType)),
+      ...t.filter((x) => !['home', 'bio', 'configAtlas', 'configuracoes', 'configProjetos', 'etiqueta', 'tagAtlas', 'publicacao'].includes(x.schemaType)),
       ...GRUPOS_TAG.map((g) => ({id: `tag-${g.value}`, title: g.title, schemaType: 'tagAtlas', value: {grupo: g.value}})),
       {id: 'etiqueta-tipo', title: 'Tipo de projeto', schemaType: 'etiqueta', value: {grupo: 'tipo'}},
       {id: 'etiqueta-papel', title: 'Papel', schemaType: 'etiqueta', value: {grupo: 'papel'}},

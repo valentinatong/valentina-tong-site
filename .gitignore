@@ -24,3 +24,6 @@ AIRTABLE CSV/
 node_modules/
 novo-site/**/dist/
 novo-site/**/.sanity/
+
+# cópias de segurança do Sanity (textos + fotos), ficam só no computador
+/backups/sanity/

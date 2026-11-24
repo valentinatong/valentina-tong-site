@@ -24,6 +24,9 @@ String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: stri
   if (juntar) linhas[linhas.length - 1] += ' ' + w
   else linhas.push(w)
 })
+// títulos com quebra escolhida à mão (substituem a regra acima)
+const QUEBRAS: Record<string, string[]> = {'Castelo Zé dos Montes': ['Castelo', 'Zé dos Montes']}
+if (QUEBRAS[p.nome]) linhas.splice(0, linhas.length, ...QUEBRAS[p.nome])
 const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')
 
 // legendas: "ensaio" (texto corrido, faz parte do trabalho) ou "ficha" (ficha técnica: obra, medidas, exposição, publicação).
@@ -178,9 +181,9 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
     .pj .rail-left .opening{ position:static; transform:none; padding:0 16px; max-width:none; }
     .pj .rail-left{ padding-top:calc(var(--pb, 56px) + var(--mh, 60px) + 6px); }
     .pj .mhead{ display:flex; justify-content:center; align-items:flex-end; gap:16px; position:fixed; left:0; right:0; top:var(--pb, 56px); z-index:35;
-      padding:14px 16px 12px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:14px; line-height:1.2; color:var(--ink); }
+      padding:30px 16px 14px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:24px; line-height:1.1; color:var(--ink); }
     .pj .mhead::after{ content:''; position:absolute; left:0; right:0; top:100%; height:18px; background:linear-gradient(var(--bg), transparent); pointer-events:none; }
-    .pj .mhead .mt{ flex:1; text-align:right; } .pj .mhead .md{ flex:1; text-align:left; }
+    .pj .mhead .mt{ flex:0 1 auto; text-align:right; white-space:nowrap; } .pj .mhead .md{ flex:0 0 auto; text-align:left; }
     .pj .spread{ min-height:auto; padding:8vh 0; }
     /* publicações com retângulo em sequência ficam mais próximas (espaço original) */
     .pj .spread.ret + .spread.ret{ padding-top:2vh; } .pj .spread.ret:has(+ .spread.ret){ padding-bottom:2vh; }

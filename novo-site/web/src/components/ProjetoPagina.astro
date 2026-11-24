@@ -119,7 +119,7 @@ const paginas = validas.map((g: any, i: number) => ({
 </script>
 
 <style is:global>
-  :root{ --band-left:260px; --band-right:140px; --nav-h:58px; --opening-font:var(--body-font); --opening-size:13.5px; --opening-color:var(--ink); }
+  :root{ --band-left:292px; --band-right:140px; --nav-h:58px; --opening-font:var(--body-font); --opening-size:13.5px; --opening-color:var(--ink); }
   .pj .footer{ position:fixed; left:0; right:var(--spine, 0px); bottom:0; z-index:40; background:linear-gradient(to top, var(--bg) 58%, transparent); padding-top:14px; transition:opacity .18s linear; }
   .pj .footer-row{ display:flex; align-items:center; height:var(--nav-h); border-top:1px solid rgba(32,29,25,.20); }
   .pj .timeline{ position:relative; flex:1 1 auto; min-width:0; display:flex; align-items:center; justify-content:space-between; overflow-x:auto; overflow-y:hidden; scrollbar-width:none; padding-right:22px; }
@@ -130,13 +130,13 @@ const paginas = validas.map((g: any, i: number) => ({
   .pj .timeline a.current{ color:var(--ink); } .pj .timeline a.current .nm{ font-weight:600; }
   .pj .rail-left{ position:fixed; left:0; top:0; bottom:0; width:var(--band-left); z-index:30; pointer-events:none; }
   .pj .rail-left .title{ position:absolute; bottom:calc(50% - 8px); left:0;  /* base fixa meia linha acima do texto de abertura: título maior cresce para cima */ width:100%; padding:0 26px; font-family:var(--title-font); font-weight:600; font-size:var(--tam-titulo, 14px); line-height:1.2; color:var(--ink); }
-  .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:300px; transition:opacity .18s linear; }
+  .pj .rail-left .opening{ position:absolute; top:calc(50% + 20px); left:0; width:100%; padding:0 26px; max-width:var(--band-left); transition:opacity .18s linear; }
   .pj .rail-left .opening p{ font-family:var(--opening-font); font-size:var(--opening-size); line-height:1.5; color:var(--opening-color); margin:0 0 .7em; }
   .pj .rail-right{ position:fixed; right:var(--spine, 0px); top:0; bottom:0; width:var(--band-right); z-index:30; pointer-events:none; }
   .pj .rail-right .date{ position:absolute; top:50%; transform:translateY(-50%); right:0; width:100%; padding:0 26px; text-align:right; font-family:var(--title-font); font-weight:600; font-size:var(--tam-ano, 14px); color:var(--ink); }
   .pj .spread{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:5vh 0; }
   .pj .spread-media{ display:inline-flex; flex-direction:column; align-items:center; gap:14px; }
-  .pj .spread img{ max-height:88vh; max-width:calc(100vw - 480px); width:auto; height:auto; display:block; }
+  .pj .spread img{ max-height:88vh; max-width:calc(100vw - 2 * var(--band-left)); width:auto; height:auto; display:block; }
   /* mesmo formato do Pedra Paulista: altura inteira, 36px de margem dos lados numa imagem de 2400px (97%) */
   .pj .spread img.com-ret{ background:linear-gradient(var(--ret), var(--ret)) center / 97% 100% no-repeat; }
   .pj .spread .cap{ font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }

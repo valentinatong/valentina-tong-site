@@ -41,7 +41,7 @@ const paginas = await montar(p.paginas, 0)
 const extras = await montar(p.extras, paginas.length)
 const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}] : []), ...extras]
 ---
-<div class="pj" style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px`}>
+<div class={`pj pj-${p.slug.current}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}
@@ -154,6 +154,9 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   .pj .credits{ max-width:60ch; margin:8vh auto 16vh; padding:0 8px; font-size:14px; line-height:1.6; color:var(--stone); }
   .pj .credits h3{ font-family:var(--mono-font); font-weight:400; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
   .pj .credits strong{ font-weight:600; }
+  /* Seridó: legendas maiores e créditos sem linha em branco entre os itens */
+  .pj-serido-potiguar .spread .cap, .pj-serido-potiguar .spread .cap-row .cap-half .cap-block{ font-size:16px; }
+  .pj-serido-potiguar .credits p{ margin:0; }
   .pj .mhead{ display:none; }
   @media (max-width:760px){
     .pj .rail-left, .pj .rail-right{ position:static; width:auto; }

@@ -188,5 +188,9 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
     /* publicações com retângulo em sequência ficam mais próximas (espaço original) */
     .pj .spread.ret + .spread.ret{ padding-top:2vh; } .pj .spread.ret:has(+ .spread.ret){ padding-bottom:2vh; }
     .pj .spread img{ max-width:calc(100vw - 32px); }
+    /* legendas com margem de 16px dos lados; ficha técnica centralizada */
+    .pj .spread .cap, .pj.ficha .spread .cap{ max-width:calc(100vw - 32px); }
+    .pj.ficha .spread .cap, .pj.ficha .spread .cap-row .cap-half .cap-block{ text-align:center; }
+    .pj .spread .cap-row{ padding:0 16px; box-sizing:border-box; max-width:100vw; }
   }
 </style>

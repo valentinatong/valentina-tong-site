@@ -22,17 +22,24 @@ String(p.nome).split(' ').filter(Boolean).forEach((w: string, i: number, a: stri
 const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt;')).join('<br>')
 
 const bgHex = String(p.corFundo || 'ebebeb').trim().replace(/^#/, '')
-const validas = (p.paginas || []).filter((g: any) => g.asset)
 // celular: foto única (não díptico) ganha uma versão recortada, sem tanta margem em volta
-const recortes = await Promise.all(validas.map((g: any) => g.retangulo ? null : recorteCelular(g, bgHex)))
-const paginas = validas.map((g: any, i: number) => ({
-  src: img(g).url(),
-  srcCel: recortes[i] ? img(g).rect(...(recortes[i] as [number, number, number, number])).url() : '',
-  cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
-  cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
-  lazy: i > 1,
-  ret: !!g.retangulo,
-}))
+async function montar(lista: any[], inicio: number) {
+  const validas = (lista || []).filter((g: any) => g.asset)
+  const recortes = await Promise.all(validas.map((g: any) => g.retangulo ? null : recorteCelular(g, bgHex)))
+  return validas.map((g: any, i: number) => ({
+    src: img(g).url(),
+    srcCel: recortes[i] ? img(g).rect(...(recortes[i] as [number, number, number, number])).url() : '',
+    cap: temTexto(g.legenda) ? rico(g.legenda, lang) : '',
+    cap2: temTexto(g.legenda2) ? rico(g.legenda2, lang) : '',
+    lazy: inicio + i > 1,
+    ret: !!g.retangulo,
+    n: inicio + i + 1,
+  }))
+}
+const paginas = await montar(p.paginas, 0)
+// fotos de instalações e publicações, depois dos créditos
+const extras = await montar(p.extras, paginas.length)
+const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}] : []), ...extras]
 ---
 <div class="pj" style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px`}>
   <div class="rail-left">
@@ -47,12 +54,14 @@ const paginas = validas.map((g: any, i: number) => ({
   </div>
 
   <main class="stage" id="stage">
-    {paginas.map((g: any, i: number) => (
+    {blocos.map((g: any) => g.creditos ? (
+      <section class="credits"><h3>{lang === 'en' ? 'Credits' : 'Créditos'}</h3><Fragment set:html={rico(p.creditos, lang, {paragrafos: true})} /></section>
+    ) : (
       <section class={g.ret ? 'spread ret' : 'spread'}>
         <div class="spread-media">
           <picture>
             {g.srcCel && <source media="(max-width:760px)" srcset={g.srcCel} />}
-            <img src={g.src} class={g.ret ? 'com-ret' : undefined} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${i + 1}`} />
+            <img src={g.src} class={g.ret ? 'com-ret' : undefined} loading={g.lazy ? 'lazy' : undefined} alt={`${p.nome} — ${lang === 'en' ? 'page' : 'página'} ${g.n}`} />
           </picture>
           {g.cap2
             ? <div class="cap-row"><div class="cap-half"><div class="cap-block" set:html={g.cap} /></div><div class="cap-half"><div class="cap-block" set:html={g.cap2} /></div></div>
@@ -60,9 +69,6 @@ const paginas = validas.map((g: any, i: number) => ({
         </div>
       </section>
     ))}
-    {temTexto(p.creditos) && (
-      <section class="credits"><h3>{lang === 'en' ? 'Credits' : 'Créditos'}</h3><Fragment set:html={rico(p.creditos, lang, {paragrafos: true})} /></section>
-    )}
   </main>
 
   <footer class="footer" id="footer">

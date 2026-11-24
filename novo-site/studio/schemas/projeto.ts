@@ -5,6 +5,19 @@ import {ImageIcon} from '@sanity/icons/Image'
 
 const hex = (r: any) => r.regex(/^#?[0-9a-fA-F]{6}$/, {name: 'cor hex'}).warning('Use 6 dígitos, ex.: e1beda')
 
+// uma imagem da página (com legenda, legenda do díptico e retângulo opcional) — usada nas imagens e nos extras
+const pagina = defineArrayMember({
+  type: 'image', name: 'pagina', title: 'Imagem', icon: ImageIcon,
+  fields: [
+    defineField({name: 'legenda', title: 'Legenda', type: 'textoRico'}),
+    defineField({name: 'legenda2', title: 'Legenda 2 (metade direita do díptico)', type: 'textoRico'}),
+    defineField({
+      name: 'retangulo', title: 'Com retângulo atrás (publicações)', type: 'boolean', initialValue: false,
+      description: 'Para publicações recortadas. Ligado: o livro aparece sobre uma "mesa" (a cor de fundo um pouco mais escura). Desligado: direto sobre o fundo.',
+    }),
+  ],
+})
+
 // Projeto do Portfólio = uma página (título e ano nas laterais, imagens em sequência, créditos no fim).
 // Antes: tabelas Projetos + Imagens da base Portfólio no Airtable.
 export const projeto = defineType({
@@ -36,17 +49,15 @@ export const projeto = defineType({
       name: 'paginas', title: 'Imagens', group: 'paginas',
       description: 'Na ordem da página. Arraste para reordenar. Legenda 2 só para dípticos (uma legenda para cada metade).',
       type: 'array', options: {layout: 'grid'},
-      of: [defineArrayMember({
-        type: 'image', name: 'pagina', title: 'Imagem', icon: ImageIcon,
-        fields: [
-          defineField({name: 'legenda', title: 'Legenda', type: 'textoRico'}),
-          defineField({name: 'legenda2', title: 'Legenda 2 (metade direita do díptico)', type: 'textoRico'}),
-          defineField({
-            name: 'retangulo', title: 'Com retângulo atrás (publicações)', type: 'boolean', initialValue: false,
-            description: 'Para publicações recortadas. Ligado: o livro aparece sobre uma "mesa" (a cor de fundo um pouco mais escura). Desligado: direto sobre o fundo.',
-          }),
-        ],
-      })],
+      of: [pagina],
+    }),
+    defineField({
+      name: 'extras', title: 'Instalações e publicações (depois dos créditos)', group: 'paginas',
+      description: 'Opcional. Fotos que aparecem no fim da página, depois dos créditos (montagens de exposição, publicações). Mesmo formato das imagens acima.',
+      // por enquanto só o Seridó usa: escondido nos outros projetos (tirar esta linha para liberar em todos)
+      hidden: ({document}) => !String(document?._id || '').endsWith('projeto-serido-potiguar'),
+      type: 'array', options: {layout: 'grid'},
+      of: [pagina],
     }),
     defineField({name: 'corFundo', title: 'Cor de fundo', type: 'string', group: 'visual', validation: hex}),
     defineField({

@@ -34,6 +34,10 @@ const tituloHtml = linhas.map((l) => l.replace(/&/g, '&amp;').replace(/</g, '&lt
 const ficha = (p.tipoLegenda || 'ficha') === 'ficha'
 const legenda = (campo: any) => temTexto(campo) ? rico(campo, lang) : ''
 
+// celular: setas para o projeto anterior e o próximo (na ordem da linha do tempo; dá a volta nas pontas)
+const idx = lista.findIndex((x: any) => x.slug === p.slug.current)
+const anterior = lista[(idx - 1 + lista.length) % lista.length], proximo = lista[(idx + 1) % lista.length]
+
 const bgHex = String(p.corFundo || 'ebebeb').trim().replace(/^#/, '')
 // celular: foto única (não díptico) ganha uma versão recortada, sem tanta margem em volta
 async function montar(lista: any[], inicio: number) {
@@ -61,9 +65,11 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   </div>
   <div class="rail-right"><div class="date">{p.ano}</div></div>
   <!-- celular: título à esquerda e ano à direita numa faixa que fica presa no topo -->
-  <div class="mhead" id="mhead" aria-hidden="true">
-    <div class="mt" set:html={tituloHtml} />
-    <div class="md">{p.ano}</div>
+  <div class="mhead" id="mhead">
+    <a class="mseta ant" href={`${pre}/projetos/${anterior.slug}/`} aria-label={`${lang === 'en' ? 'Previous project' : 'Projeto anterior'}: ${anterior.nome}`}>←</a>
+    <div class="mt" aria-hidden="true" set:html={tituloHtml} />
+    <div class="md" aria-hidden="true">{p.ano}</div>
+    <a class="mseta prox" href={`${pre}/projetos/${proximo.slug}/`} aria-label={`${lang === 'en' ? 'Next project' : 'Próximo projeto'}: ${proximo.nome}`}>→</a>
   </div>
 
   <main class="stage" id="stage">
@@ -181,8 +187,10 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
     .pj .rail-left .opening{ position:static; transform:none; padding:0 16px; max-width:none; }
     .pj .rail-left{ padding-top:calc(var(--pb, 56px) + var(--mh, 60px) + 6px); }
     .pj .mhead{ display:flex; justify-content:center; align-items:flex-end; gap:16px; position:fixed; left:0; right:0; top:var(--pb, 56px); z-index:35;
-      padding:30px 16px 14px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:22px; line-height:1.1; color:var(--ink); }
+      padding:30px 16px 14px; background:var(--bg); font-family:var(--title-font); font-weight:600; font-size:21px; line-height:1.1; color:var(--ink); }
     .pj .mhead::after{ content:''; position:absolute; left:0; right:0; top:100%; height:18px; background:linear-gradient(var(--bg), transparent); pointer-events:none; }
+    .pj .mhead .mseta{ position:absolute; bottom:12px; font-family:var(--mono-font); font-weight:400; font-size:20px; line-height:1; color:var(--ink); padding:6px 4px; }
+    .pj .mhead .mseta.ant{ left:12px; } .pj .mhead .mseta.prox{ right:12px; }
     .pj .mhead .mt{ flex:0 1 auto; text-align:right; white-space:nowrap; } .pj .mhead .md{ flex:0 0 auto; text-align:left; }
     .pj .spread{ min-height:auto; padding:8vh 0; }
     /* publicações com retângulo em sequência ficam mais próximas (espaço original) */

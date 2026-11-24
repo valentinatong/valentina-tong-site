@@ -69,11 +69,6 @@ export const projeto = defineType({
       name: 'corRetangulo', title: 'Cor do retângulo (opcional)', type: 'string', group: 'visual', validation: hex,
       description: 'Vazio = automático (a cor de fundo 10% mais escura). Preencha só para usar outra cor.',
     }),
-    defineField({name: 'corFonte', title: 'Cor do texto de abertura (opcional)', type: 'string', group: 'visual', validation: hex}),
-    defineField({
-      name: 'fonteTipo', title: 'Fonte do texto de abertura', type: 'string', group: 'visual',
-      options: {list: ['Newsreader', 'Fraunces', 'Space Mono'], layout: 'radio', direction: 'horizontal'},
-    }),
   ],
   preview: {
     select: {title: 'nome', subtitle: 'ano', media: 'paginas.0'},

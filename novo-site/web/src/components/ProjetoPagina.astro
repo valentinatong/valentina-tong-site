@@ -1,7 +1,7 @@
 ---
 // Página de um projeto: título (empilhado) à esquerda, ano à direita, texto de abertura,
 // imagens em sequência com legenda (ou duas, nos dípticos), créditos e linha do tempo no rodapé.
-import {img, rico, temTexto, configProjetos, type Lang} from '../lib/sanity'
+import {img, rico, temTexto, configProjetos, hex, FONTES_ABERTURA, type Lang} from '../lib/sanity'
 import {recorteCelular} from '../lib/recorte'
 interface Props { p: any; lista: any[]; lang: Lang }
 const {p, lista, lang} = Astro.props
@@ -9,6 +9,8 @@ const pre = lang === 'en' ? '/en' : ''
 // tamanho do título (lateral esquerda) e do ano (lateral direita): "Configurações dos Projetos" no Sanity; padrão 14px
 const cfg = await configProjetos()
 const tamTit = Number(cfg.tamanhoTitulo) || 14, tamAno = Number(cfg.tamanhoAno) || 14, tamAbe = Number(cfg.tamanhoAbertura) || 16
+const fonteAbe = FONTES_ABERTURA[cfg.fonteAbertura] || 'var(--body-font)'
+const corAbe = cfg.corAbertura ? hex(cfg.corAbertura, '') : ''
 // retângulo ("mesa") atrás das publicações recortadas, ligado imagem a imagem.
 // Cor: a de fundo 10% mais escura, no mesmo tom; "Cor do retângulo" no Sanity substitui, se preenchida.
 const ret = p.corRetangulo ? '#' + String(p.corRetangulo).trim().replace(/^#/, '') : 'color-mix(in srgb, var(--bg) 90%, black)'
@@ -49,7 +51,7 @@ const paginas = await montar(p.paginas, 0)
 const extras = await montar(p.extras, paginas.length)
 const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}] : []), ...extras]
 ---
-<div class={`pj pj-${p.slug.current}${ficha ? ' ficha' : ''}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px; --opening-size:${tamAbe}px`}>
+<div class={`pj pj-${p.slug.current}${ficha ? ' ficha' : ''}`} style={`--ret:${ret}; --tam-titulo:${tamTit}px; --tam-ano:${tamAno}px; --opening-size:${tamAbe}px; --opening-font:${fonteAbe}${corAbe ? `; --opening-color:${corAbe}` : ''}`}>
   <div class="rail-left">
     <div class="title" set:html={tituloHtml} />
     {temTexto(p.abertura) && <div class="opening" id="opening" set:html={rico(p.abertura, lang, {paragrafos: true})} />}

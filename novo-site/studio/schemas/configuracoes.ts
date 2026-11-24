@@ -28,6 +28,15 @@ export const configProjetos = defineType({
   fields: [
     defineField({name: 'tamanhoTitulo', title: 'Tamanho do título na lateral esquerda (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
     defineField({name: 'tamanhoAbertura', title: 'Tamanho do texto de abertura (px)', description: 'Vale para todos os projetos. Atual: 16', type: 'number', initialValue: 16, validation: (r) => r.min(10).max(40)}),
+    defineField({
+      name: 'fonteAbertura', title: 'Fonte do texto de abertura', type: 'string', initialValue: 'Newsreader',
+      description: 'Vale para todos os projetos. Atual: Newsreader',
+      options: {list: ['Newsreader', 'Fraunces', 'Space Mono'], layout: 'radio', direction: 'horizontal'},
+    }),
+    defineField({
+      name: 'corAbertura', title: 'Cor do texto de abertura (opcional)', type: 'string', validation: hex,
+      description: 'Vale para todos os projetos. Vazio = automático: escuro sobre fundos claros, claro sobre fundos escuros.',
+    }),
     defineField({name: 'tamanhoAno', title: 'Tamanho do ano na lateral direita (px)', description: 'Vale para todos os projetos. Atual: 14', type: 'number', initialValue: 14, validation: (r) => r.min(8).max(60)}),
     defineField({name: 'tamanhoListaHome', title: 'Página inicial · tamanho dos nomes na lista de projetos (px)', description: 'Vazio: ajusta sozinho à largura da tela (entre 17 e 24)', type: 'number', validation: (r) => r.min(10).max(60)}),
     defineField({name: 'tamanhoDataHome', title: 'Página inicial · tamanho das datas na lista de projetos (px)', description: 'Padrão: 12 (antes era 10)', type: 'number', initialValue: 12, validation: (r) => r.min(8).max(40)}),

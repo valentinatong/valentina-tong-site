@@ -66,17 +66,14 @@ export async function projetos() {
 export function coresProjeto(p: any): Record<string, string> {
   const bg = hex(p.corFundo, '#ebebeb')
   const escuro = tintaPara(bg) === 'claro'
-  const fonte = p.corFonte ? hex(p.corFonte, '') : ''
-  const FONTES: Record<string, string> = {Newsreader: 'var(--body-font)', Fraunces: 'var(--title-font)', 'Space Mono': 'var(--mono-font)'}
-  const c: Record<string, string> = {
+  return {
     '--bg': bg,
-    '--ink': fonte || (escuro ? '#f4f1ea' : '#201D19'),
-    '--stone': fonte ? `color-mix(in srgb, ${fonte} 65%, transparent)` : (escuro ? 'rgba(244,241,234,.7)' : '#86806F'),
+    '--ink': escuro ? '#f4f1ea' : '#201D19',
+    '--stone': escuro ? 'rgba(244,241,234,.7)' : '#86806F',
   }
-  if (p.fonteTipo && FONTES[p.fonteTipo]) c['--opening-font'] = FONTES[p.fonteTipo]
-  if (fonte) c['--opening-color'] = fonte
-  return c
 }
+// fonte e cor do texto de abertura: iguais para todos os projetos ("Configurações dos Projetos")
+export const FONTES_ABERTURA: Record<string, string> = {Newsreader: 'var(--body-font)', Fraunces: 'var(--title-font)', 'Space Mono': 'var(--mono-font)'}
 
 // texto rico → texto simples (para filtros e etiquetas da ficha do Atlas)
 export function simples(campo: any, lang: Lang): string {

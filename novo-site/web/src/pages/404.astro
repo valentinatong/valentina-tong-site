@@ -1,0 +1,17 @@
+---
+// Página de erro (endereço que não existe). A Vercel serve dist/404.html automaticamente.
+// Um só arquivo para os dois idiomas: o aviso vem em PT e EN.
+import Base from '../layouts/Base.astro'
+---
+<Base titulo="Página não encontrada" cabecalho="PÁGINA NÃO ENCONTRADA" ativo="404" lang="pt" outraLingua="/en/">
+  <main class="nao-achada">
+    <p>Esta página não existe.<br /><a href="/">Voltar para o início</a></p>
+    <p class="en" lang="en">This page does not exist.<br /><a href="/en/">Back to the home page</a></p>
+  </main>
+</Base>
+<style>
+  .nao-achada{ min-height:calc(100vh - 160px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; padding:40px 24px; text-align:center; }
+  .nao-achada p{ margin:0; font-family:var(--title-font); font-size:clamp(19px,2vw,26px); line-height:1.45; }
+  .nao-achada p.en{ color:var(--stone); }
+  .nao-achada a{ font-family:var(--mono-font); font-size:12px; letter-spacing:.14em; text-transform:uppercase; border-bottom:1px solid var(--oxide); padding-bottom:3px; }
+</style>

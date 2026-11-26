@@ -156,6 +156,9 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   /* mesmo formato do Pedra Paulista: altura inteira, 36px de margem dos lados numa imagem de 2400px (97%) */
   .pj .spread img.com-ret{ background:linear-gradient(var(--ret), var(--ret)) center / 97% 100% no-repeat; }
   .pj .spread .cap{ font-size:14px; color:var(--stone); text-align:left; width:fit-content; max-width:44ch; margin:0 auto; line-height:1.55; }
+  /* links externos nas legendas: sublinhado fino, para a pessoa saber que é clicável */
+  .pj .spread .cap a, .pj .spread .cap-block a{ text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; text-decoration-color:color-mix(in srgb, currentColor 45%, transparent); }
+  .pj .spread .cap a:hover, .pj .spread .cap-block a:hover{ color:var(--ink); text-decoration-color:currentColor; }
   .pj .spread .cap-row{ display:flex; padding:0 4%; }
   .pj .spread .cap-row .cap-half{ flex:1; min-width:0; display:flex; justify-content:center; }
   .pj .spread .cap-row .cap-half .cap-block{ max-width:34ch; font-size:14px; color:var(--stone); text-align:left; line-height:1.55; }

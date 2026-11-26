@@ -167,7 +167,10 @@ const blocos: any[] = [...paginas, ...(temTexto(p.creditos) ? [{creditos: true}]
   /* legenda tipo ficha técnica: tudo em mono pequeno, texto corrido */
   .pj.ficha .spread .cap, .pj.ficha .spread .cap-row .cap-half .cap-block{ font-family:var(--mono-font); font-size:11px; line-height:1.7; letter-spacing:.02em; }
   .pj.ficha .spread .cap{ max-width:72ch; }
-  .pj.ficha .spread .cap-row .cap-half .cap-block{ max-width:100%; }
+  .pj.ficha .spread .cap-row .cap-half .cap-block{ max-width:46ch; }
+  /* ficha: mais ar entre foto e legenda; no díptico, um respiro entre as duas legendas */
+  .pj.ficha .spread, .pj.ficha .spread-media{ gap:26px; }
+  .pj.ficha .spread .cap-row{ gap:5%; }
   /* Seridó: legendas maiores e créditos sem linha em branco entre os itens */
   .pj-serido-potiguar .spread .cap, .pj-serido-potiguar .spread .cap-row .cap-half .cap-block{ font-size:16px; }
   .pj-serido-potiguar .credits p{ margin:0; }

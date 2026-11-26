@@ -24,7 +24,7 @@ export async function caixaFoto(g: any, bgHex: string): Promise<[number, number,
     let x0 = info.width, y0 = info.height, x1 = -1, y1 = -1
     for (let y = 0; y < info.height; y++) for (let x = 0; x < info.width; x++) {
       const o = (y * info.width + x) * 4
-      if (data[o + 3] < 128) continue
+      if (data[o + 3] < 12) continue   // sombras semitransparentes contam como parte da foto
       if (Math.abs(data[o] - br) + Math.abs(data[o + 1] - bgG) + Math.abs(data[o + 2] - bb) < 24) continue
       if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y
     }

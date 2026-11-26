@@ -10,10 +10,9 @@ export function menu(lang: 'pt' | 'en') {
   ]
 }
 
-// Atlas em edição: as páginas de verdade ficam em /atlas-rascunho/ (fora do menu, sem indexação).
-// /atlas/ mostra só o aviso "em construção". Quando ficar pronto: renomear de volta as pastas
-// pages/atlas-rascunho → pages/atlas (pt e en), trocar ATLAS para '/atlas' e apagar o aviso.
-export const ATLAS = '/atlas-rascunho'
+// Atlas no ar em /atlas/. O aviso "em construção" fica guardado em /atlas-em-construcao/ (fora do menu,
+// sem indexação); para esconder o Atlas de novo, troque as pastas pages/atlas ↔ pages/atlas-em-construcao.
+export const ATLAS = '/atlas'
 
 // botão do Atlas Fotográfico, separado do menu
 export function atlasLink(lang: 'pt' | 'en') {
